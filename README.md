@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# mehi-website
 
-## Getting Started
+Landing institucional minimalista para [mehi.ar](https://mehi.ar). Provisoria, una sola página, sin backend.
 
-First, run the development server:
+## Stack
+
+- Next.js 14 (App Router) + TypeScript
+- Tailwind CSS
+- Fuentes Google: Playfair Display + Inter
+- Sin librerías UI externas
+
+## Correr local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build de producción
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Deploy a Vercel (manual desde la UI)
 
-To learn more about Next.js, take a look at the following resources:
+1. Ir a [vercel.com/new](https://vercel.com/new) e importar el repo `Giselagunther/mehi-website`.
+2. Framework Preset: **Next.js** (autodetectado).
+3. Build Command: `next build` (default). Output: `.next` (default).
+4. No requiere variables de entorno.
+5. Deploy. Vercel asigna una URL `https://mehi-website-xxxx.vercel.app`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Configurar DNS en Cloudflare (después del deploy)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. En Vercel → Project → Settings → Domains → **Add Domain** → ingresar `mehi.ar` y `www.mehi.ar`.
+2. Vercel mostrará los registros DNS necesarios. Típicamente:
+   - `mehi.ar` → registro **A** apuntando a `76.76.21.21`
+   - `www.mehi.ar` → registro **CNAME** apuntando a `cname.vercel-dns.com`
+3. En Cloudflare → DNS → Records:
+   - Agregar los registros indicados por Vercel.
+   - **Proxy status: DNS only (nube gris)**. No proxiar a través de Cloudflare para evitar conflictos de SSL con Vercel.
+   - **No tocar** los registros MX de Google Workspace (correo institucional).
+   - **No tocar** ningún otro subdominio existente.
+4. Esperar propagación (suele tomar 1–5 minutos). Vercel valida automáticamente y emite el certificado SSL.
 
-## Deploy on Vercel
+## Estructura
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/
+  components/
+    Header.tsx
+    Hero.tsx
+    Portfolio.tsx
+    Clients.tsx
+    Contact.tsx
+    Footer.tsx
+  globals.css
+  layout.tsx
+  page.tsx
+public/
+  favicon.svg
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notas
+
+- Identidad visual: tipografía Playfair Display (display) + Inter (body). Ciruela `#8B2480` usado con moderación como acento.
+- No incluye analytics ni scripts de terceros.
+- No incluye blog, login, pricing ni otras secciones.
