@@ -1,9 +1,14 @@
 type LogoProps = {
+  /**
+   * Tailwind classes that control the font-size of the "MEHI" text.
+   * The florones below scale proportionally via em units, so passing
+   * e.g. `text-5xl md:text-7xl` resizes the whole mark coherently.
+   */
   className?: string;
   title?: string;
 };
 
-const FLORON_LINES = [
+const FLORON_LINES: ReadonlyArray<readonly [string, string, string, string]> = [
   ["0", "-9", "0", "-3.5"],
   ["0", "3.5", "0", "9"],
   ["-9", "0", "-3.5", "0"],
@@ -20,47 +25,41 @@ const FLORON_LINES = [
   ["3.2", "1.3", "8.2", "3.5"],
   ["-8.2", "3.5", "-3.2", "1.3"],
   ["3.2", "-1.3", "8.2", "-3.5"],
-] as const;
+];
 
-function Floron({ x, color }: { x: number; color: string }) {
+function Floron({ colorClass }: { colorClass: string }) {
   return (
-    <g transform={`translate(${x}, 85)`}>
-      <circle cx="0" cy="0" r="2" fill={color} />
-      <g stroke={color} strokeWidth="1.5" strokeLinecap="round">
+    <svg
+      viewBox="-10 -10 20 20"
+      fill="none"
+      aria-hidden="true"
+      className={`h-[0.34em] w-[0.34em] ${colorClass}`}
+    >
+      <circle cx="0" cy="0" r="2" fill="currentColor" />
+      <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
         {FLORON_LINES.map(([x1, y1, x2, y2], i) => (
           <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
         ))}
       </g>
-    </g>
+    </svg>
   );
 }
 
-export default function Logo({ className = "h-12 w-auto", title = "MEHI" }: LogoProps) {
+export default function Logo({ className = "", title = "MEHI" }: LogoProps) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 280 120"
-      fill="none"
+    <div
       role="img"
       aria-label={title}
-      className={className}
+      className={`inline-flex flex-col items-center leading-none select-none ${className}`}
     >
-      <title>{title}</title>
-      <text
-        x="140"
-        y="55"
-        textAnchor="middle"
-        fontFamily="var(--font-playfair), Georgia, serif"
-        fontWeight="700"
-        fontSize="58"
-        fill="#1A1A2E"
-        letterSpacing="4"
-      >
+      <span className="font-display font-bold tracking-[0.06em] text-tinta">
         MEHI
-      </text>
-      <Floron x={105} color="#8B2480" />
-      <Floron x={140} color="#D8B4E2" />
-      <Floron x={175} color="#6B8DB5" />
-    </svg>
+      </span>
+      <div className="mt-[0.22em] flex items-center justify-center gap-[0.28em]">
+        <Floron colorClass="text-ciruela" />
+        <Floron colorClass="text-lavanda" />
+        <Floron colorClass="text-pizarra" />
+      </div>
+    </div>
   );
 }
