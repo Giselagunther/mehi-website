@@ -15,18 +15,18 @@ const products: Product[] = [
 
 export default function Portfolio() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-10 md:py-16">
       <h3 className="font-display text-2xl md:text-3xl tracking-tight text-ink">
         Nuestro portfolio
       </h3>
-      <div className="mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="mt-6 md:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
         {products.map((p) => (
           <article
             key={p.name}
             className="bg-surface rounded-md p-8 md:p-10 border border-black/[0.04]"
           >
             <h4 className="font-display text-2xl md:text-3xl text-ink">{p.name}</h4>
-            <p className="mt-4 text-muted text-base leading-relaxed">{p.description}</p>
+            <p className="mt-4 text-muted text-base leading-relaxed break-words">{p.description}</p>
           </article>
         ))}
       </div>
