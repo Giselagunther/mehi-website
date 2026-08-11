@@ -1,3 +1,5 @@
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "../contact";
+
 export default function Contact() {
   return (
     <section className="py-10 md:py-16 max-w-3xl">
@@ -6,10 +8,10 @@ export default function Contact() {
       </h3>
       <p className="mt-5 md:mt-6 text-lg md:text-xl break-words">
         <a
-          href="mailto:contacto@mehi.ar"
+          href={CONTACT_MAILTO}
           className="text-ciruela hover:underline underline-offset-4"
         >
-          contacto@mehi.ar
+          {CONTACT_EMAIL}
         </a>
       </p>
       <p className="mt-3 text-sm text-muted">Buenos Aires, Argentina.</p>

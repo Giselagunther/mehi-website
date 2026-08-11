@@ -1,45 +1,73 @@
-import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-inter",
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
-const title = "MEHI — Tecnología para el gobierno que conversa con el ciudadano";
-const description =
-  "MEHI desarrolla software de atención ciudadana para organismos de gobierno en Argentina y Latinoamérica. Inteligencia artificial conversacional, gestión multicanal y trazabilidad de extremo a extremo.";
-
 export const metadata: Metadata = {
-  title,
-  description,
+  metadataBase: new URL("https://www.mehi.ar"),
+  title: {
+    default: "MEHI | Atención, conocimiento y aprendizaje operacional",
+    template: "%s | MEHI",
+  },
+  description:
+    "Plataforma enterprise que conecta inteligencia artificial conversacional, conocimiento institucional y atención humana con trazabilidad de extremo a extremo.",
+  applicationName: "MEHI",
+  keywords: [
+    "atención ciudadana",
+    "inteligencia artificial conversacional",
+    "gestión del conocimiento",
+    "contact center",
+    "atención de gran escala",
+    "gobierno digital",
+  ],
+  authors: [{ name: "MEHI" }],
+  creator: "MEHI",
+  publisher: "MEHI",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title,
-    description,
     type: "website",
     locale: "es_AR",
+    url: "/",
+    siteName: "MEHI",
+    title: "MEHI | Cada gestión se convierte en aprendizaje",
+    description:
+      "Atención, conocimiento institucional y aprendizaje operacional en una plataforma enterprise trazable.",
   },
+  twitter: {
+    card: "summary",
+    title: "MEHI | Cada gestión se convierte en aprendizaje",
+    description:
+      "Atención, conocimiento institucional y aprendizaje operacional en una plataforma enterprise trazable.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#F5F6FA",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es-AR">
-      <body className={`${inter.variable} ${playfair.variable} font-sans bg-background text-ink`}>
-        {children}
-      </body>
+    <html lang="es" className={inter.variable}>
+      <body>{children}</body>
     </html>
   );
 }
