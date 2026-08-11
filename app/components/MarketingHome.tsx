@@ -22,7 +22,7 @@ import {
   UserRoundCheck,
   Workflow,
 } from "lucide-react";
-import { CONTACT_MAILTO } from "../contact";
+import { ContactForm } from "./ContactForm";
 
 type IconItem = {
   title: string;
@@ -603,38 +603,7 @@ export function MarketingHome() {
               </p>
             </div>
 
-            <form data-testid="contact-form" action={CONTACT_MAILTO} method="post" encType="text/plain" className="rounded-md border border-mehi-border bg-white p-6 sm:p-8">
-              <input type="hidden" name="Asunto" value="Solicitud de demo MEHI" />
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="text-sm font-medium text-mehi-text">
-                  Nombre y apellido
-                  <input required autoComplete="name" name="Nombre y apellido" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
-                </label>
-                <label className="text-sm font-medium text-mehi-text">
-                  Organización
-                  <input required autoComplete="organization" name="Organización" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
-                </label>
-                <label className="text-sm font-medium text-mehi-text">
-                  Cargo
-                  <input required autoComplete="organization-title" name="Cargo" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
-                </label>
-                <label className="text-sm font-medium text-mehi-text">
-                  Correo
-                  <input required type="email" autoComplete="email" name="Correo" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
-                </label>
-              </div>
-              <label className="mt-5 block text-sm font-medium text-mehi-text">
-                Operación que querés mejorar
-                <textarea required name="Operación a mejorar" rows={4} className="mt-2 w-full resize-y rounded-md border border-mehi-input-border bg-white px-3.5 py-3 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
-              </label>
-              <button type="submit" className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-mehi-plum px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-mehi-plum-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-4 sm:w-auto">
-                Solicitar una demo
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </button>
-              <p className="mt-4 text-xs leading-5 text-mehi-text-secondary">
-                Al enviar, se abrirá tu aplicación de correo con los datos completados. MEHI no incorpora servicios externos en este formulario.
-              </p>
-            </form>
+            <ContactForm />
           </div>
         </section>
       </main>
