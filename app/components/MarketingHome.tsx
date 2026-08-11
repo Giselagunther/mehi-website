@@ -22,7 +22,7 @@ import {
   UserRoundCheck,
   Workflow,
 } from "lucide-react";
-import { CONTACT_EMAIL, CONTACT_MAILTO } from "../contact";
+import { CONTACT_MAILTO } from "../contact";
 
 type IconItem = {
   title: string;
@@ -326,9 +326,9 @@ export function MarketingHome() {
       </a>
 
       <header className="sticky top-0 z-40 border-b border-mehi-border/90 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:h-24 sm:px-8 lg:px-10">
           <a href="#inicio" aria-label="MEHI, ir al inicio" className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4">
-            <Image src="/logo-mehi.svg" alt="MEHI" width={280} height={120} className="h-12 w-auto" priority />
+            <Image src="/logo-mehi.svg" alt="MEHI" width={280} height={120} className="h-16 w-auto sm:h-20" priority />
           </a>
 
           <nav aria-label="Navegación principal" className="hidden items-center gap-7 lg:flex">
@@ -601,12 +601,6 @@ export function MarketingHome() {
               <p className="mt-5 max-w-xl text-lg leading-8 text-mehi-text-secondary">
                 Conocé cómo MEHI puede integrarse con tu operación, tus canales y tus sistemas actuales.
               </p>
-              <div className="mt-8 border-t border-mehi-border pt-6">
-                <p className="text-sm text-mehi-text-secondary">También podés escribirnos a</p>
-                <a href={CONTACT_MAILTO} className="mt-2 inline-block rounded-sm font-semibold text-mehi-plum focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-4">
-                  {CONTACT_EMAIL}
-                </a>
-              </div>
             </div>
 
             <form data-testid="contact-form" action={CONTACT_MAILTO} method="post" encType="text/plain" className="rounded-md border border-mehi-border bg-white p-6 sm:p-8">
@@ -653,7 +647,7 @@ export function MarketingHome() {
             <p className="text-sm text-mehi-text-secondary">Atención, conocimiento y aprendizaje operacional.</p>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
-            <a href={CONTACT_MAILTO} className="font-medium text-mehi-text hover:text-mehi-plum">Contacto</a>
+            <a href="#contacto" data-testid="footer-contact-link" className="font-medium text-mehi-text hover:text-mehi-plum">Contacto</a>
             <a href="https://app.mehi.ar/auth/login" className="font-medium text-mehi-text hover:text-mehi-plum">Ingresar</a>
             <span className="text-mehi-text-secondary">MEHI</span>
           </div>
