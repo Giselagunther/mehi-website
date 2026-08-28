@@ -1,13 +1,21 @@
-/** Contenido público aprobado para enfoque B2B. HTML y texto para IA usan esta fuente. */
+/** Contenido público aprobado. No incorporar antecedentes de clientes sin autorización. */
+export const company = {
+  name: "GIV",
+  url: "https://givsrl.com.ar/",
+  relationship: "MEHI es la plataforma de GIV.",
+  description:
+    "GIV es la empresa que ofrece MEHI, una plataforma de agentes de voz con IA, conocimiento institucional y supervisión de la atención.",
+} as const;
+
 export const site = {
   name: "MEHI",
   url: "https://www.mehi.ar",
-  title: "MEHI | Agentes de voz IA para empresas y contact centers",
+  title: "MEHI | IA para gobiernos y empresas · Plataforma de GIV",
   description:
-    "Agentes de voz IA para empresas y contact centers. MEHI conecta atención humana, conocimiento validado y trazabilidad para mejorar cada gestión.",
+    "MEHI, plataforma de GIV para atención ciudadana y atención al cliente: agentes de voz IA, conocimiento institucional y supervisión humana.",
   introduction:
-    "MEHI es una plataforma B2B de agentes de voz con inteligencia artificial, conocimiento institucional y supervisión de la atención. Conecta la conversación automatizada con los equipos humanos y permite revisar qué ocurrió en cada gestión.",
-  hero: "MEHI conecta agentes de voz con IA y equipos humanos para atender consultas, conservar el contexto y mejorar la operación de empresas y contact centers.",
+    "MEHI es la plataforma de GIV para gestionar atención ciudadana y atención al cliente con IA y equipos humanos. Conecta agentes de voz, conocimiento institucional y supervisión para gobiernos, organismos públicos, empresas y contact centers.",
+  hero: "MEHI es la plataforma de GIV para gestionar atención ciudadana con IA y equipos humanos. También acompaña la atención al cliente de empresas y contact centers, con conocimiento institucional y supervisión.",
   features: [
     "Agentes de voz con inteligencia artificial conversacional",
     "Respuestas basadas en conocimiento institucional validado",
@@ -19,12 +27,17 @@ export const site = {
     {
       question: "¿Qué es MEHI?",
       answer:
-        "MEHI es una plataforma B2B que integra agentes de voz con IA, conocimiento institucional y atención humana. Está orientada a organizaciones que necesitan gestionar consultas con continuidad, supervisión y trazabilidad.",
+        "MEHI es una plataforma que integra agentes de voz con IA, conocimiento institucional y atención humana. Está orientada a gobiernos y empresas que necesitan gestionar consultas con continuidad, supervisión y trazabilidad.",
     },
     {
-      question: "¿Para qué empresas sirve?",
+      question: "¿Qué relación tienen GIV y MEHI?",
       answer:
-        "Para empresas con equipos de atención al cliente, contact centers y organizaciones con consultas que dependen de información y reglas propias. El alcance se define a partir de los procesos, el conocimiento disponible y los sistemas que necesita cada operación.",
+        "GIV es la empresa que ofrece MEHI. MEHI es el nombre de la plataforma. El alcance de cada proyecto, las integraciones y las condiciones comerciales se acuerdan con GIV.",
+    },
+    {
+      question: "¿Para qué organizaciones sirve?",
+      answer:
+        "Para gobiernos y organismos públicos con atención ciudadana, empresas con equipos de atención al cliente y contact centers. El alcance se define a partir de los procesos, el conocimiento disponible y los sistemas que necesita cada operación.",
     },
     {
       question: "¿La IA reemplaza a los operadores?",
@@ -37,7 +50,8 @@ export const site = {
         "De conocimiento institucional que se prepara, revisa y publica para la operación. KORENUS acompaña la gestión de ese conocimiento y el trabajo de los equipos humanos. No se trata de dejar que el agente improvise políticas comerciales o procedimientos.",
     },
     {
-      question: "¿Se integra con la telefonía y los sistemas de mi empresa?",
+      question:
+        "¿Se integra con la telefonía y los sistemas de mi organización?",
       answer:
         "Las integraciones se evalúan según la infraestructura existente, las interfaces disponibles y el flujo de atención. La compatibilidad y el alcance se validan antes de acordar una implementación; no se promete conexión automática con cualquier sistema.",
     },
@@ -55,6 +69,18 @@ export type ContentSection = {
   bullets?: string[];
 };
 
+export type IllustrativeExample = {
+  kind: "fictional";
+  heading: string;
+  disclosure: string;
+  context: string;
+  steps: {
+    heading: string;
+    explanation: string;
+    lines: { speaker: string; text: string }[];
+  }[];
+};
+
 export type PublicPage = {
   slug: string;
   label: string;
@@ -62,15 +88,17 @@ export type PublicPage = {
   description: string;
   introduction: string;
   sections: ContentSection[];
+  audience?: "government";
+  example?: IllustrativeExample;
 };
 
 export const publicPages: PublicPage[] = [
   {
     slug: "plataforma",
     label: "La plataforma",
-    title: "Plataforma de IA para atención al cliente en empresas",
+    title: "Plataforma de IA para atención ciudadana y atención al cliente",
     description:
-      "Conocé MEHI: una plataforma B2B que conecta agentes de voz IA, equipos humanos, conocimiento institucional y trazabilidad de la atención.",
+      "Conocé MEHI, la plataforma de GIV que conecta agentes de voz IA, equipos humanos y conocimiento institucional para gobiernos y empresas.",
     introduction: site.introduction,
     sections: [
       {
@@ -108,6 +136,103 @@ export const publicPages: PublicPage[] = [
         ],
       },
     ],
+  },
+  {
+    slug: "ia-para-gobiernos",
+    label: "Gobiernos y organismos públicos",
+    audience: "government",
+    title: "Agentes de voz con IA para gobiernos y organismos públicos",
+    description:
+      "MEHI, la plataforma de GIV para atención ciudadana con IA, conocimiento institucional y equipos humanos. Evaluá el alcance para tu organismo.",
+    introduction:
+      "MEHI es la plataforma de GIV para gestionar atención ciudadana con IA y equipos humanos. Permite configurar agentes de voz, trabajar con conocimiento institucional validado y supervisar las conversaciones. El alcance se define con cada organismo.",
+    sections: [
+      {
+        heading: "Atención ciudadana con responsabilidades claras",
+        paragraphs: [
+          "Una consulta ciudadana puede requerir orientación, una aclaración o la intervención de una persona. Antes de automatizar, el organismo necesita definir qué puede responder el agente, qué información respalda la respuesta y qué recorrido corresponde cuando el caso queda fuera de alcance.",
+          "MEHI permite trabajar sobre esas instrucciones y revisar las conversaciones. La automatización no equivale por sí sola a aprobar una solicitud, resolver un expediente o completar una gestión en otro sistema: cualquier acción de ese tipo requiere una integración y un alcance acordados.",
+        ],
+      },
+      {
+        heading: "Conocimiento institucional y continuidad humana",
+        paragraphs: [
+          "El organismo define las fuentes y las reglas que autoriza a utilizar. Conviene establecer responsables de revisión, criterios de actualización y un recorrido para las preguntas que no tienen una respuesta confirmada.",
+          "La derivación a un equipo humano se diseña según la telefonía y los sistemas disponibles. Qué contexto acompaña la atención, dónde se consulta y qué ocurre si una dependencia no responde deben verificarse durante la evaluación del proyecto.",
+        ],
+        bullets: [
+          "Consultas informativas dentro de un alcance definido.",
+          "Instrucciones y conocimiento revisados por responsables del organismo.",
+          "Intervención humana para excepciones y situaciones no cubiertas.",
+          "Seguimiento de llamadas y revisión de respuestas y derivaciones.",
+        ],
+      },
+      {
+        heading: "Qué revisar en una demostración",
+        paragraphs: [
+          "Una demostración útil incluye preguntas claras, formas diferentes de expresar una necesidad y consultas que no deberían resolverse automáticamente. Se puede empezar con información ficticia preparada para la evaluación, sin usar datos de ciudadanos ni material de clientes.",
+          "La prueba debería permitir observar si el agente reconoce sus límites y si el recorrido humano funciona en las condiciones acordadas. Un ejemplo ilustrativo ayuda a explicar el enfoque, pero no sustituye una prueba de la plataforma y sus integraciones.",
+        ],
+      },
+      {
+        heading: "GIV y MEHI en la evaluación del proyecto",
+        paragraphs: [
+          company.description,
+          "En la conversación inicial se revisan la necesidad de atención, las fuentes disponibles, las dependencias de telefonía y los responsables de la evaluación. Los tiempos, el soporte y las condiciones comerciales se definen para el proyecto; no se anuncian resultados universales.",
+        ],
+      },
+    ],
+    example: {
+      kind: "fictional",
+      heading: "Recorrido ilustrativo de una consulta",
+      disclosure:
+        "Ejemplo ficticio de lectura. No es una llamada real ni un agente activo. Al abrir cada paso sólo se muestra texto preparado; no se realiza ninguna gestión.",
+      context:
+        "Escenario inventado: un organismo evalúa cómo orientar una consulta informativa que termina requiriendo revisión humana. No reproduce ninguna implementación ni utiliza material de clientes.",
+      steps: [
+        {
+          heading: "Aclarar la necesidad",
+          lines: [
+            {
+              speaker: "Persona",
+              text: "Necesito orientación para presentar una solicitud.",
+            },
+            {
+              speaker: "Agente IA",
+              text: "¿Buscás información general o ayuda con una situación particular?",
+            },
+          ],
+          explanation:
+            "Qué evaluar: delimitar la consulta antes de pedir información que todavía no hace falta.",
+        },
+        {
+          heading: "Reconocer el límite de la información",
+          lines: [
+            {
+              speaker: "Persona",
+              text: "Mi situación no aparece en la información que tengo.",
+            },
+            {
+              speaker: "Agente IA",
+              text: "No tengo una respuesta confirmada para ese caso. Requiere revisión del equipo de atención.",
+            },
+          ],
+          explanation:
+            "Qué evaluar: reconocer que falta respaldo para responder, sin inventar requisitos ni confirmar acciones que no se ejecutaron.",
+        },
+        {
+          heading: "Revisar el recorrido hacia una persona",
+          lines: [
+            {
+              speaker: "Agente IA",
+              text: "La consulta necesita intervención de una persona.",
+            },
+          ],
+          explanation:
+            "Qué evaluar en una prueba real: cómo se realiza la derivación, qué información recibe el equipo humano y qué evidencia queda para supervisar. Aquí no se conecta con ningún operador.",
+        },
+      ],
+    },
   },
   {
     slug: "agentes-de-voz-ia",
@@ -290,6 +415,76 @@ export const publicPages: PublicPage[] = [
         heading: "Cómo evaluar MEHI con esta guía",
         paragraphs: [
           "MEHI combina agentes de voz IA, conocimiento institucional y supervisión de la atención. Una demo permite revisar tu proceso y plantear estas preguntas con un alcance concreto. La conveniencia de la solución depende de las necesidades y de las condiciones de tu organización.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "como-evaluar-ia-para-atencion-ciudadana",
+    label: "Guía para organismos públicos",
+    audience: "government",
+    title: "Cómo evaluar IA para atención ciudadana en un organismo público",
+    description:
+      "Guía de GIV para evaluar MEHI: alcance, conocimiento institucional, intervención humana, integraciones y evidencia de una prueba de atención ciudadana.",
+    introduction:
+      "Evaluar agentes de voz con IA para un organismo público requiere acordar responsabilidades y observar el recorrido completo de atención. Esta guía propone preguntas para una evaluación técnica y operativa de MEHI, la plataforma de GIV.",
+    sections: [
+      {
+        heading: "Definir qué se quiere resolver y qué queda afuera",
+        paragraphs: [
+          "Elegí un conjunto concreto de consultas y describí el resultado esperado. Informar un requisito, orientar a un canal y ejecutar una gestión son alcances diferentes. La prueba debe distinguirlos y señalar qué capacidades necesitan sistemas externos.",
+        ],
+        bullets: [
+          "¿Qué consultas puede atender el agente y cuáles debe derivar?",
+          "¿Qué acciones están habilitadas y cómo se comprueba su resultado?",
+          "¿Qué ocurre cuando la persona pide algo que no forma parte del alcance?",
+        ],
+      },
+      {
+        heading: "Acordar quién valida la información y autoriza cambios",
+        paragraphs: [
+          "Identificá las fuentes y sus responsables. Incluí en la evaluación una pregunta sin respuesta confirmada y otra sobre una regla que haya cambiado en el material preparado para la prueba. Revisá tanto la conversación como el circuito para corregir el conocimiento.",
+        ],
+        bullets: [
+          "¿Quién revisa y aprueba el contenido antes de usarlo?",
+          "¿Cómo se identifica qué información está vigente?",
+          "¿Quién autoriza cambios de instrucciones y cómo se revisa su efecto?",
+        ],
+      },
+      {
+        heading: "Comprobar la intervención humana y las dependencias",
+        paragraphs: [
+          "La propuesta debe explicar cómo se conecta la atención automatizada con la humana y cuáles son las dependencias de telefonía. Verificá con una prueba qué información recibe el operador, en lugar de asumir que toda conversación se transfiere de la misma manera.",
+        ],
+        bullets: [
+          "¿Cómo se solicita o se determina una derivación?",
+          "¿Qué ocurre fuera del horario previsto o si no hay un operador disponible?",
+          "¿Qué se informa cuando un sistema externo no responde?",
+        ],
+      },
+      {
+        heading: "Definir el tratamiento de la información antes de probar",
+        paragraphs: [
+          "Empezá con un conjunto de escenarios ficticios y evitá incorporar información de ciudadanos a una demostración comercial. Para cualquier uso posterior de información real, los responsables del organismo deben revisar los accesos, los destinos de los datos y las condiciones aplicables al proyecto.",
+        ],
+        bullets: [
+          "¿Qué información se necesita y quién puede consultarla?",
+          "¿Dónde se procesa, qué se conserva y durante cuánto tiempo?",
+          "¿Cómo se gestionan exportaciones, revisiones y solicitudes sobre los datos?",
+        ],
+      },
+      {
+        heading: "Medir con evidencia y criterios acordados",
+        paragraphs: [
+          "Prepará consultas frecuentes, ambiguas y fuera de alcance. Acordá antes de la prueba qué cuenta como respuesta correcta, resolución o derivación adecuada. No extrapoles un ejemplo de demostración a toda la operación.",
+          "Revisá los resultados por día y marcá las fechas de los cambios de proceso o configuración. Así se evita mezclar condiciones distintas en un promedio que esconda cuándo apareció una mejora o un problema.",
+        ],
+      },
+      {
+        heading: "Convertir la evaluación en un alcance concreto con GIV",
+        paragraphs: [
+          "La propuesta debe identificar MEHI como plataforma y GIV como empresa oferente, junto con las integraciones, responsabilidades, soporte y condiciones comerciales del proyecto. El organismo conserva sus propios procesos de evaluación y contratación.",
+          "Esta guía orienta una evaluación técnica y operativa. No acredita certificaciones, no garantiza resultados ni reemplaza la revisión de las condiciones que correspondan a cada organismo.",
         ],
       },
     ],

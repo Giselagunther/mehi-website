@@ -17,7 +17,7 @@ import {
 
 import { ContactForm } from "./ContactForm";
 import { BuyerQuestions, SolutionLinks } from "./PublicContent";
-import { site } from "../content";
+import { company, site } from "../content";
 
 const outcomes = [
   {
@@ -165,10 +165,11 @@ export function MarketingHome() {
 
           <nav
             aria-label="Navegación principal"
-            className="hidden items-center gap-8 lg:flex"
+            className="hidden items-center gap-5 lg:flex"
           >
             {[
               ["Soluciones", "#soluciones"],
+              ["Gobiernos", "/ia-para-gobiernos"],
               ["Cómo funciona", "#como-funciona"],
               ["Seguridad", "#seguridad"],
               ["Contacto", "#contacto"],
@@ -183,7 +184,7 @@ export function MarketingHome() {
             ))}
           </nav>
 
-          <div className="hidden items-center gap-3 sm:flex">
+          <div className="hidden items-center gap-3 lg:flex">
             <a
               href="https://app.mehi.ar/auth/login"
               data-testid="login-cta"
@@ -199,7 +200,7 @@ export function MarketingHome() {
             </a>
           </div>
 
-          <details className="group relative sm:hidden">
+          <details className="group relative lg:hidden">
             <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md border border-mehi-border text-mehi-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate [&::-webkit-details-marker]:hidden">
               <span className="sr-only">Abrir navegación</span>
               <Menu className="h-5 w-5" aria-hidden="true" />
@@ -210,6 +211,7 @@ export function MarketingHome() {
             >
               {[
                 ["Soluciones", "#soluciones"],
+                ["Gobiernos", "/ia-para-gobiernos"],
                 ["Cómo funciona", "#como-funciona"],
                 ["Seguridad", "#seguridad"],
                 ["Contacto", "#contacto"],
@@ -247,7 +249,7 @@ export function MarketingHome() {
           <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:px-10 lg:pb-24 lg:pt-24">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-                IA para empresas · atención al cliente
+                IA para gobiernos y empresas
               </p>
               <h1 className="mt-6 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-mehi-text sm:text-6xl lg:text-7xl">
                 Atención que resuelve.
@@ -313,7 +315,7 @@ export function MarketingHome() {
         >
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-              Soluciones B2B
+              Gobiernos, empresas y contact centers
             </p>
             <h2
               id="soluciones-titulo"
@@ -478,10 +480,16 @@ export function MarketingHome() {
             />
             <div className="h-8 w-px bg-mehi-border" aria-hidden="true" />
             <p className="text-sm text-mehi-text-secondary">
-              Atención, conocimiento y aprendizaje operacional.
+              {company.relationship}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+            <a
+              href={company.url}
+              className="font-medium text-mehi-text hover:text-mehi-plum"
+            >
+              Conocer {company.name}
+            </a>
             <a
               href="/llms.txt"
               className="font-medium text-mehi-text hover:text-mehi-plum"

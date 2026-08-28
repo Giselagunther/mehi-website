@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { pathToFileURL } from "node:url";
-import { publicPages, publicUrls, site } from "../app/content.ts";
+import { company, publicPages, publicUrls, site } from "../app/content.ts";
 import { llmsFull, llmsIndex } from "../app/machine-content.ts";
 
 function attribute(tag: string, key: string): string | undefined {
@@ -59,6 +59,34 @@ export function verifyHtml(html: string, canonical: string): string[] {
   return css;
 }
 
+export function verifyCompanyIdentity(html: string) {
+  const entities: Record<string, unknown>[] = Array.from(
+    html.matchAll(
+      /<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g,
+    ),
+  ).flatMap((block) => JSON.parse(block[1])["@graph"] ?? []);
+  const companies = entities.filter(
+    (entity) => entity["@type"] === "Organization",
+  );
+  assert.equal(
+    companies.length,
+    1,
+    "Debe identificarse una empresa proveedora",
+  );
+  const provider = companies[0];
+  assert.equal(provider.name, company.name, "Empresa proveedora incorrecta");
+  assert.equal(provider.url, company.url, "Sitio de la empresa incorrecto");
+  const platform = entities.find((entity) => entity["@type"] === "Service");
+  assert.ok(platform, "Falta identificar la plataforma");
+  assert.equal(platform.name, site.name, "Nombre de plataforma incorrecto");
+  assert.deepEqual(platform.provider, { "@id": provider["@id"] });
+  assert.notEqual(
+    platform["@id"],
+    provider["@id"],
+    "Empresa y plataforma son entidades distintas",
+  );
+}
+
 export async function checkPublicSite(base = "http://localhost:3000") {
   const origin = new URL(base);
   assert.ok(
@@ -84,12 +112,33 @@ export async function checkPublicSite(base = "http://localhost:3000") {
     const path = new URL(canonical).pathname;
     const html = await (await get(path)).text();
     for (const css of verifyHtml(html, canonical)) cssPaths.add(css);
+    verifyCompanyIdentity(html);
+    assert.ok(
+      html.includes(company.relationship),
+      "Falta la identidad visible de la empresa",
+    );
     const page = publicPages.find((item) => `/${item.slug}` === path);
     if (page)
       assert.ok(
         html.includes(page.introduction),
         `Contenido no renderizado: ${path}`,
       );
+    if (page?.example) {
+      assert.ok(
+        html.includes(page.example.disclosure),
+        "Falta el aviso de ejemplo ficticio",
+      );
+      for (const step of page.example.steps) {
+        assert.ok(
+          html.includes(step.heading) && html.includes(step.explanation),
+        );
+        for (const line of step.lines)
+          assert.ok(
+            html.includes(line.text),
+            "El ejemplo debe ser legible sin ejecutar scripts",
+          );
+      }
+    }
     for (const tag of html.match(/<a\b[^>]*>/gi) ?? []) {
       const href = attribute(tag, "href");
       if (href?.startsWith("/") && !href.startsWith("//")) {

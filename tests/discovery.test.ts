@@ -5,6 +5,7 @@ import {
   publicUrls,
   findPublicPage,
   site,
+  company,
 } from "../app/content.ts";
 import sitemap from "../app/sitemap.ts";
 import robots from "../app/robots.ts";
@@ -15,7 +16,10 @@ import {
   serializeJsonLd,
 } from "../app/seo.ts";
 import { llmsFull, llmsIndex, textResponse } from "../app/machine-content.ts";
-import { verifyHtml } from "../scripts/check-public-site.ts";
+import {
+  verifyHtml,
+  verifyCompanyIdentity,
+} from "../scripts/check-public-site.ts";
 import { createNotification } from "../scripts/notify-search.ts";
 
 test("el sitemap contiene exactamente las páginas públicas canónicas, sin rutas privadas", () => {
@@ -68,6 +72,18 @@ test("la lectura de IA incluye el contenido real de cada página, sin otra versi
       for (const text of [...section.paragraphs, ...(section.bullets ?? [])])
         assert.ok(full.includes(text));
     }
+    if (page.example) {
+      assert.equal(page.example.kind, "fictional");
+      assert.ok(full.includes(page.example.disclosure));
+      assert.ok(full.includes(page.example.context));
+      for (const step of page.example.steps) {
+        assert.ok(
+          full.includes(step.heading) && full.includes(step.explanation),
+        );
+        for (const line of step.lines)
+          assert.ok(full.includes(`${line.speaker}: ${line.text}`));
+      }
+    }
   }
   for (const faq of site.faqs) assert.ok(full.includes(faq.answer));
   assert.ok(
@@ -84,6 +100,22 @@ test("el marcado enlaza identidades estables y no inventa precios ni reseñas", 
   const organization = organizationGraph();
   const ids = organization["@graph"].map((entity) => entity["@id"]);
   assert.equal(new Set(ids).size, ids.length);
+  const provider = organization["@graph"].find(
+    (entity) => entity["@type"] === "Organization",
+  );
+  const platform = organization["@graph"].find(
+    (entity) => entity["@type"] === "Service",
+  );
+  assert.equal(provider?.name, "GIV");
+  assert.equal(provider?.url, company.url);
+  assert.equal(platform?.name, "MEHI");
+  assert.deepEqual(platform?.provider, { "@id": provider?.["@id"] });
+  assert.equal(
+    provider?.logo,
+    undefined,
+    "No atribuir a la empresa el logo de la plataforma",
+  );
+  assert.equal(platform?.logo, `${site.url}/logo-mehi.svg`);
   assert.ok(
     !JSON.stringify(organization).match(
       /aggregateRating|reviewCount|priceCurrency/,
@@ -97,6 +129,47 @@ test("el marcado enlaza identidades estables y no inventa precios ni reseñas", 
       `${site.url}/${page.slug}`,
     );
   }
+});
+
+test("gobiernos agrega una evaluación propia sin retirar las páginas empresariales", () => {
+  for (const slug of [
+    "plataforma",
+    "agentes-de-voz-ia",
+    "ia-para-contact-centers",
+    "gestion-del-conocimiento",
+    "como-elegir-ia-para-atencion-al-cliente",
+  ])
+    assert.ok(findPublicPage(slug), `Se perdió una URL existente: ${slug}`);
+  const government = findPublicPage("ia-para-gobiernos");
+  assert.equal(government?.audience, "government");
+  assert.ok(
+    government?.example,
+    "La página debe explicar el recorrido ilustrativo",
+  );
+  assert.match(government.example.disclosure, /ficticio/);
+  assert.match(
+    government.example.disclosure,
+    /No es una llamada real ni un agente activo/,
+  );
+  assert.equal(
+    findPublicPage("como-evaluar-ia-para-atencion-ciudadana")?.audience,
+    "government",
+  );
+});
+
+test("el smoke detecta confundir la plataforma con la empresa proveedora", () => {
+  const json = JSON.stringify(organizationGraph());
+  const html = `<script type="application/ld+json">${json}</script>`;
+  assert.doesNotThrow(() => verifyCompanyIdentity(html));
+  assert.throws(
+    () => verifyCompanyIdentity(html.replace('"name":"GIV"', '"name":"MEHI"')),
+    /Empresa proveedora/,
+  );
+  assert.throws(
+    () =>
+      verifyCompanyIdentity('<script type="application/ld+json">{}</script>'),
+    /empresa proveedora/,
+  );
 });
 
 test("el JSON-LD no permite cerrar script con contenido editorial", () => {

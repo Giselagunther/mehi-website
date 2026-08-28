@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site, type PublicPage } from "./content.ts";
+import { company, site, type PublicPage } from "./content.ts";
 
 export function pageMetadata(page?: PublicPage): Metadata {
   const title = page?.title ?? site.title;
@@ -28,10 +28,9 @@ export function organizationGraph() {
       {
         "@type": "Organization",
         "@id": `${site.url}/#organization`,
-        name: site.name,
-        url: `${site.url}/`,
-        logo: `${site.url}/logo-mehi.svg`,
-        description: site.introduction,
+        name: company.name,
+        url: company.url,
+        description: company.description,
       },
       {
         "@type": "WebSite",
@@ -47,8 +46,10 @@ export function organizationGraph() {
         "@type": "Service",
         "@id": `${site.url}/#software`,
         name: site.name,
-        serviceType: "Plataforma de agentes de voz IA y atención humana para empresas",
+        serviceType:
+          "Plataforma de agentes de voz IA y atención humana para gobiernos y empresas",
         url: `${site.url}/plataforma`,
+        logo: `${site.url}/logo-mehi.svg`,
         description: site.introduction,
         provider: { "@id": `${site.url}/#organization` },
       },

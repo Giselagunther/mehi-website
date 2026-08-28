@@ -1,10 +1,12 @@
-import { publicPages, site } from "./content.ts";
+import { company, publicPages, site } from "./content.ts";
 
 export function llmsIndex(): string {
   return [
     "# MEHI",
     "",
     `> ${site.introduction}`,
+    "",
+    `Empresa: [${company.name}](${company.url}). ${company.relationship}`,
     "",
     "## Información oficial",
     "",
@@ -31,6 +33,9 @@ export function llmsFull(): string {
     "",
     site.introduction,
     "",
+    company.description,
+    `Sitio de la empresa: ${company.url}`,
+    "",
     ...publicPages.flatMap((page) => [
       `## ${page.title}`,
       `Fuente: ${site.url}/${page.slug}`,
@@ -44,6 +49,24 @@ export function llmsFull(): string {
         ...(section.bullets ?? []).map((item) => `- ${item}`),
         "",
       ]),
+      ...(page.example
+        ? [
+            `### ${page.example.heading}`,
+            "",
+            page.example.disclosure,
+            "",
+            page.example.context,
+            "",
+            ...page.example.steps.flatMap((step, index) => [
+              `#### ${index + 1}. ${step.heading}`,
+              "",
+              ...step.lines.map((line) => `${line.speaker}: ${line.text}`),
+              "",
+              step.explanation,
+              "",
+            ]),
+          ]
+        : []),
     ]),
     "## Preguntas frecuentes",
     `Fuente: ${site.url}/#preguntas-frecuentes`,
