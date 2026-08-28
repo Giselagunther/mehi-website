@@ -1,6 +1,12 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { publicPages, site, type PublicPage } from "../content";
+import {
+  company,
+  publicPages,
+  site,
+  type IllustrativeExample,
+  type PublicPage,
+} from "../content";
 import { publicPageGraph, serializeJsonLd } from "../seo";
 
 export function SolutionLinks({ except }: { except?: string }) {
@@ -48,7 +54,7 @@ export function BuyerQuestions() {
           id="preguntas-titulo"
           className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl"
         >
-          Preguntas de empresas que evalúan MEHI
+          Preguntas de organizaciones que evalúan MEHI
         </h2>
         <div className="mt-10 grid gap-x-12 gap-y-8 md:grid-cols-2">
           {site.faqs.map((faq) => (
@@ -68,7 +74,72 @@ export function BuyerQuestions() {
   );
 }
 
+function IllustrativeWalkthrough({
+  example,
+}: {
+  example: IllustrativeExample;
+}) {
+  return (
+    <section
+      id="ejemplo-ilustrativo"
+      aria-labelledby="ejemplo-titulo"
+      className="scroll-mt-24 rounded-md border border-mehi-border bg-mehi-neutral p-6 sm:p-8"
+    >
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
+        Ejemplo ficticio · sólo lectura
+      </p>
+      <h2
+        id="ejemplo-titulo"
+        className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl"
+      >
+        {example.heading}
+      </h2>
+      <p
+        data-testid="example-disclosure"
+        className="mt-5 font-medium leading-7 text-mehi-text"
+      >
+        {example.disclosure}
+      </p>
+      <p className="mt-4 leading-7 text-mehi-text-secondary">
+        {example.context}
+      </p>
+      <ol className="mt-8 space-y-4">
+        {example.steps.map((step, index) => (
+          <li key={step.heading}>
+            <details
+              open={index === 0}
+              className="rounded-md border border-mehi-border bg-white"
+            >
+              <summary className="cursor-pointer rounded-md p-5 font-semibold leading-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum">
+                <span className="mr-2 text-mehi-slate">{index + 1}.</span>
+                {step.heading}
+              </summary>
+              <div className="space-y-5 border-t border-mehi-border p-5">
+                {step.lines.map((line, lineIndex) => (
+                  <p
+                    key={lineIndex}
+                    className="leading-7 text-mehi-text-secondary"
+                  >
+                    <strong className="block text-sm font-semibold text-mehi-text">
+                      {line.speaker}
+                    </strong>
+                    {line.text}
+                  </p>
+                ))}
+                <p className="border-t border-mehi-border pt-5 text-sm leading-7 text-mehi-text-secondary">
+                  {step.explanation}
+                </p>
+              </div>
+            </details>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 export function PublicContent({ page }: { page: PublicPage }) {
+  const isGovernment = page.audience === "government";
   return (
     <div className="min-h-screen bg-white">
       <script
@@ -102,11 +173,18 @@ export function PublicContent({ page }: { page: PublicPage }) {
             <a href="/#soluciones" className="py-3 hover:text-mehi-plum">
               Soluciones
             </a>
+            <a href="/ia-para-gobiernos" className="py-3 hover:text-mehi-plum">
+              Gobiernos
+            </a>
             <a
-              href="/como-elegir-ia-para-atencion-al-cliente"
+              href={
+                isGovernment
+                  ? "/como-evaluar-ia-para-atencion-ciudadana"
+                  : "/como-elegir-ia-para-atencion-al-cliente"
+              }
               className="py-3 hover:text-mehi-plum"
             >
-              Guía de evaluación
+              {isGovernment ? "Guía para organismos" : "Guía de evaluación"}
             </a>
             <a
               href="/#contacto"
@@ -137,6 +215,15 @@ export function PublicContent({ page }: { page: PublicPage }) {
               <p className="mt-6 text-pretty text-lg leading-8 text-mehi-text-secondary">
                 {page.introduction}
               </p>
+              {page.example && (
+                <a
+                  href="#ejemplo-ilustrativo"
+                  className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-mehi-plum underline underline-offset-4"
+                >
+                  Ver recorrido ficticio
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+              )}
             </div>
           </div>
           <div className="mx-auto max-w-4xl space-y-12 px-5 py-14 sm:px-8 sm:py-16">
@@ -162,9 +249,12 @@ export function PublicContent({ page }: { page: PublicPage }) {
                 )}
               </section>
             ))}
+            {page.example && <IllustrativeWalkthrough example={page.example} />}
             <div className="rounded-md border border-mehi-border bg-mehi-neutral p-6 sm:p-8">
               <h2 className="text-2xl font-semibold">
-                Conversemos sobre tu operación
+                {isGovernment
+                  ? "Conversemos sobre la atención de tu organismo"
+                  : "Conversemos sobre tu operación"}
               </h2>
               <p className="mt-4 leading-7 text-mehi-text-secondary">
                 Contanos qué atención querés mejorar. Revisamos el proceso, el
@@ -175,8 +265,10 @@ export function PublicContent({ page }: { page: PublicPage }) {
                 href="/#contacto"
                 className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-md bg-mehi-plum px-5 py-3 text-sm font-semibold text-white hover:bg-mehi-plum-hover"
               >
-                Solicitar una demo{" "}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                {isGovernment
+                  ? "Solicitar una demostración para mi organismo"
+                  : "Solicitar una demo"}{" "}
+                <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -197,8 +289,11 @@ export function PublicContent({ page }: { page: PublicPage }) {
         </section>
       </main>
       <footer className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-5 py-8 text-sm text-mehi-text-secondary sm:px-8 lg:px-10">
-        <p>MEHI · IA y atención humana para empresas.</p>
+        <p>{company.relationship}</p>
         <div className="flex flex-wrap gap-6">
+          <a href={company.url} className="hover:text-mehi-plum">
+            Conocer {company.name}
+          </a>
           <a href="/" className="hover:text-mehi-plum">
             Inicio
           </a>

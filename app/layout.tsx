@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { site } from "./content";
+import { company, site } from "./content";
 import { organizationGraph, serializeJsonLd } from "./seo";
 import "./globals.css";
 
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     "atención de gran escala",
     "gobierno digital",
   ],
-  authors: [{ name: "MEHI" }],
-  creator: "MEHI",
-  publisher: "MEHI",
+  authors: [{ name: company.name, url: company.url }],
+  creator: company.name,
+  publisher: company.name,
   icons: {
     icon: "/favicon.svg",
   },

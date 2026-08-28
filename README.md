@@ -1,6 +1,6 @@
 # mehi-website
 
-Web comercial B2B de [MEHI](https://www.mehi.ar): agentes de voz IA, contact centers y conocimiento institucional. Este repositorio no contiene la plataforma privada de clientes.
+Web comercial de [MEHI](https://www.mehi.ar), la plataforma de GIV para gobiernos, organismos públicos, empresas y contact centers. Este repositorio no contiene la plataforma privada de clientes.
 
 ## Stack
 
@@ -39,7 +39,7 @@ No recrear proyectos, modificar registros MX ni tocar los subdominios de la apli
 ```
 app/content.ts                Contenido público compartido por HTML y texto
 app/components/MarketingHome.tsx  Portada
-app/components/PublicContent.tsx  Páginas y bloques B2B
+app/components/PublicContent.tsx  Páginas, preguntas y recorrido ilustrativo
 app/[slug]/page.tsx            Catálogo explícito de páginas estáticas
 app/seo.ts                    Metadatos y datos estructurados
 app/robots.ts, app/sitemap.ts  Descubrimiento
@@ -55,4 +55,6 @@ docs/                         Documentación operativa
 - Inter en componentes; el wordmark del logo conserva su diseño. Ciruela sólo para acciones.
 - Sin píxeles publicitarios ni mediciones comerciales inventadas.
 - La lectura en texto no tiene contenido comercial oculto o diferente del HTML.
+- GIV es la empresa proveedora; MEHI es la plataforma. El ejemplo para gobiernos es ficticio, de lectura, y no se conecta con agentes ni sistemas operativos.
+- No incorporar nombres, resultados, logos ni material de clientes sin autorización específica. La política también alcanza archivos, comentarios, fixtures y documentación de este repositorio público.
 - [Operación, verificaciones, medición y límites de visibilidad](docs/VISIBILIDAD_BUSCADORES_IA.md).

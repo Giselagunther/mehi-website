@@ -2,11 +2,11 @@
 
 ## Alcance
 
-El sitio comercial es `https://www.mehi.ar`. La aplicación y los datos de clientes siguen separados en `app.mehi.ar`. La web pública describe la oferta B2B: agentes de voz IA, atención humana, conocimiento institucional y supervisión. No publica datos operativos, clientes, resultados, precios ni certificaciones no acreditados.
+El sitio comercial es `https://www.mehi.ar`. GIV es la empresa que ofrece MEHI; MEHI es la plataforma. La aplicación y los datos de clientes siguen separados en `app.mehi.ar`. La web pública describe la oferta para gobiernos, organismos públicos, empresas y contact centers: agentes de voz IA, atención humana, conocimiento institucional y supervisión. No publica datos operativos, clientes, resultados, precios ni certificaciones no acreditados.
 
 ## Fuente única y estructura
 
-- `app/content.ts`: información pública, páginas y preguntas frecuentes.
+- `app/content.ts`: identidad de GIV y MEHI, información pública, páginas, preguntas frecuentes y ejemplo ficticio.
 - `app/seo.ts`: metadatos y entidades estructuradas, con canónica propia por página.
 - `app/[slug]/page.tsx`: sólo genera los slugs explícitos del catálogo. El resto devuelve 404.
 - `app/components/PublicContent.tsx`: presentación de soluciones, guía y preguntas.
@@ -19,6 +19,16 @@ El sitio comercial es `https://www.mehi.ar`. La aplicación y los datos de clien
 - `.github/workflows/`: controles de PR y notificación después de un despliegue exitoso.
 
 No se crean páginas para cada combinación de palabras clave. Cada página debe responder una necesidad de compra diferente con información útil. Los datos estructurados no incluyen reseñas, ahorros ni precios inventados.
+
+## Identidad, gobiernos y límites editoriales
+
+`Organization` identifica a GIV; `Service` identifica a MEHI y referencia a GIV como proveedor. El sitio y las páginas conservan su identidad MEHI y señalan a GIV como editor. El logo MEHI corresponde a la plataforma, no se atribuye a la empresa. No se inventan razón social completa, domicilio, identificadores fiscales ni certificaciones.
+
+`/ia-para-gobiernos` explica la propuesta de atención ciudadana. `/como-evaluar-ia-para-atencion-ciudadana` contiene una guía de evaluación técnica y operativa, no asesoramiento de contratación. Las URLs empresariales existentes se conservan.
+
+El recorrido de la página para gobiernos es **ficticio y de sólo lectura**: abrir los pasos muestra texto estático, no llama a un modelo ni deriva a un operador. Su aviso, contexto y contenido se incluyen también en `llms-full.txt`; los tests y el smoke comprueban que el aviso no desaparezca. No se presenta como una llamada, una prueba de integración ni un caso de cliente.
+
+Antes de incorporar antecedentes, testimonios, métricas, capturas, audios o logos de clientes, verificar evidencia y autorización específica. Un caso sin nombre también puede identificar a un cliente por sus detalles. No copiar material operativo ni información confidencial en este repositorio público, incluidos comentarios, tests, documentación y descripciones de PR. Una referencia desde GIV explica la identidad empresarial y no se presenta como una recomendación independiente.
 
 ## Política de rastreo
 
@@ -44,7 +54,7 @@ npm run test:public
 npm run notify:search
 ```
 
-`test:public` comprueba HTTP, HTML prerenderizado, idioma, títulos, descripciones, canónicas, JSON-LD, enlaces, sitemap, archivos de texto y respuestas 404. Verifica también CSS servido de más de 10.000 bytes y respuestas con diferentes User-Agent. Esta última prueba **no** demuestra acceso desde las IP de los proveedores ni indexación.
+`test:public` comprueba HTTP, HTML prerenderizado, idioma, títulos, descripciones, canónicas, JSON-LD, identidad empresa/plataforma, enlaces, sitemap, archivos de texto y respuestas 404. Verifica también el aviso del ejemplo ficticio, su lectura sin scripts, CSS servido de más de 10.000 bytes y respuestas con diferentes User-Agent. Esta última prueba **no** demuestra acceso desde las IP de los proveedores ni indexación.
 
 La suite ejecutada en cada build incluye un guard que consulta al compilador Tailwind instalado para detectar clases inválidas, y mantiene los tests previos del formulario de contacto. No se envían formularios reales para probar la web.
 
@@ -67,7 +77,7 @@ La redirección del dominio `mehi.ar` a `www.mehi.ar` se gestiona en Vercel. Deb
 
 ## Medición y límites
 
-En Search Console revisar indexación, páginas y consultas; comparar series diarias con las fechas de publicación marcadas. Consultas iniciales para evaluar presencia: nombre MEHI, agentes de voz IA para empresas, IA para contact centers y conocimiento institucional para atención al cliente.
+En Search Console revisar indexación, páginas y consultas; comparar series diarias con las fechas de publicación marcadas. Consultas iniciales para evaluar presencia: nombre MEHI, plataforma de GIV, IA para atención ciudadana, agentes de voz para gobiernos, agentes de voz IA para empresas, IA para contact centers y conocimiento institucional para atención al cliente. Las preguntas de evaluación de recomendaciones no deben incluir la marca para inducir su mención.
 
 Una comprobación de respuestas de IA debe registrar fecha, producto, consulta exacta, modo con búsqueda y URLs realmente citadas. Una respuesta aislada o personalizada no demuestra posicionamiento general. No se confunden visitas de bots con compradores ni se inventan métricas de recomendaciones.
 
