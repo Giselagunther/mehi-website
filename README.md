@@ -1,18 +1,19 @@
 # mehi-website
 
-Landing institucional minimalista para [mehi.ar](https://mehi.ar). Provisoria, una sola página, sin backend.
+Web comercial B2B de [MEHI](https://www.mehi.ar): agentes de voz IA, contact centers y conocimiento institucional. Este repositorio no contiene la plataforma privada de clientes.
 
 ## Stack
 
 - Next.js 14 (App Router) + TypeScript
 - Tailwind CSS
-- Fuentes Google: Playfair Display + Inter
-- Sin librerías UI externas
+- Inter, servida localmente mediante `next/font`
+- Iconos de `lucide-react`
+- Node.js 22 o superior para los tests con TypeScript nativo
 
 ## Correr local
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -25,47 +26,33 @@ npm run build
 npm run start
 ```
 
-## Deploy a Vercel (manual desde la UI)
+## Publicación
 
-1. Ir a [vercel.com/new](https://vercel.com/new) e importar el repo `Giselagunther/mehi-website`.
-2. Framework Preset: **Next.js** (autodetectado).
-3. Build Command: `next build` (default). Output: `.next` (default).
-4. No requiere variables de entorno.
-5. Deploy. Vercel asigna una URL `https://mehi-website-xxxx.vercel.app`.
+Vercel publica desde `main` en el proyecto existente `mehi-website`. El build ejecuta los tests antes de compilar. Las PR también verifican el HTML servido por el build. Después del merge, comprobar el hash en Vercel y `/version.json`; no dar por publicado sólo porque pasó CI.
 
-## Configurar DNS en Cloudflare (después del deploy)
+El formulario conserva el servicio de contacto existente. `NEXT_PUBLIC_CONTACT_API_URL` permite configurar su destino; no envíes formularios a producción durante tests. Vercel aporta `VERCEL_GIT_COMMIT_SHA` y `VERCEL_ENV`; para verificar un build local se puede indicar `MEHI_BUILD_SHA`.
 
-1. En Vercel → Project → Settings → Domains → **Add Domain** → ingresar `mehi.ar` y `www.mehi.ar`.
-2. Vercel mostrará los registros DNS necesarios. Típicamente:
-   - `mehi.ar` → registro **A** apuntando a `76.76.21.21`
-   - `www.mehi.ar` → registro **CNAME** apuntando a `cname.vercel-dns.com`
-3. En Cloudflare → DNS → Records:
-   - Agregar los registros indicados por Vercel.
-   - **Proxy status: DNS only (nube gris)**. No proxiar a través de Cloudflare para evitar conflictos de SSL con Vercel.
-   - **No tocar** los registros MX de Google Workspace (correo institucional).
-   - **No tocar** ningún otro subdominio existente.
-4. Esperar propagación (suele tomar 1–5 minutos). Vercel valida automáticamente y emite el certificado SSL.
+No recrear proyectos, modificar registros MX ni tocar los subdominios de la aplicación para publicar esta web. La redirección del dominio sin `www` se configura en Vercel.
 
 ## Estructura
 
 ```
-app/
-  components/
-    Header.tsx
-    Hero.tsx
-    Portfolio.tsx
-    Clients.tsx
-    Contact.tsx
-    Footer.tsx
-  globals.css
-  layout.tsx
-  page.tsx
-public/
-  favicon.svg
+app/content.ts                Contenido público compartido por HTML y texto
+app/components/MarketingHome.tsx  Portada
+app/components/PublicContent.tsx  Páginas y bloques B2B
+app/[slug]/page.tsx            Catálogo explícito de páginas estáticas
+app/seo.ts                    Metadatos y datos estructurados
+app/robots.ts, app/sitemap.ts  Descubrimiento
+app/llms.txt/, app/llms-full.txt/  Lectura rápida para asistentes
+public/                       Logos y desafío público IndexNow
+scripts/                      Smoke HTTP y aviso a buscadores
+tests/                        Regresiones
+docs/                         Documentación operativa
 ```
 
 ## Notas
 
-- Identidad visual: tipografía Playfair Display (display) + Inter (body). Ciruela `#8B2480` usado con moderación como acento.
-- No incluye analytics ni scripts de terceros.
-- No incluye blog, login, pricing ni otras secciones.
+- Inter en componentes; el wordmark del logo conserva su diseño. Ciruela sólo para acciones.
+- Sin píxeles publicitarios ni mediciones comerciales inventadas.
+- La lectura en texto no tiene contenido comercial oculto o diferente del HTML.
+- [Operación, verificaciones, medición y límites de visibilidad](docs/VISIBILIDAD_BUSCADORES_IA.md).

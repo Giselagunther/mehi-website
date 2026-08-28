@@ -1,0 +1,33 @@
+name: Calidad de la web pública
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  public-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      MEHI_BUILD_SHA: ${{ github.sha }}
+      MEHI_EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+      - name: Verificar HTML publicado por el build
+        run: |
+          npm run start > /tmp/mehi-website-test.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://localhost:3000 > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:public

@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 
 import { ContactForm } from "./ContactForm";
+import { BuyerQuestions, SolutionLinks } from "./PublicContent";
+import { site } from "../content";
 
 const outcomes = [
   {
@@ -42,7 +44,8 @@ const steps = [
   {
     number: "02",
     title: "Resuelve o acompaña",
-    description: "La IA responde o deriva a un equipo humano cuando corresponde.",
+    description:
+      "La IA responde o deriva a un equipo humano cuando corresponde.",
     icon: Route,
   },
   {
@@ -66,7 +69,8 @@ const platformDetails = [
   },
   {
     title: "Continuidad",
-    description: "MEHI y KORENUS sostienen la misma gestión entre IA y personas.",
+    description:
+      "MEHI y KORENUS sostienen la misma gestión entre IA y personas.",
     icon: Workflow,
   },
   {
@@ -89,9 +93,14 @@ function CompactJourney() {
       aria-label="Recorrido resumido de una gestión en MEHI"
     >
       <div className="flex items-center justify-between gap-4 border-b border-mehi-border pb-5">
-        <p className="text-sm font-semibold text-mehi-text">Una gestión en MEHI</p>
+        <p className="text-sm font-semibold text-mehi-text">
+          Una gestión en MEHI
+        </p>
         <span className="inline-flex items-center gap-2 text-xs font-medium text-mehi-text-secondary">
-          <span className="h-2 w-2 rounded-full bg-mehi-slate" aria-hidden="true" />
+          <span
+            className="h-2 w-2 rounded-full bg-mehi-slate"
+            aria-hidden="true"
+          />
           En curso
         </span>
       </div>
@@ -154,8 +163,12 @@ export function MarketingHome() {
             />
           </a>
 
-          <nav aria-label="Navegación principal" className="hidden items-center gap-8 lg:flex">
+          <nav
+            aria-label="Navegación principal"
+            className="hidden items-center gap-8 lg:flex"
+          >
             {[
+              ["Soluciones", "#soluciones"],
               ["Cómo funciona", "#como-funciona"],
               ["Seguridad", "#seguridad"],
               ["Contacto", "#contacto"],
@@ -196,6 +209,7 @@ export function MarketingHome() {
               className="absolute right-0 top-14 w-72 rounded-md border border-mehi-border bg-white p-3"
             >
               {[
+                ["Soluciones", "#soluciones"],
                 ["Cómo funciona", "#como-funciona"],
                 ["Seguridad", "#seguridad"],
                 ["Contacto", "#contacto"],
@@ -233,7 +247,7 @@ export function MarketingHome() {
           <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:px-10 lg:pb-24 lg:pt-24">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-                Atención · conocimiento · aprendizaje
+                IA para empresas · atención al cliente
               </p>
               <h1 className="mt-6 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-mehi-text sm:text-6xl lg:text-7xl">
                 Atención que resuelve.
@@ -242,8 +256,7 @@ export function MarketingHome() {
                 </span>
               </h1>
               <p className="mt-7 max-w-xl text-pretty text-lg leading-8 text-mehi-text-secondary sm:text-xl sm:leading-9">
-                MEHI une inteligencia artificial y equipos humanos para atender mejor,
-                conservar el contexto y aprender de cada gestión.
+                {site.hero}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a
@@ -258,7 +271,10 @@ export function MarketingHome() {
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-mehi-border bg-white px-5 py-3 text-sm font-semibold text-mehi-text transition-colors hover:border-mehi-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4"
                 >
                   Ver cómo funciona
-                  <ChevronRight className="h-4 w-4 text-mehi-slate" aria-hidden="true" />
+                  <ChevronRight
+                    className="h-4 w-4 text-mehi-slate"
+                    aria-hidden="true"
+                  />
                 </a>
               </div>
             </div>
@@ -267,7 +283,10 @@ export function MarketingHome() {
           </div>
         </section>
 
-        <section aria-label="Resultados principales" className="bg-mehi-neutral pb-8 sm:pb-12">
+        <section
+          aria-label="Resultados principales"
+          className="bg-mehi-neutral pb-8 sm:pb-12"
+        >
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <div className="grid overflow-hidden rounded-md border border-mehi-border bg-mehi-border sm:grid-cols-3 sm:gap-px">
               {outcomes.map((outcome) => (
@@ -275,7 +294,9 @@ export function MarketingHome() {
                   key={outcome.title}
                   className="border-b border-mehi-border bg-white p-6 last:border-b-0 sm:border-b-0 sm:p-7"
                 >
-                  <h2 className="text-lg font-semibold text-mehi-text">{outcome.title}</h2>
+                  <h2 className="text-lg font-semibold text-mehi-text">
+                    {outcome.title}
+                  </h2>
                   <p className="mt-2 text-sm leading-6 text-mehi-text-secondary">
                     {outcome.description}
                   </p>
@@ -285,7 +306,32 @@ export function MarketingHome() {
           </div>
         </section>
 
-        <section id="como-funciona" className="scroll-mt-24 bg-white py-20 sm:py-24 lg:py-28">
+        <section
+          id="soluciones"
+          className="scroll-mt-24 bg-white py-16 sm:py-20"
+          aria-labelledby="soluciones-titulo"
+        >
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
+              Soluciones B2B
+            </p>
+            <h2
+              id="soluciones-titulo"
+              className="mt-4 max-w-3xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl"
+            >
+              Agentes de voz IA, conocimiento y atención humana.
+            </h2>
+            <p className="mb-10 mt-5 max-w-3xl text-lg leading-8 text-mehi-text-secondary">
+              {site.introduction}
+            </p>
+            <SolutionLinks />
+          </div>
+        </section>
+
+        <section
+          id="como-funciona"
+          className="scroll-mt-24 bg-white py-20 sm:py-24 lg:py-28"
+        >
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
               Cómo funciona
@@ -301,9 +347,14 @@ export function MarketingHome() {
                     <span className="text-xs font-semibold tracking-[0.14em] text-mehi-slate">
                       PASO {number}
                     </span>
-                    <Icon className="h-5 w-5 text-mehi-slate" aria-hidden="true" />
+                    <Icon
+                      className="h-5 w-5 text-mehi-slate"
+                      aria-hidden="true"
+                    />
                   </div>
-                  <h3 className="mt-6 text-xl font-semibold text-mehi-text">{title}</h3>
+                  <h3 className="mt-6 text-xl font-semibold text-mehi-text">
+                    {title}
+                  </h3>
                   <p className="mt-3 text-base leading-7 text-mehi-text-secondary">
                     {description}
                   </p>
@@ -324,15 +375,26 @@ export function MarketingHome() {
                 <span className="inline-flex shrink-0 items-center gap-2 rounded-md border border-mehi-border px-4 py-2.5 text-sm font-semibold text-mehi-text transition-colors group-open:border-mehi-slate group-open:text-mehi-slate">
                   <span className="group-open:hidden">Ver detalles</span>
                   <span className="hidden group-open:inline">Ocultar</span>
-                  <ChevronRight className="h-4 w-4 transition-transform group-open:rotate-90" aria-hidden="true" />
+                  <ChevronRight
+                    className="h-4 w-4 transition-transform group-open:rotate-90"
+                    aria-hidden="true"
+                  />
                 </span>
               </summary>
 
               <div className="grid gap-3 border-t border-mehi-border p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-4">
                 {platformDetails.map(({ title, description, icon: Icon }) => (
-                  <article key={title} className="rounded-md border border-mehi-border p-5">
-                    <Icon className="h-5 w-5 text-mehi-slate" aria-hidden="true" />
-                    <h3 className="mt-5 font-semibold text-mehi-text">{title}</h3>
+                  <article
+                    key={title}
+                    className="rounded-md border border-mehi-border p-5"
+                  >
+                    <Icon
+                      className="h-5 w-5 text-mehi-slate"
+                      aria-hidden="true"
+                    />
+                    <h3 className="mt-5 font-semibold text-mehi-text">
+                      {title}
+                    </h3>
                     <p className="mt-2 text-sm leading-6 text-mehi-text-secondary">
                       {description}
                     </p>
@@ -343,7 +405,10 @@ export function MarketingHome() {
           </div>
         </section>
 
-        <section id="seguridad" className="scroll-mt-24 border-y border-mehi-border bg-mehi-neutral py-20 sm:py-24">
+        <section
+          id="seguridad"
+          className="scroll-mt-24 border-y border-mehi-border bg-mehi-neutral py-20 sm:py-24"
+        >
           <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-10">
             <div>
               <div className="flex h-12 w-12 items-center justify-center rounded-md bg-white text-mehi-slate">
@@ -367,14 +432,22 @@ export function MarketingHome() {
                     <Check className="h-4 w-4" aria-hidden="true" />
                   </span>
                   <span className="font-semibold text-mehi-text">{label}</span>
-                  <Icon className="ml-auto h-5 w-5 text-mehi-slate" aria-hidden="true" />
+                  <Icon
+                    className="ml-auto h-5 w-5 text-mehi-slate"
+                    aria-hidden="true"
+                  />
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="contacto" className="scroll-mt-24 bg-white py-20 sm:py-24 lg:py-28">
+        <BuyerQuestions />
+
+        <section
+          id="contacto"
+          className="scroll-mt-24 bg-white py-20 sm:py-24 lg:py-28"
+        >
           <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:px-10">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
@@ -409,6 +482,12 @@ export function MarketingHome() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+            <a
+              href="/llms.txt"
+              className="font-medium text-mehi-text hover:text-mehi-plum"
+            >
+              Resumen en texto
+            </a>
             <a
               href="#contacto"
               data-testid="footer-contact-link"

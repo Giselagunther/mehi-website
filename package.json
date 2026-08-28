@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node --test --experimental-strip-types tests/contact.test.ts && next build",
+    "build": "npm test && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --experimental-strip-types tests/contact.test.ts"
+    "test": "node --test --experimental-strip-types tests/*.test.ts",
+    "test:public": "node --experimental-strip-types scripts/check-public-site.ts",
+    "notify:search": "node --experimental-strip-types scripts/notify-search.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
