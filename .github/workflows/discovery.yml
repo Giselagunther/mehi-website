@@ -1,0 +1,29 @@
+name: Avisar a buscadores después de publicar
+on:
+  deployment_status:
+permissions:
+  contents: read
+concurrency:
+  group: discovery-${{ github.event.deployment.sha }}
+  cancel-in-progress: false
+jobs:
+  notify:
+    # Vercel informa ref como SHA, no como nombre de rama. El script comprueba
+    # que ese SHA sea exactamente el servido por el dominio comercial.
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      MEHI_EXPECTED_SHA: ${{ github.event.deployment.sha }}
+      MEHI_CHECK_BASE_URL: https://www.mehi.ar
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Comprobar hash y páginas servidas
+        run: npm run test:public
+      - name: Enviar URLs a IndexNow
+        run: npm run notify:search -- --submit

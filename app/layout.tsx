@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { site } from "./content";
+import { organizationGraph, serializeJsonLd } from "./seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,13 +12,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.mehi.ar"),
+  metadataBase: new URL(site.url),
   title: {
-    default: "MEHI | Atención, conocimiento y aprendizaje operacional",
+    default: site.title,
     template: "%s | MEHI",
   },
-  description:
-    "Plataforma enterprise que conecta inteligencia artificial conversacional, conocimiento institucional y atención humana con trazabilidad de extremo a extremo.",
+  description: site.description,
   applicationName: "MEHI",
   keywords: [
     "atención ciudadana",
@@ -29,30 +30,17 @@ export const metadata: Metadata = {
   authors: [{ name: "MEHI" }],
   creator: "MEHI",
   publisher: "MEHI",
-  alternates: {
-    canonical: "/",
-  },
   icons: {
     icon: "/favicon.svg",
   },
-  openGraph: {
-    type: "website",
-    locale: "es_AR",
-    url: "/",
-    siteName: "MEHI",
-    title: "MEHI | Cada gestión se convierte en aprendizaje",
-    description:
-      "Atención, conocimiento institucional y aprendizaje operacional en una plataforma enterprise trazable.",
-  },
-  twitter: {
-    card: "summary",
-    title: "MEHI | Cada gestión se convierte en aprendizaje",
-    description:
-      "Atención, conocimiento institucional y aprendizaje operacional en una plataforma enterprise trazable.",
-  },
   robots: {
-    index: true,
-    follow: true,
+    index: process.env.VERCEL_ENV !== "preview",
+    follow: process.env.VERCEL_ENV !== "preview",
+    googleBot: {
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -67,7 +55,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={inter.variable}>
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeJsonLd(organizationGraph()),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
