@@ -342,7 +342,38 @@ export function MarketingHome() {
               De una consulta a una mejor decisión.
             </h2>
 
-            <ol className="mt-12 grid gap-7 md:grid-cols-3">
+            <figure className="mt-12 max-w-5xl" data-testid="video-agente-de-voz">
+              <div className="overflow-hidden rounded-md border border-mehi-border bg-mehi-text">
+                <video
+                  className="aspect-video h-auto w-full"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  poster="/video/mehi-agente-de-voz.jpg"
+                  aria-label="Video: el agente de voz de MEHI, qué hace, cómo trabaja una llamada y cómo está armado"
+                >
+                  <source src="/video/mehi-agente-de-voz.mp4" type="video/mp4" />
+                  <track
+                    kind="captions"
+                    src="/video/mehi-agente-de-voz.es.vtt"
+                    srcLang="es"
+                    label="Español"
+                  />
+                  Tu navegador no puede reproducir este video.
+                </video>
+              </div>
+              <figcaption className="mt-4 flex flex-col gap-1 text-sm text-mehi-text-secondary sm:flex-row sm:items-center sm:justify-between">
+                <span>
+                  El agente de voz de MEHI en menos de dos minutos: qué hace, cómo
+                  trabaja una llamada y cómo está armado.
+                </span>
+                <span className="font-medium text-mehi-slate">
+                  1:49 · con subtítulos
+                </span>
+              </figcaption>
+            </figure>
+
+            <ol className="mt-16 grid gap-7 md:grid-cols-3">
               {steps.map(({ number, title, description, icon: Icon }) => (
                 <li key={number} className="border-t-2 border-mehi-slate pt-5">
                   <div className="flex items-center justify-between gap-4">

@@ -57,6 +57,28 @@ export function organizationGraph() {
   };
 }
 
+/** Video de presentación del agente de voz. Solo en la portada, que es donde se reproduce. */
+export function homeVideoGraph() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "VideoObject",
+        "@id": `${site.url}/#video-agente-de-voz`,
+        name: "El agente de voz de MEHI",
+        description:
+          "Qué hace el agente de voz de MEHI, cómo trabaja una llamada y cómo está armado, en menos de dos minutos.",
+        thumbnailUrl: [`${site.url}/video/mehi-agente-de-voz.jpg`],
+        contentUrl: `${site.url}/video/mehi-agente-de-voz.mp4`,
+        uploadDate: "2026-09-27",
+        duration: "PT1M49S",
+        inLanguage: "es-AR",
+        publisher: { "@id": `${site.url}/#organization` },
+      },
+    ],
+  };
+}
+
 export function publicPageGraph(page: PublicPage) {
   const url = `${site.url}/${page.slug}`;
   return {
