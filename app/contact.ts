@@ -9,12 +9,14 @@ export type ContactFormPayload = {
 
 export type ContactFormField = Exclude<keyof ContactFormPayload, "website">;
 
+// Los mínimos rigen cuando el campo viene con contenido; los opcionales pueden
+// ir vacíos (formulario corto: nombre, organización y correo alcanzan).
 export const CONTACT_FORM_LIMITS = {
-  full_name: { minLength: 2, maxLength: 120 },
-  organization: { minLength: 2, maxLength: 160 },
-  job_title: { minLength: 2, maxLength: 120 },
-  email: { minLength: 5, maxLength: 254 },
-  operation: { minLength: 10, maxLength: 2000 },
+  full_name: { minLength: 2, maxLength: 120, optional: false },
+  organization: { minLength: 2, maxLength: 160, optional: false },
+  job_title: { minLength: 2, maxLength: 120, optional: true },
+  email: { minLength: 5, maxLength: 254, optional: false },
+  operation: { minLength: 10, maxLength: 2000, optional: true },
 } as const;
 
 const CONTACT_FIELD_ERRORS: Record<ContactFormField, string> = {
@@ -22,7 +24,7 @@ const CONTACT_FIELD_ERRORS: Record<ContactFormField, string> = {
   organization: "Escribí al menos 2 caracteres en Organización.",
   job_title: "Escribí al menos 2 caracteres en Cargo.",
   email: "Revisá que el correo esté completo y sea válido.",
-  operation: "Contanos la operación que querés mejorar en al menos 10 caracteres.",
+  operation: "Si nos contás qué querés mejorar, escribí al menos 10 caracteres.",
 };
 
 const CONTACT_FIELD_LABELS: Record<ContactFormField, string> = {
@@ -66,6 +68,7 @@ export function validateContactFormPayload(
   for (const field of orderedFields) {
     const value = payload[field];
     const limits = CONTACT_FORM_LIMITS[field];
+    if (limits.optional && value.length === 0) continue;
     if (value.length < limits.minLength || value.length > limits.maxLength) {
       return new ContactSubmissionError(CONTACT_FIELD_ERRORS[field], field);
     }

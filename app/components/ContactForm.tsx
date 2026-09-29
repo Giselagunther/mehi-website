@@ -13,6 +13,9 @@ import {
 
 type SubmissionState = "idle" | "submitting" | "success" | "error";
 
+const FIELD_CLASS =
+  "mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20";
+
 export function ContactForm() {
   const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
   const [successMessage, setSuccessMessage] = useState("");
@@ -25,7 +28,8 @@ export function ContactForm() {
     const payload: ContactFormPayload = {
       full_name: String(formData.get("full_name") ?? "").trim(),
       organization: String(formData.get("organization") ?? "").trim(),
-      job_title: String(formData.get("job_title") ?? "").trim(),
+      // El cargo dejó de pedirse en el formulario corto; el contrato lo admite vacío.
+      job_title: "",
       email: String(formData.get("email") ?? "").trim(),
       operation: String(formData.get("operation") ?? "").trim(),
       website: String(formData.get("website") ?? "").trim(),
@@ -79,31 +83,28 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="text-sm font-medium text-mehi-text">
           Nombre y apellido
-          <input required minLength={CONTACT_FORM_LIMITS.full_name.minLength} maxLength={CONTACT_FORM_LIMITS.full_name.maxLength} autoComplete="name" name="full_name" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
+          <input required minLength={CONTACT_FORM_LIMITS.full_name.minLength} maxLength={CONTACT_FORM_LIMITS.full_name.maxLength} autoComplete="name" name="full_name" className={FIELD_CLASS} />
         </label>
         <label className="text-sm font-medium text-mehi-text">
           Organización
-          <input required minLength={CONTACT_FORM_LIMITS.organization.minLength} maxLength={CONTACT_FORM_LIMITS.organization.maxLength} autoComplete="organization" name="organization" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
-        </label>
-        <label className="text-sm font-medium text-mehi-text">
-          Cargo
-          <input required minLength={CONTACT_FORM_LIMITS.job_title.minLength} maxLength={CONTACT_FORM_LIMITS.job_title.maxLength} autoComplete="organization-title" name="job_title" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
-        </label>
-        <label className="text-sm font-medium text-mehi-text">
-          Correo
-          <input required type="email" minLength={CONTACT_FORM_LIMITS.email.minLength} maxLength={CONTACT_FORM_LIMITS.email.maxLength} autoComplete="email" name="email" className="mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
+          <input required minLength={CONTACT_FORM_LIMITS.organization.minLength} maxLength={CONTACT_FORM_LIMITS.organization.maxLength} autoComplete="organization" name="organization" className={FIELD_CLASS} />
         </label>
       </div>
       <label className="mt-5 block text-sm font-medium text-mehi-text">
-        Operación que querés mejorar
-        <textarea required minLength={CONTACT_FORM_LIMITS.operation.minLength} maxLength={CONTACT_FORM_LIMITS.operation.maxLength} name="operation" rows={4} className="mt-2 w-full resize-y rounded-md border border-mehi-input-border bg-white px-3.5 py-3 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
+        Correo
+        <input required type="email" minLength={CONTACT_FORM_LIMITS.email.minLength} maxLength={CONTACT_FORM_LIMITS.email.maxLength} autoComplete="email" name="email" className={FIELD_CLASS} />
+      </label>
+      <label className="mt-5 block text-sm font-medium text-mehi-text">
+        ¿Qué atienden hoy o qué querés mejorar?{" "}
+        <span className="font-normal text-mehi-text-secondary">(opcional)</span>
+        <textarea maxLength={CONTACT_FORM_LIMITS.operation.maxLength} name="operation" rows={3} placeholder="Por ejemplo: consultas y reclamos por teléfono, unas 400 llamadas por día." className="mt-2 w-full resize-y rounded-md border border-mehi-input-border bg-white px-3.5 py-3 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20" />
       </label>
       <label className="sr-only" aria-hidden="true">
         Sitio web
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
       <button data-testid="contact-submit" type="submit" disabled={submissionState === "submitting"} className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-mehi-plum px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-mehi-plum-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-4 disabled:cursor-wait disabled:opacity-60 sm:w-auto">
-        {submissionState === "submitting" ? "Enviando..." : "Solicitar una demo"}
+        {submissionState === "submitting" ? "Enviando..." : "Quiero que me contacten"}
         <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </button>
       {submissionState === "success" && (
@@ -117,7 +118,7 @@ export function ContactForm() {
         </p>
       )}
       <p className="mt-4 text-xs leading-5 text-mehi-text-secondary">
-        Usaremos estos datos únicamente para responder tu solicitud.
+        Tres datos y te escribimos. Los usamos únicamente para responder tu solicitud.
       </p>
     </form>
   );
