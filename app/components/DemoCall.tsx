@@ -18,22 +18,15 @@ type VoiceClient = {
   stopCall(): void;
 };
 
-export const DEMO_CALL_ENDPOINT =
-  process.env.NEXT_PUBLIC_DEMO_CALL_API_URL ??
-  (process.env.NODE_ENV === "production"
-    ? "https://api.mehi.ar/api/v1/public/demo-call"
-    : "http://127.0.0.1:8000/api/v1/public/demo-call");
+import {
+  DEMO_CALL_ENDPOINT,
+  DEMO_CALL_MESSAGES,
+  DemoCallApiError,
+  describeDemoCallError,
+  requestMicrophone,
+} from "../demoCall";
 
-const GENERIC_ERROR =
-  "No pudimos iniciar la conversación. Probá de nuevo en unos minutos.";
-
-function describeError(error: unknown): string {
-  const text = error instanceof Error ? error.message : String(error ?? "");
-  if (/NotAllowed|Permission|permiso|denied|micr/i.test(text)) {
-    return "Necesitamos permiso para usar el micrófono. Revisá el candado del navegador y volvé a intentar.";
-  }
-  return text.trim() || GENERIC_ERROR;
-}
+export { DEMO_CALL_ENDPOINT };
 
 function formatSeconds(total: number): string {
   const minutes = Math.floor(total / 60);
@@ -66,6 +59,10 @@ export function DemoCall({ phone }: { phone?: string }) {
     setAgentTalking(false);
     setPhase("connecting");
     try {
+      // Primero el micrófono: si la persona lo niega, no se crea ninguna llamada
+      // (ni en el motor de voz ni contra el cupo del visitante) y el mensaje dice
+      // exactamente qué pasó. El SDK, en cambio, sólo avisa «Error starting call».
+      await requestMicrophone();
       const response = await fetch(DEMO_CALL_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -73,7 +70,9 @@ export function DemoCall({ phone }: { phone?: string }) {
       });
       if (!response.ok) {
         const body = (await response.json().catch(() => ({}))) as { detail?: unknown };
-        throw new Error(typeof body.detail === "string" ? body.detail : GENERIC_ERROR);
+        throw new DemoCallApiError(
+          typeof body.detail === "string" ? body.detail : DEMO_CALL_MESSAGES.generic,
+        );
       }
       const connection = (await response.json()) as DemoCallConnection;
       const { RetellWebClient } = await import("retell-client-js-sdk");
@@ -87,7 +86,7 @@ export function DemoCall({ phone }: { phone?: string }) {
       client.on("agent_start_talking", () => setAgentTalking(true));
       client.on("agent_stop_talking", () => setAgentTalking(false));
       client.on("error", (error) => {
-        setErrorMessage(describeError(error));
+        setErrorMessage(describeDemoCallError(error));
         setPhase("error");
         client.stopCall();
       });
@@ -98,7 +97,7 @@ export function DemoCall({ phone }: { phone?: string }) {
         ...(connection.ice_servers ? { iceServers: connection.ice_servers } : {}),
       });
     } catch (error) {
-      setErrorMessage(describeError(error));
+      setErrorMessage(describeDemoCallError(error));
       setPhase("error");
     }
   }
