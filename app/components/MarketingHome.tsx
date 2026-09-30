@@ -5,6 +5,7 @@ import {
   BookOpenCheck,
   BrainCircuit,
   Check,
+  CheckCircle2,
   ChevronRight,
   Menu,
   MessageSquareText,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { ContactForm } from "./ContactForm";
+import { DemoCall } from "./DemoCall";
 import { BuyerQuestions, SolutionLinks } from "./PublicContent";
 import { company, site } from "../content";
 
@@ -134,6 +136,9 @@ function CompactJourney() {
 }
 
 export function MarketingHome() {
+  const demoEnabled = process.env.NEXT_PUBLIC_DEMO_CALL_ENABLED === "1";
+  const demoPhone = process.env.NEXT_PUBLIC_DEMO_PHONE?.trim() || undefined;
+
   return (
     <div
       data-testid="page-landing"
@@ -170,7 +175,8 @@ export function MarketingHome() {
             {[
               ["Soluciones", "#soluciones"],
               ["Gobiernos", "/ia-para-gobiernos"],
-              ["Cómo funciona", "#como-funciona"],
+              ...(demoEnabled ? [["Probalo", "#probalo"]] : []),
+                ["Cómo funciona", "#como-funciona"],
               ["Seguridad", "#seguridad"],
               ["Contacto", "#contacto"],
             ].map(([label, href]) => (
@@ -212,6 +218,7 @@ export function MarketingHome() {
               {[
                 ["Soluciones", "#soluciones"],
                 ["Gobiernos", "/ia-para-gobiernos"],
+                ...(demoEnabled ? [["Probalo", "#probalo"]] : []),
                 ["Cómo funciona", "#como-funciona"],
                 ["Seguridad", "#seguridad"],
                 ["Contacto", "#contacto"],
@@ -262,17 +269,17 @@ export function MarketingHome() {
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a
-                  href="#contacto"
+                  href={demoEnabled ? "#probalo" : "#contacto"}
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-mehi-plum px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-mehi-plum-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-4"
                 >
-                  Solicitar una demo
+                  {demoEnabled ? "Hablá con MEHI ahora" : "Solicitar una demo"}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <a
-                  href="#como-funciona"
+                  href={demoEnabled ? "#contacto" : "#como-funciona"}
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-mehi-border bg-white px-5 py-3 text-sm font-semibold text-mehi-text transition-colors hover:border-mehi-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4"
                 >
-                  Ver cómo funciona
+                  {demoEnabled ? "Solicitar una demo" : "Ver cómo funciona"}
                   <ChevronRight
                     className="h-4 w-4 text-mehi-slate"
                     aria-hidden="true"
@@ -284,6 +291,46 @@ export function MarketingHome() {
             <CompactJourney />
           </div>
         </section>
+
+        {demoEnabled && (
+          <section
+            id="probalo"
+            className="scroll-mt-24 border-b border-mehi-border bg-white py-20 sm:py-24 lg:py-28"
+          >
+            <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-center lg:px-10">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
+                  Probalo ahora
+                </p>
+                <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] text-mehi-text sm:text-5xl">
+                  Hablá con MEHI. Ahora, desde acá.
+                </h2>
+                <p className="mt-5 max-w-xl text-lg leading-8 text-mehi-text-secondary">
+                  Es la misma inteligencia artificial que atiende llamadas.
+                  Tocá el botón, permití el micrófono y pedile lo que quieras:
+                  que te haga una demo, que te cuente cómo funciona o que le
+                  pase tus datos al equipo.
+                </p>
+                <ul className="mt-6 space-y-3 text-base text-mehi-text-secondary">
+                  {[
+                    "Una conversación de dos o tres minutos.",
+                    "Sin registrarte ni dejar datos, salvo que quieras.",
+                    "Las 24 horas, en español.",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle2
+                        className="mt-1 h-4 w-4 flex-none text-mehi-slate"
+                        aria-hidden="true"
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <DemoCall phone={demoPhone} />
+            </div>
+          </section>
+        )}
 
         <section
           aria-label="Resultados principales"
@@ -459,7 +506,7 @@ export function MarketingHome() {
                 Transformá la atención sin perder el control.
               </h2>
               <p className="mt-5 max-w-xl text-lg leading-8 text-mehi-text-secondary">
-                Conocé cómo MEHI puede integrarse con tu operación.
+                Tres datos y te escribimos para mostrarte cómo MEHI se integra con tu operación.
               </p>
             </div>
 

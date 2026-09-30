@@ -26,6 +26,16 @@ test("el formulario replica los mínimos exigidos por el backend", () => {
   assert.equal(CONTACT_FORM_LIMITS.operation.minLength, 10);
 });
 
+test("el formulario corto acepta cargo y operación vacíos, no a medias", () => {
+  assert.equal(
+    validateContactFormPayload({ ...payload, job_title: "", operation: "" }),
+    undefined,
+  );
+  const error = validateContactFormPayload({ ...payload, operation: "corto" });
+  assert.ok(error instanceof ContactSubmissionError);
+  assert.equal(error.field, "operation");
+});
+
 test("rechaza localmente el mismo dato corto de la captura", () => {
   const error = validateContactFormPayload({
     ...payload,
