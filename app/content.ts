@@ -82,6 +82,8 @@ export type IllustrativeExample = {
 };
 
 export type PublicPage = {
+  /** Identidad de la página compartida entre idiomas (es el slug en español). */
+  id: string;
   slug: string;
   label: string;
   title: string;
@@ -94,6 +96,7 @@ export type PublicPage = {
 
 export const publicPages: PublicPage[] = [
   {
+    id: "plataforma",
     slug: "plataforma",
     label: "La plataforma",
     title: "Plataforma de IA para atención ciudadana y atención al cliente",
@@ -138,6 +141,7 @@ export const publicPages: PublicPage[] = [
     ],
   },
   {
+    id: "ia-para-gobiernos",
     slug: "ia-para-gobiernos",
     label: "Gobiernos y organismos públicos",
     audience: "government",
@@ -235,6 +239,7 @@ export const publicPages: PublicPage[] = [
     },
   },
   {
+    id: "agentes-de-voz-ia",
     slug: "agentes-de-voz-ia",
     label: "Agentes de voz IA",
     title: "Agentes de voz con IA para empresas",
@@ -280,6 +285,7 @@ export const publicPages: PublicPage[] = [
     ],
   },
   {
+    id: "ia-para-contact-centers",
     slug: "ia-para-contact-centers",
     label: "Contact centers",
     title: "IA para contact centers y equipos de atención al cliente",
@@ -325,6 +331,7 @@ export const publicPages: PublicPage[] = [
     ],
   },
   {
+    id: "gestion-del-conocimiento",
     slug: "gestion-del-conocimiento",
     label: "Gestión del conocimiento",
     title: "Conocimiento institucional para agentes de IA y atención humana",
@@ -369,6 +376,7 @@ export const publicPages: PublicPage[] = [
     ],
   },
   {
+    id: "como-elegir-ia-para-atencion-al-cliente",
     slug: "como-elegir-ia-para-atencion-al-cliente",
     label: "Guía para evaluar IA",
     title: "Cómo elegir una plataforma de IA para atención al cliente",
@@ -420,6 +428,7 @@ export const publicPages: PublicPage[] = [
     ],
   },
   {
+    id: "como-evaluar-ia-para-atencion-ciudadana",
     slug: "como-evaluar-ia-para-atencion-ciudadana",
     label: "Guía para organismos públicos",
     audience: "government",
@@ -493,11 +502,4 @@ export const publicPages: PublicPage[] = [
 
 export function findPublicPage(slug: string): PublicPage | undefined {
   return publicPages.find((page) => page.slug === slug);
-}
-
-export function publicUrls(): string[] {
-  return [
-    `${site.url}/`,
-    ...publicPages.map((page) => `${site.url}/${page.slug}`),
-  ];
 }

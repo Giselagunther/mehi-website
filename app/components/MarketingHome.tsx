@@ -18,101 +18,36 @@ import {
 
 import { ContactForm } from "./ContactForm";
 import { DemoCall } from "./DemoCall";
+import { LanguageSwitch } from "./LanguageSwitch";
 import { BuyerQuestions, SolutionLinks } from "./PublicContent";
-import { company, site } from "../content";
+import { contentFor, findPage, homePath, translatedPath, ui, type Locale } from "../i18n";
 
-const outcomes = [
-  {
-    title: "Resuelve más",
-    description: "Con respuestas confiables y consistentes.",
-  },
-  {
-    title: "Deriva con contexto",
-    description: "La persona no empieza de cero.",
-  },
-  {
-    title: "Mejora con evidencia",
-    description: "Cada interacción deja aprendizaje.",
-  },
-];
+const stepIcons = [ScanSearch, Route, BrainCircuit];
+const capabilityIcons = [MessageSquareText, BookOpenCheck, Workflow, BarChart3];
+const trustIcons = [BookOpenCheck, Route, UserRoundCheck];
 
-const steps = [
-  {
-    number: "01",
-    title: "La persona se comunica",
-    description: "MEHI comprende la necesidad y conserva el contexto.",
-    icon: ScanSearch,
-  },
-  {
-    number: "02",
-    title: "Resuelve o acompaña",
-    description:
-      "La IA responde o deriva a un equipo humano cuando corresponde.",
-    icon: Route,
-  },
-  {
-    number: "03",
-    title: "La operación aprende",
-    description: "El resultado se convierte en evidencia para mejorar.",
-    icon: BrainCircuit,
-  },
-];
-
-const platformDetails = [
-  {
-    title: "Conversación",
-    description: "Comprende intención, necesidad y contexto.",
-    icon: MessageSquareText,
-  },
-  {
-    title: "Conocimiento",
-    description: "Responde desde información institucional gobernada.",
-    icon: BookOpenCheck,
-  },
-  {
-    title: "Continuidad",
-    description:
-      "MEHI y KORENUS sostienen la misma gestión entre IA y personas.",
-    icon: Workflow,
-  },
-  {
-    title: "Observatorio",
-    description: "Hace visibles dudas, resultados y oportunidades de mejora.",
-    icon: BarChart3,
-  },
-];
-
-const trustItems = [
-  { label: "Conocimiento validado", icon: BookOpenCheck },
-  { label: "Trazabilidad de cada gestión", icon: Route },
-  { label: "Supervisión humana cuando importa", icon: UserRoundCheck },
-];
-
-function CompactJourney() {
+function CompactJourney({ locale }: { locale: Locale }) {
+  const text = ui[locale].journey;
   return (
     <div
       className="w-full rounded-md border border-mehi-border bg-white p-5 sm:p-7"
-      aria-label="Recorrido resumido de una gestión en MEHI"
+      aria-label={text.aria}
     >
       <div className="flex items-center justify-between gap-4 border-b border-mehi-border pb-5">
         <p className="text-sm font-semibold text-mehi-text">
-          Una gestión en MEHI
+          {text.title}
         </p>
         <span className="inline-flex items-center gap-2 text-xs font-medium text-mehi-text-secondary">
           <span
             className="h-2 w-2 rounded-full bg-mehi-slate"
             aria-hidden="true"
           />
-          En curso
+          {text.status}
         </span>
       </div>
 
       <ol className="mt-5 grid gap-3 sm:grid-cols-3">
-        {[
-          ["01", "Comprende", "Detecta qué necesita la persona."],
-          ["02", "Resuelve", "Usa conocimiento institucional validado."],
-          ["03", "Aprende", "Deja evidencia para mejorar."],
-        ].map(([number, title, description], index) => (
+        {text.steps.map(([number, title, description], index) => (
           <li
             key={number}
             className={`min-h-40 rounded-md border p-4 sm:p-5 ${
@@ -135,8 +70,20 @@ function CompactJourney() {
   );
 }
 
-export function MarketingHome() {
-  const demoEnabled = process.env.NEXT_PUBLIC_DEMO_CALL_ENABLED === "1";
+export function MarketingHome({ locale }: { locale: Locale }) {
+  const isDemoEnabled = process.env.NEXT_PUBLIC_DEMO_CALL_ENABLED === "1";
+  const t = ui[locale];
+  const { company, site } = contentFor(locale);
+  const governmentPath = translatedPath(findPage("es", "ia-para-gobiernos"), locale);
+  const navItems = [
+    [t.nav.solutions, "#soluciones"],
+    [t.nav.government, governmentPath],
+    ...(isDemoEnabled ? [[t.nav.tryIt, "#probalo"]] : []),
+    [t.nav.howItWorks, "#como-funciona"],
+    [t.nav.security, "#seguridad"],
+    [t.nav.contact, "#contacto"],
+  ];
+  const demoEnabled = isDemoEnabled;
   const demoPhone = process.env.NEXT_PUBLIC_DEMO_PHONE?.trim() || undefined;
 
   return (
@@ -148,14 +95,14 @@ export function MarketingHome() {
         href="#contenido"
         className="sr-only z-50 rounded-md bg-mehi-text px-4 py-3 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
-        Ir al contenido
+        {t.skipToContent}
       </a>
 
       <header className="sticky top-0 z-40 border-b border-mehi-border/90 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:h-24 sm:px-8 lg:px-10">
           <a
             href="#inicio"
-            aria-label="MEHI, ir al inicio"
+            aria-label={t.homeAria}
             className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4"
           >
             <Image
@@ -169,60 +116,47 @@ export function MarketingHome() {
           </a>
 
           <nav
-            aria-label="Navegación principal"
-            className="hidden items-center gap-5 lg:flex"
+            aria-label={t.mainNav}
+            className="hidden items-center gap-4 lg:flex xl:gap-5"
           >
-            {[
-              ["Soluciones", "#soluciones"],
-              ["Gobiernos", "/ia-para-gobiernos"],
-              ...(demoEnabled ? [["Probalo", "#probalo"]] : []),
-                ["Cómo funciona", "#como-funciona"],
-              ["Seguridad", "#seguridad"],
-              ["Contacto", "#contacto"],
-            ].map(([label, href]) => (
+            {navItems.map(([label, href]) => (
               <a
                 key={href}
                 href={href}
-                className="rounded-sm text-sm font-medium text-mehi-text-secondary transition-colors hover:text-mehi-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4"
+                className="whitespace-nowrap rounded-sm text-sm font-medium text-mehi-text-secondary transition-colors hover:text-mehi-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4"
               >
                 {label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden items-center gap-3 lg:flex">
+          <div className="hidden items-center gap-2 lg:flex xl:gap-3">
+            <LanguageSwitch locale={locale} href={homePath(locale === "es" ? "en" : "es")} />
             <a
               href="https://app.mehi.ar/auth/login"
               data-testid="login-cta"
-              className="rounded-md px-4 py-2.5 text-sm font-semibold text-mehi-text transition-colors hover:bg-mehi-neutral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-2"
+              className="whitespace-nowrap rounded-md px-4 py-2.5 text-sm font-semibold text-mehi-text transition-colors hover:bg-mehi-neutral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-2"
             >
-              Ingresar
+              {t.signIn}
             </a>
             <a
               href="#contacto"
-              className="rounded-md border border-mehi-slate px-4 py-2.5 text-sm font-semibold text-mehi-text transition-colors hover:bg-mehi-neutral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-2"
+              className="whitespace-nowrap rounded-md border border-mehi-slate px-4 py-2.5 text-sm font-semibold text-mehi-text transition-colors hover:bg-mehi-neutral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-2"
             >
-              Solicitar demo
+              {t.requestDemo}
             </a>
           </div>
 
           <details className="group relative lg:hidden">
             <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md border border-mehi-border text-mehi-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate [&::-webkit-details-marker]:hidden">
-              <span className="sr-only">Abrir navegación</span>
+              <span className="sr-only">{t.openNav}</span>
               <Menu className="h-5 w-5" aria-hidden="true" />
             </summary>
             <nav
-              aria-label="Navegación mobile"
+              aria-label={t.mobileNav}
               className="absolute right-0 top-14 w-72 rounded-md border border-mehi-border bg-white p-3"
             >
-              {[
-                ["Soluciones", "#soluciones"],
-                ["Gobiernos", "/ia-para-gobiernos"],
-                ...(demoEnabled ? [["Probalo", "#probalo"]] : []),
-                ["Cómo funciona", "#como-funciona"],
-                ["Seguridad", "#seguridad"],
-                ["Contacto", "#contacto"],
-              ].map(([label, href]) => (
+              {navItems.map(([label, href]) => (
                 <a
                   key={href}
                   href={href}
@@ -237,13 +171,21 @@ export function MarketingHome() {
                   data-testid="login-cta-mobile"
                   className="block rounded-md px-3 py-3 text-sm font-semibold text-mehi-text"
                 >
-                  Ingresar a MEHI
+                  {t.signInLong}
                 </a>
                 <a
                   href="#contacto"
                   className="mt-1 block rounded-md bg-mehi-plum px-3 py-3 text-center text-sm font-semibold text-white hover:bg-mehi-plum-hover"
                 >
-                  Solicitar demo
+                  {t.requestDemo}
+                </a>
+                <a
+                  href={homePath(locale === "es" ? "en" : "es")}
+                  hrefLang={locale === "es" ? "en" : "es"}
+                  lang={locale === "es" ? "en" : "es"}
+                  className="mt-1 block rounded-md px-3 py-3 text-center text-sm font-semibold text-mehi-text hover:bg-mehi-neutral"
+                >
+                  {t.switchLanguage.label}
                 </a>
               </div>
             </nav>
@@ -256,12 +198,12 @@ export function MarketingHome() {
           <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16 lg:px-10 lg:pb-24 lg:pt-24">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-                IA para gobiernos y empresas
+                {t.hero.eyebrow}
               </p>
               <h1 className="mt-6 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-mehi-text sm:text-6xl lg:text-7xl">
-                Atención que resuelve.
+                {t.hero.titleTop}
                 <span className="mt-2 block text-mehi-slate">
-                  Conocimiento que queda.
+                  {t.hero.titleBottom}
                 </span>
               </h1>
               <p className="mt-7 max-w-xl text-pretty text-lg leading-8 text-mehi-text-secondary sm:text-xl sm:leading-9">
@@ -272,14 +214,14 @@ export function MarketingHome() {
                   href={demoEnabled ? "#probalo" : "#contacto"}
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-mehi-plum px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-mehi-plum-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-4"
                 >
-                  {demoEnabled ? "Hablá con MEHI ahora" : "Solicitar una demo"}
+                  {demoEnabled ? t.hero.talkNow : t.requestADemo}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <a
                   href={demoEnabled ? "#contacto" : "#como-funciona"}
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-mehi-border bg-white px-5 py-3 text-sm font-semibold text-mehi-text transition-colors hover:border-mehi-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4"
                 >
-                  {demoEnabled ? "Solicitar una demo" : "Ver cómo funciona"}
+                  {demoEnabled ? t.requestADemo : t.hero.seeHow}
                   <ChevronRight
                     className="h-4 w-4 text-mehi-slate"
                     aria-hidden="true"
@@ -288,7 +230,7 @@ export function MarketingHome() {
               </div>
             </div>
 
-            <CompactJourney />
+            <CompactJourney locale={locale} />
           </div>
         </section>
 
@@ -300,23 +242,16 @@ export function MarketingHome() {
             <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-center lg:px-10">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-                  Probalo ahora
+                  {t.tryIt.eyebrow}
                 </p>
                 <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] text-mehi-text sm:text-5xl">
-                  Hablá con MEHI. Ahora, desde acá.
+                  {t.tryIt.title}
                 </h2>
                 <p className="mt-5 max-w-xl text-lg leading-8 text-mehi-text-secondary">
-                  Es la misma inteligencia artificial que atiende llamadas.
-                  Tocá el botón, permití el micrófono y pedile lo que quieras:
-                  que te haga una demo, que te cuente cómo funciona o que le
-                  pase tus datos al equipo.
+                  {t.tryIt.body}
                 </p>
                 <ul className="mt-6 space-y-3 text-base text-mehi-text-secondary">
-                  {[
-                    "Una conversación de dos o tres minutos.",
-                    "Sin registrarte ni dejar datos, salvo que quieras.",
-                    "Las 24 horas, en español.",
-                  ].map((item) => (
+                  {t.tryIt.points.map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle2
                         className="mt-1 h-4 w-4 flex-none text-mehi-slate"
@@ -327,18 +262,18 @@ export function MarketingHome() {
                   ))}
                 </ul>
               </div>
-              <DemoCall phone={demoPhone} />
+              <DemoCall phone={demoPhone} locale={locale} />
             </div>
           </section>
         )}
 
         <section
-          aria-label="Resultados principales"
+          aria-label={t.outcomesAria}
           className="bg-mehi-neutral pb-8 sm:pb-12"
         >
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <div className="grid overflow-hidden rounded-md border border-mehi-border bg-mehi-border sm:grid-cols-3 sm:gap-px">
-              {outcomes.map((outcome) => (
+              {t.outcomes.map((outcome) => (
                 <article
                   key={outcome.title}
                   className="border-b border-mehi-border bg-white p-6 last:border-b-0 sm:border-b-0 sm:p-7"
@@ -362,18 +297,18 @@ export function MarketingHome() {
         >
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-              Gobiernos, empresas y contact centers
+              {t.solutions.eyebrow}
             </p>
             <h2
               id="soluciones-titulo"
               className="mt-4 max-w-3xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl"
             >
-              Agentes de voz IA, conocimiento y atención humana.
+              {t.solutions.title}
             </h2>
             <p className="mb-10 mt-5 max-w-3xl text-lg leading-8 text-mehi-text-secondary">
               {site.introduction}
             </p>
-            <SolutionLinks />
+            <SolutionLinks locale={locale} />
           </div>
         </section>
 
@@ -383,10 +318,10 @@ export function MarketingHome() {
         >
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-              Cómo funciona
+              {t.how.eyebrow}
             </p>
             <h2 className="mt-5 max-w-3xl text-balance text-4xl font-semibold tracking-[-0.04em] text-mehi-text sm:text-5xl">
-              De una consulta a una mejor decisión.
+              {t.how.title}
             </h2>
 
             <figure className="mt-12 max-w-5xl" data-testid="video-agente-de-voz">
@@ -397,35 +332,41 @@ export function MarketingHome() {
                   playsInline
                   preload="metadata"
                   poster="/video/mehi-agente-de-voz.jpg"
-                  aria-label="Video: el agente de voz de MEHI, qué hace, cómo trabaja una llamada y cómo está armado"
+                  aria-label={t.how.videoAria}
                 >
                   <source src="/video/mehi-agente-de-voz.mp4" type="video/mp4" />
-                  <track
-                    kind="captions"
-                    src="/video/mehi-agente-de-voz.es.vtt"
-                    srcLang="es"
-                    label="Español"
-                  />
-                  Tu navegador no puede reproducir este video.
+                  {/* El audio es en español; la pista del idioma de la página va primero y por defecto. */}
+                  {(locale === "en" ? (["en", "es"] as const) : (["es"] as const)).map(
+                    (track, index) => (
+                      <track
+                        key={track}
+                        kind={track === locale ? "captions" : "subtitles"}
+                        src={`/video/mehi-agente-de-voz.${track}.vtt`}
+                        srcLang={track}
+                        label={track === "en" ? "English" : "Español"}
+                        default={locale === "en" && index === 0}
+                      />
+                    ),
+                  )}
+                  {t.how.videoUnsupported}
                 </video>
               </div>
               <figcaption className="mt-4 flex flex-col gap-1 text-sm text-mehi-text-secondary sm:flex-row sm:items-center sm:justify-between">
-                <span>
-                  El agente de voz de MEHI en menos de dos minutos: qué hace, cómo
-                  trabaja una llamada y cómo está armado.
-                </span>
+                <span>{t.how.videoCaption}</span>
                 <span className="font-medium text-mehi-slate">
-                  1:49 · con subtítulos
+                  {t.how.videoMeta}
                 </span>
               </figcaption>
             </figure>
 
             <ol className="mt-16 grid gap-7 md:grid-cols-3">
-              {steps.map(({ number, title, description, icon: Icon }) => (
+              {t.how.steps.map(({ number, title, description }, index) => {
+                const Icon = stepIcons[index];
+                return (
                 <li key={number} className="border-t-2 border-mehi-slate pt-5">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-xs font-semibold tracking-[0.14em] text-mehi-slate">
-                      PASO {number}
+                      {t.how.stepLabel} {number}
                     </span>
                     <Icon
                       className="h-5 w-5 text-mehi-slate"
@@ -439,22 +380,23 @@ export function MarketingHome() {
                     {description}
                   </p>
                 </li>
-              ))}
+                );
+              })}
             </ol>
 
             <details className="group mt-16 rounded-md border border-mehi-border bg-white">
               <summary className="flex min-h-20 cursor-pointer list-none items-center justify-between gap-5 px-5 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-mehi-slate sm:px-7 [&::-webkit-details-marker]:hidden">
                 <span>
                   <span className="block text-lg font-semibold text-mehi-text">
-                    ¿Querés entender el circuito completo?
+                    {t.how.detailsTitle}
                   </span>
                   <span className="mt-1 block text-sm leading-6 text-mehi-text-secondary">
-                    Conocé las cuatro capacidades que trabajan juntas.
+                    {t.how.detailsSubtitle}
                   </span>
                 </span>
                 <span className="inline-flex shrink-0 items-center gap-2 rounded-md border border-mehi-border px-4 py-2.5 text-sm font-semibold text-mehi-text transition-colors group-open:border-mehi-slate group-open:text-mehi-slate">
-                  <span className="group-open:hidden">Ver detalles</span>
-                  <span className="hidden group-open:inline">Ocultar</span>
+                  <span className="group-open:hidden">{t.how.showDetails}</span>
+                  <span className="hidden group-open:inline">{t.how.hideDetails}</span>
                   <ChevronRight
                     className="h-4 w-4 transition-transform group-open:rotate-90"
                     aria-hidden="true"
@@ -463,7 +405,9 @@ export function MarketingHome() {
               </summary>
 
               <div className="grid gap-3 border-t border-mehi-border p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-4">
-                {platformDetails.map(({ title, description, icon: Icon }) => (
+                {t.how.capabilities.map(({ title, description }, index) => {
+                  const Icon = capabilityIcons[index];
+                  return (
                   <article
                     key={title}
                     className="rounded-md border border-mehi-border p-5"
@@ -479,7 +423,8 @@ export function MarketingHome() {
                       {description}
                     </p>
                   </article>
-                ))}
+                  );
+                })}
               </div>
             </details>
           </div>
@@ -495,15 +440,17 @@ export function MarketingHome() {
                 <ShieldCheck className="h-5 w-5" aria-hidden="true" />
               </div>
               <p className="mt-7 text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-                Control y confianza
+                {t.trust.eyebrow}
               </p>
               <h2 className="mt-5 max-w-2xl text-balance text-4xl font-semibold tracking-[-0.04em] text-mehi-text sm:text-5xl">
-                Más capacidad, sin perder el control.
+                {t.trust.title}
               </h2>
             </div>
 
             <div className="space-y-3">
-              {trustItems.map(({ label, icon: Icon }) => (
+              {t.trust.items.map((label, index) => {
+                const Icon = trustIcons[index];
+                return (
                 <div
                   key={label}
                   className="flex min-h-16 items-center gap-4 rounded-md border border-mehi-border bg-white px-5 py-4"
@@ -517,12 +464,13 @@ export function MarketingHome() {
                     aria-hidden="true"
                   />
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
 
-        <BuyerQuestions />
+        <BuyerQuestions locale={locale} />
 
         <section
           id="contacto"
@@ -531,17 +479,17 @@ export function MarketingHome() {
           <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:px-10">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-                Conversemos
+                {t.contact.eyebrow}
               </p>
               <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] text-mehi-text sm:text-5xl">
-                Transformá la atención sin perder el control.
+                {t.contact.title}
               </h2>
               <p className="mt-5 max-w-xl text-lg leading-8 text-mehi-text-secondary">
-                Tres datos y te escribimos para mostrarte cómo MEHI se integra con tu operación.
+                {t.contact.body}
               </p>
             </div>
 
-            <ContactForm />
+            <ContactForm locale={locale} />
           </div>
         </section>
       </main>
@@ -566,26 +514,34 @@ export function MarketingHome() {
               href={company.url}
               className="font-medium text-mehi-text hover:text-mehi-plum"
             >
-              Conocer {company.name}
+              {t.footer.know} {company.name}
             </a>
             <a
               href="/llms.txt"
               className="font-medium text-mehi-text hover:text-mehi-plum"
             >
-              Resumen en texto
+              {t.footer.textSummary}
             </a>
             <a
               href="#contacto"
               data-testid="footer-contact-link"
               className="font-medium text-mehi-text hover:text-mehi-plum"
             >
-              Contacto
+              {t.footer.contact}
             </a>
             <a
               href="https://app.mehi.ar/auth/login"
               className="font-medium text-mehi-text hover:text-mehi-plum"
             >
-              Ingresar
+              {t.signIn}
+            </a>
+            <a
+              href={homePath(locale === "es" ? "en" : "es")}
+              hrefLang={locale === "es" ? "en" : "es"}
+              lang={locale === "es" ? "en" : "es"}
+              className="font-medium text-mehi-text hover:text-mehi-plum"
+            >
+              {t.switchLanguage.label}
             </a>
             <span className="text-mehi-text-secondary">MEHI</span>
           </div>

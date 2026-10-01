@@ -1,23 +1,33 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import type { IllustrativeExample, PublicPage } from "../content";
 import {
-  company,
-  publicPages,
-  site,
-  type IllustrativeExample,
-  type PublicPage,
-} from "../content";
+  contentFor,
+  findPage,
+  homePath,
+  pagePath,
+  translatedPath,
+  ui,
+  type Locale,
+} from "../i18n";
 import { publicPageGraph, serializeJsonLd } from "../seo";
+import { LanguageSwitch } from "./LanguageSwitch";
 
-export function SolutionLinks({ except }: { except?: string }) {
+export function SolutionLinks({
+  locale,
+  except,
+}: {
+  locale: Locale;
+  except?: string;
+}) {
   return (
     <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {publicPages
+      {contentFor(locale).publicPages
         .filter((page) => page.slug !== except)
         .map((page) => (
           <a
             key={page.slug}
-            href={`/${page.slug}`}
+            href={pagePath(locale, page.slug)}
             className="group rounded-md border border-mehi-border bg-white p-6 transition-colors hover:border-mehi-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum"
           >
             <h3 className="text-lg font-semibold text-mehi-text">
@@ -27,7 +37,7 @@ export function SolutionLinks({ except }: { except?: string }) {
               {page.description}
             </p>
             <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-mehi-text">
-              Conocer más{" "}
+              {ui[locale].solutions.learnMore}{" "}
               <ArrowRight
                 className="h-4 w-4 text-mehi-slate"
                 aria-hidden="true"
@@ -39,7 +49,8 @@ export function SolutionLinks({ except }: { except?: string }) {
   );
 }
 
-export function BuyerQuestions() {
+export function BuyerQuestions({ locale }: { locale: Locale }) {
+  const { site } = contentFor(locale);
   return (
     <section
       id="preguntas-frecuentes"
@@ -48,13 +59,13 @@ export function BuyerQuestions() {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-          Antes de una demo
+          {ui[locale].faq.eyebrow}
         </p>
         <h2
           id="preguntas-titulo"
           className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl"
         >
-          Preguntas de organizaciones que evalúan MEHI
+          {ui[locale].faq.title}
         </h2>
         <div className="mt-10 grid gap-x-12 gap-y-8 md:grid-cols-2">
           {site.faqs.map((faq) => (
@@ -76,8 +87,10 @@ export function BuyerQuestions() {
 
 function IllustrativeWalkthrough({
   example,
+  eyebrow,
 }: {
   example: IllustrativeExample;
+  eyebrow: string;
 }) {
   return (
     <section
@@ -86,7 +99,7 @@ function IllustrativeWalkthrough({
       className="scroll-mt-24 rounded-md border border-mehi-border bg-mehi-neutral p-6 sm:p-8"
     >
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-        Ejemplo ficticio · sólo lectura
+        {eyebrow}
       </p>
       <h2
         id="ejemplo-titulo"
@@ -138,25 +151,44 @@ function IllustrativeWalkthrough({
   );
 }
 
-export function PublicContent({ page }: { page: PublicPage }) {
+export function PublicContent({
+  page,
+  locale,
+}: {
+  page: PublicPage;
+  locale: Locale;
+}) {
+  const t = ui[locale];
+  const { company } = contentFor(locale);
+  const home = homePath(locale);
+  const contactHref = `${home}#contacto`;
   const isGovernment = page.audience === "government";
+  const guidePath = translatedPath(
+    findPage(
+      "es",
+      isGovernment
+        ? "como-evaluar-ia-para-atencion-ciudadana"
+        : "como-elegir-ia-para-atencion-al-cliente",
+    ),
+    locale,
+  );
   return (
     <div className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: serializeJsonLd(publicPageGraph(page)),
+          __html: serializeJsonLd(publicPageGraph(page, locale)),
         }}
       />
       <a
         href="#contenido"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:p-3"
       >
-        Ir al contenido
+        {t.skipToContent}
       </a>
       <header className="border-b border-mehi-border">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8 lg:px-10">
-          <a href="/" aria-label="MEHI, inicio">
+          <a href={home} aria-label={t.homeAria}>
             <Image
               src="/logo-mehi.svg"
               alt="MEHI"
@@ -167,30 +199,33 @@ export function PublicContent({ page }: { page: PublicPage }) {
             />
           </a>
           <nav
-            aria-label="Navegación principal"
+            aria-label={t.mainNav}
             className="flex flex-wrap items-center gap-5 text-sm font-semibold"
           >
-            <a href="/#soluciones" className="py-3 hover:text-mehi-plum">
-              Soluciones
-            </a>
-            <a href="/ia-para-gobiernos" className="py-3 hover:text-mehi-plum">
-              Gobiernos
-            </a>
             <a
-              href={
-                isGovernment
-                  ? "/como-evaluar-ia-para-atencion-ciudadana"
-                  : "/como-elegir-ia-para-atencion-al-cliente"
-              }
+              href={`${home}#soluciones`}
               className="py-3 hover:text-mehi-plum"
             >
-              {isGovernment ? "Guía para organismos" : "Guía de evaluación"}
+              {t.nav.solutions}
             </a>
             <a
-              href="/#contacto"
+              href={translatedPath(findPage("es", "ia-para-gobiernos"), locale)}
+              className="py-3 hover:text-mehi-plum"
+            >
+              {t.nav.government}
+            </a>
+            <a href={guidePath} className="py-3 hover:text-mehi-plum">
+              {isGovernment ? t.page.governmentGuide : t.page.businessGuide}
+            </a>
+            <LanguageSwitch
+              locale={locale}
+              href={translatedPath(page, locale === "es" ? "en" : "es")}
+            />
+            <a
+              href={contactHref}
               className="rounded-md bg-mehi-plum px-4 py-3 text-white hover:bg-mehi-plum-hover"
             >
-              Solicitar demo
+              {t.requestDemo}
             </a>
           </nav>
         </div>
@@ -200,10 +235,10 @@ export function PublicContent({ page }: { page: PublicPage }) {
           <div className="border-b border-mehi-border bg-mehi-neutral">
             <div className="mx-auto max-w-4xl px-5 py-14 sm:px-8 sm:py-20">
               <nav
-                aria-label="Ruta de navegación"
+                aria-label={t.page.breadcrumbAria}
                 className="text-sm text-mehi-text-secondary"
               >
-                <a href="/" className="underline underline-offset-4">
+                <a href={home} className="underline underline-offset-4">
                   MEHI
                 </a>
                 <span aria-hidden="true"> / </span>
@@ -220,7 +255,7 @@ export function PublicContent({ page }: { page: PublicPage }) {
                   href="#ejemplo-ilustrativo"
                   className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-mehi-plum underline underline-offset-4"
                 >
-                  Ver recorrido ficticio
+                  {t.page.seeExample}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
               )}
@@ -249,25 +284,24 @@ export function PublicContent({ page }: { page: PublicPage }) {
                 )}
               </section>
             ))}
-            {page.example && <IllustrativeWalkthrough example={page.example} />}
+            {page.example && (
+              <IllustrativeWalkthrough
+                example={page.example}
+                eyebrow={t.page.exampleEyebrow}
+              />
+            )}
             <div className="rounded-md border border-mehi-border bg-mehi-neutral p-6 sm:p-8">
               <h2 className="text-2xl font-semibold">
-                {isGovernment
-                  ? "Conversemos sobre la atención de tu organismo"
-                  : "Conversemos sobre tu operación"}
+                {isGovernment ? t.page.ctaTitleGovernment : t.page.ctaTitle}
               </h2>
               <p className="mt-4 leading-7 text-mehi-text-secondary">
-                Contanos qué atención querés mejorar. Revisamos el proceso, el
-                conocimiento y las integraciones necesarias para definir un
-                alcance concreto.
+                {t.page.ctaBody}
               </p>
               <a
-                href="/#contacto"
+                href={contactHref}
                 className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-md bg-mehi-plum px-5 py-3 text-sm font-semibold text-white hover:bg-mehi-plum-hover"
               >
-                {isGovernment
-                  ? "Solicitar una demostración para mi organismo"
-                  : "Solicitar una demo"}{" "}
+                {isGovernment ? t.page.ctaButtonGovernment : t.requestADemo}{" "}
                 <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </a>
             </div>
@@ -282,9 +316,9 @@ export function PublicContent({ page }: { page: PublicPage }) {
               id="relacionados-titulo"
               className="mb-8 text-2xl font-semibold"
             >
-              Seguí explorando MEHI
+              {t.page.related}
             </h2>
-            <SolutionLinks except={page.slug} />
+            <SolutionLinks locale={locale} except={page.slug} />
           </div>
         </section>
       </main>
@@ -292,16 +326,16 @@ export function PublicContent({ page }: { page: PublicPage }) {
         <p>{company.relationship}</p>
         <div className="flex flex-wrap gap-6">
           <a href={company.url} className="hover:text-mehi-plum">
-            Conocer {company.name}
+            {t.footer.know} {company.name}
           </a>
-          <a href="/" className="hover:text-mehi-plum">
-            Inicio
+          <a href={home} className="hover:text-mehi-plum">
+            {t.footer.home}
           </a>
-          <a href="/#contacto" className="hover:text-mehi-plum">
-            Contacto
+          <a href={contactHref} className="hover:text-mehi-plum">
+            {t.footer.contact}
           </a>
           <a href="/llms.txt" className="hover:text-mehi-plum">
-            Resumen en texto
+            {t.footer.textSummary}
           </a>
         </div>
       </footer>

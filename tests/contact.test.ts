@@ -100,3 +100,32 @@ test("conserva los errores operativos humanos enviados por el backend", async ()
     /Recibimos varios intentos/,
   );
 });
+
+test("en inglés valida y responde en inglés, sin pasar el texto en español del backend", async () => {
+  const error = validateContactFormPayload({ ...payload, organization: "g" }, "en");
+  assert.ok(error instanceof ContactSubmissionError);
+  assert.equal(error.field, "organization");
+  assert.match(error.message, /at least 2 characters in Organization/);
+
+  const tooMany = async () =>
+    new Response(
+      JSON.stringify({ detail: "Recibimos varios intentos. Esperá unos minutos." }),
+      { status: 429, headers: { "Content-Type": "application/json" } },
+    );
+  await assert.rejects(
+    submitContactForm(payload, tooMany as typeof fetch, "en"),
+    (rejection: unknown) => {
+      assert.ok(rejection instanceof ContactSubmissionError);
+      assert.match(rejection.message, /several attempts/);
+      assert.doesNotMatch(rejection.message, /Recibimos/);
+      return true;
+    },
+  );
+
+  const ok = async () =>
+    new Response(JSON.stringify({ message: "Gracias. Recibimos tu solicitud." }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  assert.match(await submitContactForm(payload, ok as typeof fetch, "en"), /^Thank you/);
+});

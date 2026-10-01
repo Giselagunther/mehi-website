@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   DEMO_CALL_MESSAGES,
+  DEMO_CALL_MESSAGES_EN,
   DemoCallApiError,
   MicrophoneUnsupportedError,
   describeDemoCallError,
@@ -69,4 +70,22 @@ test("requestMicrophone propaga la negativa del navegador sin crear la llamada",
   const denied = Object.assign(new Error("Permission denied"), { name: "NotAllowedError" });
   await assert.rejects(requestMicrophone({ getUserMedia: async () => { throw denied; } }), denied);
   await assert.rejects(requestMicrophone(undefined), MicrophoneUnsupportedError);
+});
+
+test("en inglés todo error se explica en inglés, también los de la API", () => {
+  const denied = Object.assign(new Error("Permission denied"), { name: "NotAllowedError" });
+  assert.equal(describeDemoCallError(denied, "en"), DEMO_CALL_MESSAGES_EN.micDenied);
+  assert.equal(describeDemoCallError("Error starting call", "en"), DEMO_CALL_MESSAGES_EN.generic);
+  const spanishDetail = "La línea de demo está muy solicitada. Probá de nuevo en unos minutos.";
+  assert.equal(
+    describeDemoCallError(new DemoCallApiError(spanishDetail, 429), "en"),
+    DEMO_CALL_MESSAGES_EN.busy,
+  );
+  assert.equal(
+    describeDemoCallError(new DemoCallApiError(spanishDetail, 503), "en"),
+    DEMO_CALL_MESSAGES_EN.unavailable,
+  );
+  for (const message of Object.values(DEMO_CALL_MESSAGES_EN)) {
+    assert.doesNotMatch(message, /[áéíóúñ]|retell|error starting/i, message);
+  }
 });

@@ -25,6 +25,7 @@ import {
   describeDemoCallError,
   requestMicrophone,
 } from "../demoCall";
+import { ui, type Locale } from "../ui-text";
 
 export { DEMO_CALL_ENDPOINT };
 
@@ -34,7 +35,8 @@ function formatSeconds(total: number): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function DemoCall({ phone }: { phone?: string }) {
+export function DemoCall({ phone, locale }: { phone?: string; locale: Locale }) {
+  const t = ui[locale].demo;
   const [phase, setPhase] = useState<Phase>("idle");
   const [agentTalking, setAgentTalking] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -72,6 +74,7 @@ export function DemoCall({ phone }: { phone?: string }) {
         const body = (await response.json().catch(() => ({}))) as { detail?: unknown };
         throw new DemoCallApiError(
           typeof body.detail === "string" ? body.detail : DEMO_CALL_MESSAGES.generic,
+          response.status,
         );
       }
       const connection = (await response.json()) as DemoCallConnection;
@@ -86,7 +89,7 @@ export function DemoCall({ phone }: { phone?: string }) {
       client.on("agent_start_talking", () => setAgentTalking(true));
       client.on("agent_stop_talking", () => setAgentTalking(false));
       client.on("error", (error) => {
-        setErrorMessage(describeDemoCallError(error));
+        setErrorMessage(describeDemoCallError(error, locale));
         setPhase("error");
         client.stopCall();
       });
@@ -97,7 +100,7 @@ export function DemoCall({ phone }: { phone?: string }) {
         ...(connection.ice_servers ? { iceServers: connection.ice_servers } : {}),
       });
     } catch (error) {
-      setErrorMessage(describeDemoCallError(error));
+      setErrorMessage(describeDemoCallError(error, locale));
       setPhase("error");
     }
   }
@@ -134,12 +137,12 @@ export function DemoCall({ phone }: { phone?: string }) {
             <Mic className="h-4 w-4" aria-hidden="true" />
           )}
           {live
-            ? "Terminar la conversación"
+            ? t.stop
             : connecting
-              ? "Conectando..."
+              ? t.connecting
               : phase === "ended"
-                ? "Hablar de nuevo"
-                : "Hablá con MEHI ahora"}
+                ? t.again
+                : t.start}
         </button>
 
         {live && (
@@ -152,7 +155,7 @@ export function DemoCall({ phone }: { phone?: string }) {
               }
               aria-hidden="true"
             />
-            {agentTalking ? "MEHI está hablando" : "MEHI te escucha"}
+            {agentTalking ? t.agentTalking : t.agentListening}
             <span className="tabular-nums text-mehi-text-secondary">
               {formatSeconds(seconds)}
             </span>
@@ -161,8 +164,7 @@ export function DemoCall({ phone }: { phone?: string }) {
 
         {phase === "ended" && (
           <p role="status" className="max-w-md text-sm leading-6 text-mehi-text-secondary">
-            Gracias por probar. Si querés que el equipo te contacte, dejá tus
-            datos abajo o pedíselos a MEHI en la próxima conversación.
+            {t.thanks}
           </p>
         )}
 
@@ -174,7 +176,7 @@ export function DemoCall({ phone }: { phone?: string }) {
 
         {phone && (
           <p className="text-sm text-mehi-text-secondary">
-            ¿Preferís llamar por teléfono?{" "}
+            {t.preferPhone}{" "}
             <a
               href={`tel:${phone.replace(/[^+\d]/g, "")}`}
               className="font-semibold text-mehi-text underline decoration-mehi-lavender underline-offset-4"
@@ -185,8 +187,7 @@ export function DemoCall({ phone }: { phone?: string }) {
         )}
 
         <p className="max-w-md text-xs leading-5 text-mehi-text-secondary">
-          Es una línea de demostración, no una línea de atención real. La
-          conversación queda registrada para poder responderte.
+          {t.disclaimer}
         </p>
 
         {phase === "ended" && (
@@ -194,7 +195,7 @@ export function DemoCall({ phone }: { phone?: string }) {
             href="#contacto"
             className="inline-flex items-center gap-2 text-sm font-semibold text-mehi-text"
           >
-            Quiero que me contacten
+            {t.contactMe}
             <ArrowRight className="h-4 w-4 text-mehi-slate" aria-hidden="true" />
           </a>
         )}
