@@ -20,7 +20,15 @@ import { ContactForm } from "./ContactForm";
 import { DemoCall } from "./DemoCall";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { BuyerQuestions, SolutionLinks } from "./PublicContent";
-import { contentFor, findPage, homePath, translatedPath, ui, type Locale } from "../i18n";
+import {
+  contentFor,
+  findPage,
+  homePath,
+  homeVideo,
+  translatedPath,
+  ui,
+  type Locale,
+} from "../i18n";
 
 const stepIcons = [ScanSearch, Route, BrainCircuit];
 const capabilityIcons = [MessageSquareText, BookOpenCheck, Workflow, BarChart3];
@@ -331,23 +339,17 @@ export function MarketingHome({ locale }: { locale: Locale }) {
                   controls
                   playsInline
                   preload="metadata"
-                  poster="/video/mehi-agente-de-voz.jpg"
+                  poster={homeVideo[locale].poster}
                   aria-label={t.how.videoAria}
                 >
-                  <source src="/video/mehi-agente-de-voz.mp4" type="video/mp4" />
-                  {/* El audio es en español; la pista del idioma de la página va primero y por defecto. */}
-                  {(locale === "en" ? (["en", "es"] as const) : (["es"] as const)).map(
-                    (track, index) => (
-                      <track
-                        key={track}
-                        kind={track === locale ? "captions" : "subtitles"}
-                        src={`/video/mehi-agente-de-voz.${track}.vtt`}
-                        srcLang={track}
-                        label={track === "en" ? "English" : "Español"}
-                        default={locale === "en" && index === 0}
-                      />
-                    ),
-                  )}
+                  <source src={homeVideo[locale].src} type="video/mp4" />
+                  {/* Los subtítulos ya vienen en la imagen: la pista queda disponible, apagada. */}
+                  <track
+                    kind="captions"
+                    src={homeVideo[locale].captions}
+                    srcLang={locale}
+                    label={locale === "en" ? "English" : "Español"}
+                  />
                   {t.how.videoUnsupported}
                 </video>
               </div>
