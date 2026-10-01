@@ -1,15 +1,37 @@
 import assert from "node:assert/strict";
 import { pathToFileURL } from "node:url";
-import { company, publicPages, publicUrls, site } from "../app/content.ts";
+import { site } from "../app/content.ts";
+import {
+  allPublicUrls as publicUrls,
+  contentFor,
+  htmlLang,
+  languageAlternates,
+  publicEntries,
+  ui,
+  type Locale,
+} from "../app/i18n.ts";
 import { llmsFull, llmsIndex } from "../app/machine-content.ts";
+
+export function localeOf(url: string): Locale {
+  const path = new URL(url).pathname;
+  return path === "/en" || path.startsWith("/en/") ? "en" : "es";
+}
 
 function attribute(tag: string, key: string): string | undefined {
   return new RegExp(`\\b${key}="([^"]*)"`, "i").exec(tag)?.[1];
 }
 
-export function verifyHtml(html: string, canonical: string): string[] {
+export function verifyHtml(
+  html: string,
+  canonical: string,
+  languages?: Record<string, string>,
+): string[] {
+  const locale = localeOf(canonical);
   const head = /<head>([\s\S]*?)<\/head>/.exec(html)?.[1] ?? "";
-  assert.ok(/<html[^>]+lang="es"/.test(html), "Falta idioma español");
+  assert.ok(
+    new RegExp(`<html[^>]+lang="${htmlLang[locale]}"`).test(html),
+    `Falta idioma ${htmlLang[locale]}`,
+  );
   assert.ok(/<title>[^<]+<\/title>/.test(head), "Falta título");
   const metas = head.match(/<meta\b[^>]*>/gi) ?? [];
   assert.ok(
@@ -39,6 +61,21 @@ export function verifyHtml(html: string, canonical: string): string[] {
     new URL(canonical).href,
     "URL canónica incorrecta",
   );
+  if (languages) {
+    // Cada página declara todas sus versiones de idioma (y la de por defecto).
+    const declared = Object.fromEntries(
+      links
+        .filter((tag) => attribute(tag, "rel") === "alternate" && attribute(tag, "hreflang"))
+        .map((tag) => [attribute(tag, "hreflang")!, new URL(attribute(tag, "href")!).href]),
+    );
+    assert.deepEqual(
+      declared,
+      Object.fromEntries(
+        Object.entries(languages).map(([lang, href]) => [lang, new URL(href).href]),
+      ),
+      "Versiones de idioma (hreflang) incorrectas",
+    );
+  }
   assert.equal(
     (html.match(/<h1(?:\s|>)/g) ?? []).length,
     1,
@@ -60,6 +97,8 @@ export function verifyHtml(html: string, canonical: string): string[] {
 }
 
 export function verifyCompanyIdentity(html: string) {
+  // Nombre y sitio de la empresa son los mismos en todos los idiomas.
+  const { company } = contentFor("es");
   const entities: Record<string, unknown>[] = Array.from(
     html.matchAll(
       /<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g,
@@ -108,16 +147,18 @@ export async function checkPublicSite(base = "http://localhost:3000") {
     return response;
   };
   const cssPaths = new Set<string>();
-  for (const canonical of publicUrls()) {
+  for (const { url: canonical, languages } of publicEntries()) {
     const path = new URL(canonical).pathname;
+    const locale = localeOf(canonical);
+    const { company, publicPages } = contentFor(locale);
     const html = await (await get(path)).text();
-    for (const css of verifyHtml(html, canonical)) cssPaths.add(css);
+    for (const css of verifyHtml(html, canonical, languages)) cssPaths.add(css);
     verifyCompanyIdentity(html);
     assert.ok(
       html.includes(company.relationship),
       "Falta la identidad visible de la empresa",
     );
-    const page = publicPages.find((item) => `/${item.slug}` === path);
+    const page = publicPages.find((item) => path.endsWith(`/${item.slug}`));
     if (page)
       assert.ok(
         html.includes(page.introduction),
@@ -176,7 +217,13 @@ export async function checkPublicSite(base = "http://localhost:3000") {
     assert.match(response.headers.get("content-type") ?? "", /text\/plain/);
     assert.equal(await response.text(), expected);
   }
-  for (const path of ["/pagina-que-no-existe", "/dashboard", "/auth/login"]) {
+  for (const path of [
+    "/pagina-que-no-existe",
+    "/dashboard",
+    "/auth/login",
+    "/en/page-that-does-not-exist",
+    "/en/plataforma",
+  ]) {
     const response = await fetch(new URL(path, origin), {
       signal: AbortSignal.timeout(20_000),
       redirect: "manual",
@@ -184,6 +231,15 @@ export async function checkPublicSite(base = "http://localhost:3000") {
     assert.equal(response.status, 404, `No debe publicarse ${path}`);
     const html = await response.text();
     assert.match(html, /name="robots" content="noindex/);
+    // La página de error de MEHI tiene que venir armada en el HTML: el 404
+    // genérico del framework o la «página en blanco hasta cargar JavaScript»
+    // (html id="__next_error__") son regresiones.
+    // (El texto también viaja en el payload de scripts: por eso se mira el <h1>.)
+    assert.ok(!html.includes('id="__next_error__"'), `Página de error en blanco: ${path}`);
+    assert.ok(
+      new RegExp(`<h1[^>]*>${ui.es.notFound.heading}</h1>`).test(html),
+      `Página de error sin contenido propio: ${path}`,
+    );
   }
   for (const userAgent of [
     "OAI-SearchBot/1.4",
@@ -198,7 +254,7 @@ export async function checkPublicSite(base = "http://localhost:3000") {
       redirect: "manual",
     });
     assert.equal(response.status, 200, `HTTP para ${userAgent}`);
-    verifyHtml(await response.text(), `${site.url}/`);
+    verifyHtml(await response.text(), `${site.url}/`, languageAlternates());
   }
   const version = await (await get("/version.json")).json();
   if (process.env.MEHI_EXPECTED_SHA)

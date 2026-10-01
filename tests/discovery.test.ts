@@ -2,11 +2,16 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   publicPages,
-  publicUrls,
   findPublicPage,
   site,
   company,
 } from "../app/content.ts";
+import * as en from "../app/content-en.ts";
+import {
+  allPublicUrls as publicUrls,
+  languageAlternates,
+  translatedPath,
+} from "../app/i18n.ts";
 import sitemap from "../app/sitemap.ts";
 import robots from "../app/robots.ts";
 import {
@@ -28,6 +33,9 @@ test("el sitemap contiene exactamente las páginas públicas canónicas, sin rut
     sitemap().map((page) => page.url),
     publicUrls(),
   );
+  for (const page of [...publicPages, ...en.publicPages]) {
+    assert.match(page.slug, /^[a-z]+(?:-[a-z]+)*$/);
+  }
   for (const page of publicPages) {
     assert.match(page.slug, /^[a-z]+(?:-[a-z]+)*$/);
     assert.equal(findPublicPage(page.slug), page);
@@ -201,4 +209,67 @@ test("IndexNow sólo acepta nuestras páginas públicas y deduplica URLs", () =>
   );
   assert.throws(() => createNotification([`${site.url}/dashboard`], key));
   assert.throws(() => createNotification(publicUrls(), "invalid"));
+});
+
+test("cada página tiene su versión en inglés y las dos se declaran mutuamente", () => {
+  assert.deepEqual(
+    en.publicPages.map((page) => page.id),
+    publicPages.map((page) => page.id),
+    "Inglés y español deben tener las mismas páginas, en el mismo orden",
+  );
+  const englishSlugs = new Set(en.publicPages.map((page) => page.slug));
+  assert.equal(englishSlugs.size, en.publicPages.length);
+  for (const page of publicPages) {
+    const english = en.publicPages.find((item) => item.id === page.id)!;
+    assert.equal(english.audience, page.audience);
+    assert.equal(english.sections.length, page.sections.length, page.id);
+    english.sections.forEach((section, index) => {
+      const spanish = page.sections[index];
+      assert.equal(section.paragraphs.length, spanish.paragraphs.length, section.heading);
+      assert.equal(section.bullets?.length, spanish.bullets?.length, section.heading);
+    });
+    assert.equal(Boolean(english.example), Boolean(page.example), page.id);
+    assert.equal(translatedPath(page, "en"), `/en/${english.slug}`);
+    assert.equal(translatedPath(english, "es"), `/${page.slug}`);
+    assert.equal(
+      pageMetadata(english, "en").alternates?.canonical,
+      `${site.url}/en/${english.slug}`,
+    );
+    const alternates = languageAlternates(page);
+    assert.deepEqual(languageAlternates(english), alternates);
+    assert.deepEqual(alternates, {
+      "es-AR": `${site.url}/${page.slug}`,
+      en: `${site.url}/en/${english.slug}`,
+      "x-default": `${site.url}/${page.slug}`,
+    });
+  }
+  assert.equal(pageMetadata(undefined, "en").alternates?.canonical, `${site.url}/en`);
+  assert.equal(en.site.faqs.length, site.faqs.length);
+  assert.equal(en.company.name, company.name);
+  assert.equal(en.company.url, company.url);
+});
+
+test("el ejemplo ficticio conserva su aviso también en inglés", () => {
+  const government = en.publicPages.find((page) => page.id === "ia-para-gobiernos");
+  assert.equal(government?.example?.kind, "fictional");
+  assert.match(government!.example!.disclosure, /Fictional/);
+  assert.match(government!.example!.disclosure, /not a real call or a live agent/);
+});
+
+test("la versión en inglés no quedó con texto en español", () => {
+  const strings: string[] = [en.company.relationship, en.company.description];
+  const collect = (value: unknown) => {
+    if (typeof value === "string") strings.push(value);
+    else if (Array.isArray(value)) value.forEach(collect);
+    else if (value && typeof value === "object") Object.values(value).forEach(collect);
+  };
+  collect(en.site);
+  for (const page of en.publicPages) {
+    const { id: _id, slug: _slug, ...visible } = page;
+    collect(visible);
+  }
+  const spanish = strings.filter((text) =>
+    /[áéíóúñ¿¡]|\b(?:de|la|el|los|las|para|con|que|una|por|del)\b/i.test(text),
+  );
+  assert.deepEqual(spanish, []);
 });

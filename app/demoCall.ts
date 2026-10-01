@@ -5,7 +5,8 @@
  *
  * Regla: la persona NUNCA ve texto crudo del SDK de voz ni del navegador
  * («Error starting call», «Permission denied»). Todo error se traduce a una
- * frase en español que dice qué hacer; si no se reconoce, va la frase genérica.
+ * frase en el idioma de la página que dice qué hacer; si no se reconoce, va la
+ * frase genérica.
  */
 
 export const DEMO_CALL_ENDPOINT =
@@ -26,11 +27,34 @@ export const DEMO_CALL_MESSAGES = {
     "Este navegador no permite usar el micrófono acá. Probá con Chrome, Safari o Firefox actualizados.",
 } as const;
 
-/** Mensaje humano que devolvió la API de MEHI (ya viene en español): se muestra tal cual. */
+export const DEMO_CALL_MESSAGES_EN: Record<keyof typeof DEMO_CALL_MESSAGES | "busy" | "unavailable", string> = {
+  generic: "We couldn't start the conversation. Please try again in a few minutes.",
+  micDenied:
+    "We need permission to use your microphone. Check the padlock icon in your browser and try again.",
+  micMissing:
+    "We couldn't find a microphone on this device. Connect one or try from your phone.",
+  micBusy:
+    "Your microphone is being used by another app. Close it and try again.",
+  micUnsupported:
+    "This browser doesn't allow microphone access here. Try an up-to-date Chrome, Safari or Firefox.",
+  busy: "The demo line is very busy right now. Please try again in a few minutes.",
+  unavailable:
+    "The demo line isn't available right now. Leave your details below and we'll contact you.",
+};
+
+export type DemoCallLocale = "es" | "en";
+
+/**
+ * Mensaje humano que devolvió la API de MEHI. Viene en español: en la página en
+ * español se muestra tal cual; en inglés se elige el equivalente por `status`.
+ */
 export class DemoCallApiError extends Error {
-  constructor(message: string) {
+  readonly status?: number;
+
+  constructor(message: string, status?: number) {
     super(message);
     this.name = "DemoCallApiError";
+    this.status = status;
   }
 }
 
@@ -62,24 +86,30 @@ function errorText(error: unknown): string {
  * Los nombres (`NotAllowedError`, `NotFoundError`, …) son los que define el estándar de
  * `getUserMedia`; se reconocen por nombre y por las frases típicas de cada navegador.
  */
-export function describeDemoCallError(error: unknown): string {
+export function describeDemoCallError(error: unknown, locale: DemoCallLocale = "es"): string {
+  const messages = locale === "en" ? DEMO_CALL_MESSAGES_EN : DEMO_CALL_MESSAGES;
   if (error instanceof DemoCallApiError) {
-    return error.message.trim() || DEMO_CALL_MESSAGES.generic;
+    if (locale === "en") {
+      if (error.status === 429) return DEMO_CALL_MESSAGES_EN.busy;
+      if (error.status === 503) return DEMO_CALL_MESSAGES_EN.unavailable;
+      return messages.generic;
+    }
+    return error.message.trim() || messages.generic;
   }
   if (error instanceof MicrophoneUnsupportedError) {
-    return DEMO_CALL_MESSAGES.micUnsupported;
+    return messages.micUnsupported;
   }
   const text = errorText(error);
   if (/NotAllowedError|PermissionDeniedError|SecurityError|Permission denied|permission dismissed/i.test(text)) {
-    return DEMO_CALL_MESSAGES.micDenied;
+    return messages.micDenied;
   }
   if (/NotFoundError|DevicesNotFoundError|OverconstrainedError|device not found/i.test(text)) {
-    return DEMO_CALL_MESSAGES.micMissing;
+    return messages.micMissing;
   }
   if (/NotReadableError|TrackStartError|AbortError|Could not start audio source/i.test(text)) {
-    return DEMO_CALL_MESSAGES.micBusy;
+    return messages.micBusy;
   }
-  return DEMO_CALL_MESSAGES.generic;
+  return messages.generic;
 }
 
 /**

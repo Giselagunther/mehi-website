@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
-import { site, publicUrls } from "../app/content.ts";
+import { site } from "../app/content.ts";
+import { allPublicUrls as publicUrls } from "../app/i18n.ts";
 
 export function createNotification(urls: string[], key: string) {
   assert.match(key, /^[a-f0-9]{32}$/);

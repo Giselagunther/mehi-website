@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
+import { NotFoundContent } from "./components/NotFoundContent";
+import { RootDocument } from "./root-document";
+import { ui } from "./i18n";
+import "./globals.css";
 
+// Direcciones que no corresponden a ninguna ruta: página de error en español,
+// como siempre, con la salida en inglés (ver NotFoundContent).
 export const metadata: Metadata = {
-  title: "Página no encontrada",
+  // Sin layout raíz con plantilla de título: se arma completo, como antes.
+  title: `${ui.es.notFound.title} | MEHI`,
   robots: { index: false, follow: true },
 };
 
-export default function NotFound() {
+export default function GlobalNotFound() {
   return (
-    <main className="mx-auto max-w-3xl px-5 py-20">
-      <h1 className="text-3xl font-semibold">No encontramos esa página</h1>
-      <p className="mt-5 leading-7 text-mehi-text-secondary">
-        Podés conocer las soluciones de MEHI o contactarnos desde el inicio.
-      </p>
-      <a
-        href="/"
-        className="mt-8 inline-block rounded-md bg-mehi-plum px-5 py-3 font-semibold text-white"
-      >
-        Volver a MEHI
-      </a>
-    </main>
+    <RootDocument locale="es">
+      <NotFoundContent />
+    </RootDocument>
   );
 }

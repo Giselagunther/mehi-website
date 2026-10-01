@@ -17,7 +17,7 @@ test("las utilidades de las páginas públicas existen en el compilador Tailwind
   const files = ["MarketingHome", "PublicContent", "ContactForm", "DemoCall"].map(
     (name) => `../app/components/${name}.tsx`,
   );
-  files.push("../app/not-found.tsx");
+  files.push("../app/components/NotFoundContent.tsx", "../app/components/LanguageSwitch.tsx");
   for (const file of files) {
     const source = ts.createSourceFile(
       file,

@@ -37,10 +37,14 @@ No recrear proyectos, modificar registros MX ni tocar los subdominios de la apli
 ## Estructura
 
 ```
-app/content.ts                Contenido público compartido por HTML y texto
+app/content.ts                Contenido público en español, compartido por HTML y texto
+app/content-en.ts             El mismo contenido en inglés (mismas páginas, emparejadas por id)
+app/i18n.ts, app/ui-text.ts   Idiomas, rutas por idioma, hreflang y textos de interfaz
+app/layout.tsx                Layout raíz de paso (el <html> lo arma cada idioma)
+app/(es)/, app/(en)/en/       Español en la raíz; inglés bajo /en, con su propio <html lang>
+app/not-found.tsx             Página de error única, en español con salida al inglés
 app/components/MarketingHome.tsx  Portada
 app/components/PublicContent.tsx  Páginas, preguntas y recorrido ilustrativo
-app/[slug]/page.tsx            Catálogo explícito de páginas estáticas
 app/seo.ts                    Metadatos y datos estructurados
 app/robots.ts, app/sitemap.ts  Descubrimiento
 app/llms.txt/, app/llms-full.txt/  Lectura rápida para asistentes
@@ -49,6 +53,10 @@ scripts/                      Smoke HTTP y aviso a buscadores
 tests/                        Regresiones
 docs/                         Documentación operativa
 ```
+
+## Idiomas
+
+El sitio está en español (raíz, URLs de siempre) y en inglés (`/en`, con slugs en inglés). Cada página declara su par en el otro idioma (`hreflang`) y el sitemap lista las dos. Un texto nuevo se agrega en los dos archivos de contenido: el test `cada página tiene su versión en inglés…` falla si una página, sección o viñeta queda sin traducir, y el smoke verifica el `<html lang>` y las `hreflang` servidas. La línea de demo y el video hablan en español; la página en inglés lo aclara y el video trae subtítulos en inglés (`public/video/mehi-agente-de-voz.en.vtt`).
 
 ## Notas
 

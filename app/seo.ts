@@ -1,17 +1,33 @@
 import type { Metadata } from "next";
-import { company, site, type PublicPage } from "./content.ts";
+import type { PublicPage } from "./content.ts";
+import {
+  contentFor,
+  findPage,
+  homePath,
+  languageAlternates,
+  languageTag,
+  locales,
+  openGraphLocale,
+  pagePath,
+  translatedPath,
+  type Locale,
+} from "./i18n.ts";
 
-export function pageMetadata(page?: PublicPage): Metadata {
+export function pageMetadata(page?: PublicPage, locale: Locale = "es"): Metadata {
+  const { site } = contentFor(locale);
   const title = page?.title ?? site.title;
   const description = page?.description ?? site.description;
-  const url = page ? `${site.url}/${page.slug}` : `${site.url}/`;
+  const url = `${site.url}${page ? pagePath(locale, page.slug) : homePath(locale)}`;
   return {
     title: page ? title : { absolute: title },
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, languages: languageAlternates(page) },
     openGraph: {
       type: "website",
-      locale: "es_AR",
+      locale: openGraphLocale[locale],
+      alternateLocale: locales
+        .filter((other) => other !== locale)
+        .map((other) => openGraphLocale[other]),
       siteName: site.name,
       title,
       description,
@@ -21,7 +37,8 @@ export function pageMetadata(page?: PublicPage): Metadata {
   };
 }
 
-export function organizationGraph() {
+export function organizationGraph(locale: Locale = "es") {
+  const { company, site } = contentFor(locale);
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -37,7 +54,7 @@ export function organizationGraph() {
         "@id": `${site.url}/#website`,
         name: site.name,
         url: `${site.url}/`,
-        inLanguage: "es-AR",
+        inLanguage: locales.map((item) => languageTag[item]),
         publisher: { "@id": `${site.url}/#organization` },
       },
       {
@@ -47,8 +64,10 @@ export function organizationGraph() {
         "@id": `${site.url}/#software`,
         name: site.name,
         serviceType:
-          "Plataforma de agentes de voz IA y atención humana para gobiernos y empresas",
-        url: `${site.url}/plataforma`,
+          locale === "en"
+            ? "AI voice agent and human service platform for governments and businesses"
+            : "Plataforma de agentes de voz IA y atención humana para gobiernos y empresas",
+        url: `${site.url}${translatedPath(findPage("es", "plataforma"), locale)}`,
         logo: `${site.url}/logo-mehi.svg`,
         description: site.introduction,
         provider: { "@id": `${site.url}/#organization` },
@@ -58,20 +77,24 @@ export function organizationGraph() {
 }
 
 /** Video de presentación del agente de voz. Solo en la portada, que es donde se reproduce. */
-export function homeVideoGraph() {
+export function homeVideoGraph(locale: Locale = "es") {
+  const { site } = contentFor(locale);
+  const english = locale === "en";
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "VideoObject",
         "@id": `${site.url}/#video-agente-de-voz`,
-        name: "El agente de voz de MEHI",
-        description:
-          "Qué hace el agente de voz de MEHI, cómo trabaja una llamada y cómo está armado, en menos de dos minutos.",
+        name: english ? "MEHI's voice agent" : "El agente de voz de MEHI",
+        description: english
+          ? "What MEHI's voice agent does, how it handles a call and how it is built, in under two minutes. Spanish narration with English subtitles."
+          : "Qué hace el agente de voz de MEHI, cómo trabaja una llamada y cómo está armado, en menos de dos minutos.",
         thumbnailUrl: [`${site.url}/video/mehi-agente-de-voz.jpg`],
         contentUrl: `${site.url}/video/mehi-agente-de-voz.mp4`,
         uploadDate: "2026-09-27",
         duration: "PT1M49S",
+        // El audio es en español en ambas versiones; en inglés cambian los subtítulos.
         inLanguage: "es-AR",
         publisher: { "@id": `${site.url}/#organization` },
       },
@@ -79,8 +102,9 @@ export function homeVideoGraph() {
   };
 }
 
-export function publicPageGraph(page: PublicPage) {
-  const url = `${site.url}/${page.slug}`;
+export function publicPageGraph(page: PublicPage, locale: Locale = "es") {
+  const { site } = contentFor(locale);
+  const url = `${site.url}${pagePath(locale, page.slug)}`;
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -90,7 +114,7 @@ export function publicPageGraph(page: PublicPage) {
         url,
         name: page.title,
         description: page.description,
-        inLanguage: "es-AR",
+        inLanguage: languageTag[locale],
         isPartOf: { "@id": `${site.url}/#website` },
         about: { "@id": `${site.url}/#software` },
         publisher: { "@id": `${site.url}/#organization` },
@@ -102,7 +126,7 @@ export function publicPageGraph(page: PublicPage) {
             "@type": "ListItem",
             position: 1,
             name: "MEHI",
-            item: `${site.url}/`,
+            item: `${site.url}${homePath(locale)}`,
           },
           { "@type": "ListItem", position: 2, name: page.label, item: url },
         ],
