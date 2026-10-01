@@ -7,7 +7,7 @@ import {
   company,
 } from "../app/content.ts";
 import * as en from "../app/content-en.ts";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import {
   allPublicUrls as publicUrls,
   homeVideo,
@@ -284,4 +284,10 @@ test("el video de cada idioma existe en public/ y su ficha apunta a esos archivo
     assert.match(video.durationIso, /^PT\d+M\d+S$/);
   }
   assert.notEqual(homeVideo.es.src, homeVideo.en.src);
+  // El correo que MEHI le manda a cada interesado de la línea de demo
+  // (backend/app/modules/public_demo/emails.py, repo MEHI) muestra esta portada y
+  // enlaza a /#como-funciona. Si cambian, hay que cambiar ese correo también.
+  assert.equal(homeVideo.es.poster, "/video/mehi-agente-de-voz.jpg");
+  const home = readFileSync(new URL("../app/components/MarketingHome.tsx", import.meta.url), "utf8");
+  assert.ok(home.includes('id="como-funciona"'), "Se perdió el ancla #como-funciona");
 });
