@@ -7,8 +7,10 @@ import {
   company,
 } from "../app/content.ts";
 import * as en from "../app/content-en.ts";
+import { existsSync } from "node:fs";
 import {
   allPublicUrls as publicUrls,
+  homeVideo,
   languageAlternates,
   translatedPath,
 } from "../app/i18n.ts";
@@ -272,4 +274,14 @@ test("la versión en inglés no quedó con texto en español", () => {
     /[áéíóúñ¿¡]|\b(?:de|la|el|los|las|para|con|que|una|por|del)\b/i.test(text),
   );
   assert.deepEqual(spanish, []);
+});
+
+test("el video de cada idioma existe en public/ y su ficha apunta a esos archivos", () => {
+  for (const [locale, video] of Object.entries(homeVideo)) {
+    for (const path of [video.src, video.poster, video.captions]) {
+      assert.ok(existsSync(new URL(`../public${path}`, import.meta.url)), `${locale}: falta ${path}`);
+    }
+    assert.match(video.durationIso, /^PT\d+M\d+S$/);
+  }
+  assert.notEqual(homeVideo.es.src, homeVideo.en.src);
 });

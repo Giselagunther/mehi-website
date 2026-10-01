@@ -8,6 +8,7 @@ import {
   languageTag,
   locales,
   openGraphLocale,
+  homeVideo,
   pagePath,
   translatedPath,
   type Locale,
@@ -85,17 +86,16 @@ export function homeVideoGraph(locale: Locale = "es") {
     "@graph": [
       {
         "@type": "VideoObject",
-        "@id": `${site.url}/#video-agente-de-voz`,
+        "@id": `${site.url}${english ? "/en" : "/"}#video-agente-de-voz`,
         name: english ? "MEHI's voice agent" : "El agente de voz de MEHI",
         description: english
-          ? "What MEHI's voice agent does, how it handles a call and how it is built, in under two minutes. Spanish narration with English subtitles."
+          ? "What MEHI's voice agent does, how it handles a call and how it is built, in under two minutes."
           : "Qué hace el agente de voz de MEHI, cómo trabaja una llamada y cómo está armado, en menos de dos minutos.",
-        thumbnailUrl: [`${site.url}/video/mehi-agente-de-voz.jpg`],
-        contentUrl: `${site.url}/video/mehi-agente-de-voz.mp4`,
-        uploadDate: "2026-09-27",
-        duration: "PT1M49S",
-        // El audio es en español en ambas versiones; en inglés cambian los subtítulos.
-        inLanguage: "es-AR",
+        thumbnailUrl: [`${site.url}${homeVideo[locale].poster}`],
+        contentUrl: `${site.url}${homeVideo[locale].src}`,
+        uploadDate: homeVideo[locale].uploadDate,
+        duration: homeVideo[locale].durationIso,
+        inLanguage: languageTag[locale],
         publisher: { "@id": `${site.url}/#organization` },
       },
     ],

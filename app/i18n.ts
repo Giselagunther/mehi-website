@@ -15,6 +15,30 @@ export const defaultLocale: Locale = "es";
 
 const content = { es, en } as const;
 
+/**
+ * Video del agente de voz de cada idioma (en public/video/). Los dos traen los
+ * subtítulos dibujados en la imagen: la pista .vtt queda disponible pero apagada.
+ */
+export const homeVideo: Record<
+  Locale,
+  { src: string; poster: string; captions: string; durationIso: string; uploadDate: string }
+> = {
+  es: {
+    src: "/video/mehi-agente-de-voz.mp4",
+    poster: "/video/mehi-agente-de-voz.jpg",
+    captions: "/video/mehi-agente-de-voz.es.vtt",
+    durationIso: "PT1M47S",
+    uploadDate: "2026-10-01",
+  },
+  en: {
+    src: "/video/mehi-agente-de-voz.en.mp4",
+    poster: "/video/mehi-agente-de-voz.en.jpg",
+    captions: "/video/mehi-agente-de-voz.en.vtt",
+    durationIso: "PT1M40S",
+    uploadDate: "2026-10-01",
+  },
+};
+
 export function contentFor(locale: Locale) {
   return content[locale];
 }

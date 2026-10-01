@@ -56,7 +56,7 @@ docs/                         Documentación operativa
 
 ## Idiomas
 
-El sitio está en español (raíz, URLs de siempre) y en inglés (`/en`, con slugs en inglés). Cada página declara su par en el otro idioma (`hreflang`) y el sitemap lista las dos. Un texto nuevo se agrega en los dos archivos de contenido: el test `cada página tiene su versión en inglés…` falla si una página, sección o viñeta queda sin traducir, y el smoke verifica el `<html lang>` y las `hreflang` servidas. La línea de demo y el video hablan en español; la página en inglés lo aclara y el video trae subtítulos en inglés (`public/video/mehi-agente-de-voz.en.vtt`).
+El sitio está en español (raíz, URLs de siempre) y en inglés (`/en`, con slugs en inglés). Cada página declara su par en el otro idioma (`hreflang`) y el sitemap lista las dos. Un texto nuevo se agrega en los dos archivos de contenido: el test `cada página tiene su versión en inglés…` falla si una página, sección o viñeta queda sin traducir, y el smoke verifica el `<html lang>` y las `hreflang` servidas. La línea de demo habla sólo en español y la página en inglés lo aclara. El video tiene una versión por idioma (`public/video/mehi-agente-de-voz.mp4` y `.en.mp4`, con su portada y subtítulos); qué archivo usa cada idioma está en `homeVideo` de `app/i18n.ts`.
 
 ## Notas
 
