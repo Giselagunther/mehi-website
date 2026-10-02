@@ -71,7 +71,7 @@ export const ui = {
       videoUnsupported: "Tu navegador no puede reproducir este video.",
       videoCaption:
         "El agente de voz de MEHI en menos de dos minutos: qué hace, cómo trabaja una llamada y cómo está armado.",
-      videoMeta: "1:47 · con subtítulos",
+      videoMeta: "1:46 · con subtítulos",
       stepLabel: "PASO",
       steps: [
         { number: "01", title: "La persona se comunica", description: "MEHI comprende la necesidad y conserva el contexto." },

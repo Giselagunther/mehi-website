@@ -27,15 +27,15 @@ export const homeVideo: Record<
     src: "/video/mehi-agente-de-voz.mp4",
     poster: "/video/mehi-agente-de-voz.jpg",
     captions: "/video/mehi-agente-de-voz.es.vtt",
-    durationIso: "PT1M47S",
-    uploadDate: "2026-10-01",
+    durationIso: "PT1M46S",
+    uploadDate: "2026-10-02",
   },
   en: {
     src: "/video/mehi-agente-de-voz.en.mp4",
     poster: "/video/mehi-agente-de-voz.en.jpg",
     captions: "/video/mehi-agente-de-voz.en.vtt",
     durationIso: "PT1M40S",
-    uploadDate: "2026-10-01",
+    uploadDate: "2026-10-02",
   },
 };
 
