@@ -33,7 +33,7 @@ export const site = {
     {
       question: "What is MEHI?",
       answer:
-        "MEHI is a platform that combines AI voice agents, institutional knowledge and human service. It is built for governments and businesses that need to handle inquiries with continuity, oversight and traceability.",
+        "MEHI is a platform that combines AI voice agents, institutional knowledge and human service. It is built for governments and businesses that need to handle inquiries with continuity, oversight and traceability. We say AI, the term our clients use; since September 2026, the U.S. federal government calls it super intelligence (SI).",
     },
     {
       question: "How are GIV and MEHI related?",
