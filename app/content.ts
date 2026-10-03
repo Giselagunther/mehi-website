@@ -1,4 +1,6 @@
 /** Contenido público aprobado. No incorporar antecedentes de clientes sin autorización. */
+// GIV va sólo en el pie y en los datos estructurados: el visitante conoce MEHI,
+// no tiene por qué saber qué es GIV (recomendación comercial de oct-2026).
 export const company = {
   name: "GIV",
   url: "https://givsrl.com.ar/",
@@ -10,55 +12,56 @@ export const company = {
 export const site = {
   name: "MEHI",
   url: "https://www.mehi.ar",
-  title: "MEHI | IA para gobiernos y empresas · Plataforma de GIV",
+  title: "MEHI | Agentes de voz con IA para empresas, contact centers y gobiernos",
   description:
-    "MEHI, plataforma de GIV para atención ciudadana y atención al cliente: agentes de voz IA, conocimiento institucional y supervisión humana.",
+    "Dale voz a tu CRM y a la información de tu organización. MEHI atiende llamadas con agentes de voz con IA, responde con información validada y deriva a tu equipo cuando hace falta.",
   introduction:
-    "MEHI es la plataforma de GIV para gestionar atención ciudadana y atención al cliente con IA y equipos humanos. Conecta agentes de voz, conocimiento institucional y supervisión para gobiernos, organismos públicos, empresas y contact centers.",
-  hero: "MEHI es la plataforma de GIV para gestionar atención ciudadana con IA y equipos humanos. También acompaña la atención al cliente de empresas y contact centers, con conocimiento institucional y supervisión.",
+    "MEHI es una plataforma de agentes de voz con IA que le pone voz a la información de tu organización: el CRM, las bases de conocimiento y los procedimientos. Atiende llamadas, responde consultas y deriva a tu equipo cuando hace falta, con supervisión de cada conversación. Trabaja con gobiernos, empresas y contact centers.",
+  hero: "MEHI conecta la información de tu organización con un agente de voz que atiende llamadas, responde consultas y deriva a tu equipo cuando hace falta. Y te deja ver y revisar cada conversación.",
+  heroNote:
+    "Trabaja con tu CRM, tus bases de conocimiento u otros sistemas, según las integraciones de cada proyecto.",
   features: [
-    "Agentes de voz con inteligencia artificial conversacional",
-    "Respuestas basadas en conocimiento institucional validado",
-    "Derivación a equipos humanos según las reglas de la operación",
-    "Seguimiento de llamadas, reportes y trazabilidad de cambios",
-    "Gestión del conocimiento y continuidad con KORENUS",
+    "Agentes de voz con IA que atienden llamadas en lenguaje natural",
+    "Respuestas basadas en información que tu organización validó",
+    "Consultas a tu CRM u otros sistemas, según las integraciones del proyecto",
+    "Derivación a tu equipo con el contexto de la llamada",
+    "Registro, métricas y revisión de cada conversación",
   ],
   faqs: [
     {
       question: "¿Qué es MEHI?",
       answer:
-        "MEHI es una plataforma que integra agentes de voz con IA, conocimiento institucional y atención humana. Está orientada a gobiernos y empresas que necesitan gestionar consultas con continuidad, supervisión y trazabilidad.",
+        "Una plataforma de agentes de voz con IA. Le pone voz a la información de tu organización para atender llamadas, responder consultas y derivar a tu equipo los casos que necesitan una persona. Cada conversación queda registrada para supervisarla y mejorarla.",
     },
     {
-      question: "¿Qué relación tienen GIV y MEHI?",
+      question: "¿Tengo que cambiar mi CRM o mis sistemas?",
       answer:
-        "GIV es la empresa que ofrece MEHI. MEHI es el nombre de la plataforma. El alcance de cada proyecto, las integraciones y las condiciones comerciales se acuerdan con GIV.",
+        "No. MEHI trabaja con la información y los sistemas que ya usás. Qué se conecta y cómo (CRM, bases de conocimiento, sistemas de gestión, telefonía) se define en cada proyecto según las interfaces disponibles, y se valida antes de implementar.",
     },
     {
       question: "¿Para qué organizaciones sirve?",
       answer:
-        "Para gobiernos y organismos públicos con atención ciudadana, empresas con equipos de atención al cliente y contact centers. El alcance se define a partir de los procesos, el conocimiento disponible y los sistemas que necesita cada operación.",
+        "Para gobiernos y organismos públicos que atienden a vecinos, empresas con equipos de atención al cliente y contact centers. El alcance se define a partir de las llamadas que reciben, la información disponible y los sistemas de cada operación.",
     },
     {
       question: "¿La IA reemplaza a los operadores?",
       answer:
-        "MEHI permite combinar atención automatizada y humana. La IA puede responder o derivar según las reglas configuradas; las personas conservan la supervisión y atienden los casos que requieren intervención humana.",
+        "No. MEHI combina atención automatizada y humana. La IA responde o deriva según las reglas que define tu organización; las personas conservan la supervisión y atienden los casos que requieren intervención humana.",
     },
     {
       question: "¿De dónde obtiene la información para responder?",
       answer:
-        "De conocimiento institucional que se prepara, revisa y publica para la operación. KORENUS acompaña la gestión de ese conocimiento y el trabajo de los equipos humanos. No se trata de dejar que el agente improvise políticas comerciales o procedimientos.",
+        "De la información que tu organización prepara, revisa y aprueba: procedimientos, requisitos, preguntas frecuentes y, si el proyecto lo incluye, los datos de tus sistemas. El agente no improvisa. Si algo no está confirmado, lo dice y deriva. Tu equipo tiene herramientas para mantener esa información al día.",
     },
     {
-      question:
-        "¿Se integra con la telefonía y los sistemas de mi organización?",
+      question: "¿Cómo se cuida la información?",
       answer:
-        "Las integraciones se evalúan según la infraestructura existente, las interfaces disponibles y el flujo de atención. La compatibilidad y el alcance se validan antes de acordar una implementación; no se promete conexión automática con cualquier sistema.",
+        "La información de cada organización se usa sólo para su servicio y queda separada de la de las demás. Viaja cifrada y el acceso es por usuario y rol. La documentación de seguridad e infraestructura se presenta y se revisa con tu equipo técnico durante la evaluación.",
     },
     {
       question: "¿Cómo se contrata y cuánto cuesta?",
       answer:
-        "El primer paso es solicitar una demo y describir la operación. El alcance, las integraciones, los criterios de evaluación y las condiciones comerciales se acuerdan para cada proyecto. MEHI no publica una tarifa universal en este sitio.",
+        "Empezamos con una conversación sobre tu operación y una prueba con un caso tuyo. El alcance, las integraciones y las condiciones comerciales se acuerdan para cada proyecto. No publicamos una tarifa única.",
     },
   ],
 } as const;
@@ -81,14 +84,28 @@ export type IllustrativeExample = {
   }[];
 };
 
+/** Bloque de tarjetas (qué resuelve, dónde suma) o de pasos numerados (cómo se implementa). */
+export type CardBlock = {
+  heading: string;
+  items: { title: string; description: string }[];
+};
+
 export type PublicPage = {
   /** Identidad de la página compartida entre idiomas (es el slug en español). */
   id: string;
   slug: string;
+  /** solution: qué es MEHI · audience: una página por tipo de cliente · resource: guías. */
+  kind: "solution" | "audience" | "resource";
   label: string;
+  /** Rótulo corto sobre el título. */
+  eyebrow?: string;
   title: string;
   description: string;
+  /** Frase de la tarjeta de entrada en la portada (sólo kind audience). */
+  summary?: string;
   introduction: string;
+  useCases?: CardBlock;
+  process?: CardBlock;
   sections: ContentSection[];
   audience?: "government";
   example?: IllustrativeExample;
@@ -98,44 +115,100 @@ export const publicPages: PublicPage[] = [
   {
     id: "plataforma",
     slug: "plataforma",
-    label: "La plataforma",
-    title: "Plataforma de IA para atención ciudadana y atención al cliente",
+    kind: "solution",
+    label: "Solución",
+    eyebrow: "La solución",
+    title: "Agentes de voz con IA conectados a la información de tu organización",
     description:
-      "Conocé MEHI, la plataforma de GIV que conecta agentes de voz IA, equipos humanos y conocimiento institucional para gobiernos y empresas.",
+      "Qué es MEHI, para quién es y cómo se contrata: agentes de voz con IA que usan tu CRM y tu información validada, con derivación a tu equipo y supervisión de cada llamada.",
     introduction: site.introduction,
+    useCases: {
+      heading: "Qué hace MEHI en cada llamada",
+      items: [
+        {
+          title: "Atiende",
+          description:
+            "Contesta en lenguaje natural, a cualquier hora, y entiende qué necesita la persona aunque lo diga con sus palabras.",
+        },
+        {
+          title: "Responde",
+          description:
+            "Usa la información que tu organización validó y, si el proyecto lo incluye, consulta tu CRM u otros sistemas.",
+        },
+        {
+          title: "Deriva",
+          description:
+            "Cuando el caso necesita una persona, lo pasa a tu equipo con el contexto de la llamada.",
+        },
+        {
+          title: "Te muestra todo",
+          description:
+            "Cada conversación queda registrada. Ves qué se respondió, qué se derivó y qué información conviene mejorar.",
+        },
+      ],
+    },
+    process: {
+      heading: "Cómo empezamos",
+      items: [
+        {
+          title: "Conversamos sobre tu operación",
+          description:
+            "Qué llamadas reciben, con qué información responden hoy y qué sistemas usan.",
+        },
+        {
+          title: "Probamos con un caso tuyo",
+          description:
+            "Armamos una prueba acotada con tus consultas, sobre escenarios preparados para la evaluación.",
+        },
+        {
+          title: "Implementamos y medimos",
+          description:
+            "Conectamos la telefonía y los sistemas acordados, y revisamos los resultados con la evidencia de las llamadas.",
+        },
+      ],
+    },
     sections: [
       {
-        heading: "Qué resuelve MEHI en una operación de atención",
+        heading: "Para quién es",
         paragraphs: [
-          "Una consulta puede pasar por una conversación automática, una transferencia y la intervención de un operador. Cuando esas etapas funcionan de forma aislada, la persona repite su necesidad y la organización pierde contexto. MEHI conecta la atención con el conocimiento que la sostiene y con la evidencia necesaria para revisarla.",
-          "La plataforma permite configurar agentes de voz, seguir llamadas y analizar resultados. El objetivo es que la organización pueda entender qué se respondió, cuándo fue necesaria una derivación y qué información o regla necesita mejorar.",
+          "MEHI sirve a organizaciones que reciben muchas llamadas parecidas, manejan información propia para responderlas y necesitan que una persona pueda intervenir cuando hace falta.",
+        ],
+        bullets: [
+          "Gobiernos y organismos públicos: orientación a vecinos sobre trámites y servicios.",
+          "Empresas: atención a clientes con la información de su CRM y de su operación.",
+          "Contact centers: agentes de voz que trabajan junto a sus operadores, para cada uno de sus clientes.",
         ],
       },
       {
-        heading: "Conversación, conocimiento y supervisión",
+        heading: "Qué incluye la plataforma",
         paragraphs: [
-          "El agente conversa a partir de instrucciones y conocimiento preparados para la operación. La participación humana se define mediante reglas: qué puede resolver la IA, qué debe consultar y cuándo corresponde transferir la atención.",
-          "KORENUS complementa a MEHI en la gestión del conocimiento institucional y en el trabajo del operador. La relación entre ambos productos permite conectar la conversación con fichas y gestiones, según el alcance implementado.",
+          "El agente conversa a partir de instrucciones e información preparadas para tu operación. Las reglas definen qué puede resolver solo, qué tiene que consultar y cuándo pasa la llamada a una persona.",
         ],
         bullets: [...site.features],
       },
       {
-        heading: "Cuándo tiene sentido evaluarlo",
+        heading: "Lo que MEHI no hace",
         paragraphs: [
-          "MEHI puede evaluarse cuando un equipo recibe consultas repetidas, administra procedimientos propios o necesita supervisar la convivencia entre IA y personas. La decisión no depende solamente de cuántas llamadas recibe: también importan la calidad de la información, las excepciones y la capacidad de intervenir.",
-          "No es una herramienta para que un consumidor delegue gestiones personales. Es una solución para organizaciones que definen y supervisan su propia atención.",
+          "No improvisa respuestas ni políticas: si la información no está confirmada, lo dice y deriva. No da por hecha una gestión en otro sistema si esa integración no se acordó. Y no reemplaza la decisión de tu equipo en los casos que la necesitan.",
+          "No es una herramienta para que una persona delegue sus trámites. Es una solución para organizaciones que definen y supervisan su propia atención.",
         ],
       },
       {
-        heading: "Qué acordar antes de implementar",
+        heading: "Qué acordamos antes de implementar",
         paragraphs: [
-          "El alcance se construye con la organización: procesos a cubrir, fuentes de información, telefonía, sistemas involucrados, responsables y criterios de aceptación. Las integraciones, los tiempos de implementación y las condiciones comerciales requieren una evaluación específica.",
+          "El alcance se construye con tu organización: llamadas a cubrir, fuentes de información, telefonía, sistemas involucrados, responsables y criterios de aceptación.",
         ],
         bullets: [
           "Elegir una necesidad concreta de atención y sus excepciones.",
-          "Identificar quién valida el conocimiento y autoriza cambios.",
-          "Definir los límites del agente y el recorrido hacia un operador.",
+          "Identificar quién valida la información y autoriza cambios.",
+          "Definir los límites del agente y el recorrido hacia una persona.",
           "Acordar qué evidencia se revisará para evaluar el resultado.",
+        ],
+      },
+      {
+        heading: "Cómo se contrata",
+        paragraphs: [
+          "El alcance, las integraciones, los criterios de evaluación y las condiciones comerciales se acuerdan para cada proyecto. No hay una tarifa única: depende de las llamadas que se atienden, de lo que se integra y del acompañamiento que necesita tu equipo.",
         ],
       },
     ],
@@ -143,30 +216,84 @@ export const publicPages: PublicPage[] = [
   {
     id: "ia-para-gobiernos",
     slug: "ia-para-gobiernos",
-    label: "Gobiernos y organismos públicos",
+    kind: "audience",
+    label: "Gobierno",
+    eyebrow: "Gobierno y organismos públicos",
     audience: "government",
     title: "Agentes de voz con IA para gobiernos y organismos públicos",
     description:
-      "MEHI, la plataforma de GIV para atención ciudadana con IA, conocimiento institucional y equipos humanos. Evaluá el alcance para tu organismo.",
+      "Dale voz a la información de tu organismo: un agente de voz con IA que orienta a los vecinos en consultas y trámites, con información validada y derivación a tu equipo.",
+    summary:
+      "Orientá a los vecinos en consultas y trámites, a cualquier hora, con la información que validó el organismo.",
     introduction:
-      "MEHI es la plataforma de GIV para gestionar atención ciudadana con IA y equipos humanos. Permite configurar agentes de voz, trabajar con conocimiento institucional validado y supervisar las conversaciones. El alcance se define con cada organismo.",
+      "MEHI le pone voz a la información y los servicios de tu organismo. El agente orienta a los vecinos sobre trámites y servicios con la información que el organismo validó, y deriva a tu equipo los casos que necesitan una persona. Cada llamada queda registrada para supervisarla.",
+    useCases: {
+      heading: "Qué puede resolver el agente",
+      items: [
+        {
+          title: "Orientación sobre trámites",
+          description:
+            "Requisitos, pasos, horarios y dónde se hace cada trámite, explicado en lenguaje simple.",
+        },
+        {
+          title: "Consultas sobre el caso de cada vecino",
+          description:
+            "Si el proyecto lo incluye, identifica a la persona y consulta los sistemas del organismo para responder sobre su situación.",
+        },
+        {
+          title: "Reclamos y pedidos",
+          description:
+            "Toma el pedido, registra los datos necesarios y lo deja cargado para el área que corresponde, según la integración acordada.",
+        },
+        {
+          title: "Derivación al área correcta",
+          description:
+            "Cuando el caso necesita una persona, lo pasa al equipo o a la dependencia que corresponde, con el contexto de la llamada.",
+        },
+      ],
+    },
+    process: {
+      heading: "Cómo se implementa en un organismo",
+      items: [
+        {
+          title: "Elegimos las consultas",
+          description:
+            "Empezamos por un conjunto acotado de trámites y servicios, con sus excepciones.",
+        },
+        {
+          title: "El organismo valida la información",
+          description:
+            "Sus responsables revisan y aprueban lo que el agente va a decir. Nada se usa sin esa revisión.",
+        },
+        {
+          title: "Probamos con escenarios ficticios",
+          description:
+            "La prueba no usa datos de vecinos. Se mide si el agente responde bien y si reconoce sus límites.",
+        },
+        {
+          title: "Ponemos en marcha y supervisamos",
+          description:
+            "Se conecta la línea, se revisan las llamadas y se mejora la información con evidencia.",
+        },
+      ],
+    },
     sections: [
       {
         heading: "Atención ciudadana con responsabilidades claras",
         paragraphs: [
-          "Una consulta ciudadana puede requerir orientación, una aclaración o la intervención de una persona. Antes de automatizar, el organismo necesita definir qué puede responder el agente, qué información respalda la respuesta y qué recorrido corresponde cuando el caso queda fuera de alcance.",
+          "Una consulta ciudadana puede requerir orientación, una aclaración o la intervención de una persona. Antes de automatizar, el organismo define qué puede responder el agente, qué información respalda la respuesta y qué recorrido corresponde cuando el caso queda fuera de alcance.",
           "MEHI permite trabajar sobre esas instrucciones y revisar las conversaciones. La automatización no equivale por sí sola a aprobar una solicitud, resolver un expediente o completar una gestión en otro sistema: cualquier acción de ese tipo requiere una integración y un alcance acordados.",
         ],
       },
       {
-        heading: "Conocimiento institucional y continuidad humana",
+        heading: "Información institucional y continuidad humana",
         paragraphs: [
-          "El organismo define las fuentes y las reglas que autoriza a utilizar. Conviene establecer responsables de revisión, criterios de actualización y un recorrido para las preguntas que no tienen una respuesta confirmada.",
-          "La derivación a un equipo humano se diseña según la telefonía y los sistemas disponibles. Qué contexto acompaña la atención, dónde se consulta y qué ocurre si una dependencia no responde deben verificarse durante la evaluación del proyecto.",
+          "El organismo define las fuentes y las reglas que autoriza a usar. Conviene establecer responsables de revisión, criterios de actualización y un recorrido para las preguntas que no tienen una respuesta confirmada.",
+          "La derivación a un equipo humano se diseña según la telefonía y los sistemas disponibles. Qué contexto acompaña la atención, dónde se consulta y qué ocurre si una dependencia no responde se verifica durante la evaluación del proyecto.",
         ],
         bullets: [
           "Consultas informativas dentro de un alcance definido.",
-          "Instrucciones y conocimiento revisados por responsables del organismo.",
+          "Instrucciones e información revisadas por responsables del organismo.",
           "Intervención humana para excepciones y situaciones no cubiertas.",
           "Seguimiento de llamadas y revisión de respuestas y derivaciones.",
         ],
@@ -174,15 +301,14 @@ export const publicPages: PublicPage[] = [
       {
         heading: "Qué revisar en una demostración",
         paragraphs: [
-          "Una demostración útil incluye preguntas claras, formas diferentes de expresar una necesidad y consultas que no deberían resolverse automáticamente. Se puede empezar con información ficticia preparada para la evaluación, sin usar datos de ciudadanos ni material de clientes.",
-          "La prueba debería permitir observar si el agente reconoce sus límites y si el recorrido humano funciona en las condiciones acordadas. Un ejemplo ilustrativo ayuda a explicar el enfoque, pero no sustituye una prueba de la plataforma y sus integraciones.",
+          "Una demostración útil incluye preguntas claras, formas diferentes de expresar una necesidad y consultas que no deberían resolverse automáticamente. Se puede empezar con información ficticia preparada para la evaluación, sin usar datos de ciudadanos.",
+          "La prueba debería mostrar si el agente reconoce sus límites y si el recorrido hacia una persona funciona en las condiciones acordadas. Un ejemplo ilustrativo ayuda a explicar el enfoque, pero no sustituye una prueba de la plataforma y sus integraciones.",
         ],
       },
       {
-        heading: "GIV y MEHI en la evaluación del proyecto",
+        heading: "Qué se acuerda con el organismo",
         paragraphs: [
-          company.description,
-          "En la conversación inicial se revisan la necesidad de atención, las fuentes disponibles, las dependencias de telefonía y los responsables de la evaluación. Los tiempos, el soporte y las condiciones comerciales se definen para el proyecto; no se anuncian resultados universales.",
+          "En la conversación inicial se revisan la necesidad de atención, las fuentes disponibles, la telefonía y los responsables de la evaluación. Los tiempos, el soporte y las condiciones se definen para el proyecto. No anunciamos resultados universales.",
         ],
       },
     ],
@@ -239,27 +365,187 @@ export const publicPages: PublicPage[] = [
     },
   },
   {
+    id: "ia-para-contact-centers",
+    slug: "ia-para-contact-centers",
+    kind: "audience",
+    label: "Contact centers",
+    eyebrow: "Contact centers",
+    title: "Agentes de voz con IA para contact centers, junto a tus operadores",
+    description:
+      "MEHI suma agentes de voz con IA al servicio de tu contact center: atienden las consultas frecuentes con la información de cada cliente y pasan a tus operadores los casos que los necesitan.",
+    summary:
+      "Sumá agentes de voz a tu servicio y dejá a tus operadores los casos que los necesitan.",
+    introduction:
+      "MEHI le pone voz al servicio que prestás. Un agente de voz con IA atiende las consultas frecuentes con la información de cada cliente y pasa a tus operadores los casos que los necesitan, con el contexto de la llamada. Vos supervisás todo desde un mismo lugar.",
+    useCases: {
+      heading: "Dónde suma en tu operación",
+      items: [
+        {
+          title: "Picos y fuera de horario",
+          description:
+            "El agente atiende cuando la demanda supera a tu equipo o cuando no hay operadores en turno.",
+        },
+        {
+          title: "Consultas repetitivas",
+          description:
+            "Las preguntas de siempre se responden al instante y tus operadores se concentran en los casos complejos.",
+        },
+        {
+          title: "Pase con contexto",
+          description:
+            "Cuando deriva, lo que la persona ya contó acompaña la llamada, según la integración con tu central. Nadie empieza de cero.",
+        },
+        {
+          title: "Un servicio por cliente",
+          description:
+            "Cada cliente de tu contact center tiene su propio agente, su información y sus reportes, separados de los demás.",
+        },
+      ],
+    },
+    process: {
+      heading: "Cómo se suma a tu servicio",
+      items: [
+        {
+          title: "Elegimos un servicio y sus consultas",
+          description:
+            "Empezamos por las llamadas más frecuentes de un cliente, con sus excepciones.",
+        },
+        {
+          title: "Conectamos la información del cliente",
+          description:
+            "Su CRM, sus bases de conocimiento o sus procedimientos, según lo que se acuerde en el proyecto.",
+        },
+        {
+          title: "Definimos el pase a operadores",
+          description:
+            "Cuándo deriva, a qué cola y qué contexto viaja con la llamada, según tu central telefónica.",
+        },
+        {
+          title: "Medimos y ajustamos",
+          description:
+            "Revisamos las llamadas, los motivos de derivación y la información que hay que corregir.",
+        },
+      ],
+    },
+    sections: [
+      {
+        heading: "Diseñar el recorrido completo de atención",
+        paragraphs: [
+          "Automatizar el inicio de una llamada es sólo una parte del trabajo. También hay que definir qué ocurre si la consulta requiere una excepción, si la información no alcanza o si la persona necesita hablar con un operador.",
+          "La operación establece responsabilidades: qué atiende la IA, qué resuelve el equipo humano y qué contexto necesita cada uno. MEHI permite trabajar sobre ese recorrido y revisar las llamadas que muestran dónde se interrumpe.",
+        ],
+      },
+      {
+        heading: "La misma información para la IA y para tus operadores",
+        paragraphs: [
+          "Una respuesta puede ser incorrecta aunque el agente converse bien, si usa un procedimiento desactualizado. Por eso conviene gobernar el contenido que alimenta la atención: responsables, revisiones, versiones y reglas de publicación.",
+          "MEHI incluye herramientas para que tus operadores trabajen con la misma información que usa el agente. Las capacidades concretas y el contexto disponible en cada pase se validan con los sistemas y la telefonía del proyecto.",
+        ],
+      },
+      {
+        heading: "Los datos de tus clientes siguen siendo de tus clientes",
+        paragraphs: [
+          "La información de cada cliente se usa sólo para su servicio y queda separada de la de los demás. Las condiciones de confidencialidad y de tratamiento de datos se acuerdan en cada proyecto.",
+        ],
+      },
+      {
+        heading: "Qué mirar al evaluar resultados",
+        paragraphs: [
+          "El resultado se define según la consulta. Una derivación correcta puede ser el resultado esperado; cerrar una llamada sin resolver no se cuenta automáticamente como éxito. La revisión combina indicadores con evidencia de casos.",
+        ],
+        bullets: [
+          "Corrección de la información entregada.",
+          "Cumplimiento del recorrido previsto para cada necesidad.",
+          "Motivos de derivación y continuidad de la atención.",
+          "Casos que requieren corregir contenido o instrucciones.",
+          "Efecto de los cambios, con una medición comparable antes y después.",
+        ],
+      },
+      {
+        heading: "Una evaluación vinculada a tu operación",
+        paragraphs: [
+          "Para evaluar MEHI conviene traer un servicio concreto, sus preguntas frecuentes, las excepciones y el recorrido actual hacia un operador. Con esa base se acuerda un alcance verificable y se revisan las integraciones necesarias.",
+          "No publicamos porcentajes universales de ahorro o resolución: los resultados dependen del servicio, de la información disponible y de la implementación.",
+        ],
+      },
+    ],
+  },
+  {
     id: "agentes-de-voz-ia",
     slug: "agentes-de-voz-ia",
-    label: "Agentes de voz IA",
-    title: "Agentes de voz con IA para empresas",
+    kind: "audience",
+    label: "Empresas",
+    eyebrow: "Empresas",
+    title: "Agentes de voz con IA para empresas: dale voz a tu CRM",
     description:
-      "Atención telefónica con agentes de voz IA, conocimiento validado y derivación humana. Conocé el enfoque de MEHI para operaciones empresariales.",
+      "Un agente de voz con IA que atiende a tus clientes con la información de tu CRM y de tu operación, responde sus consultas y deriva a tu equipo cuando hace falta.",
+    summary:
+      "Atendé a tus clientes con la información de tu CRM y de tu operación, sin cambiar tus sistemas.",
     introduction:
-      "Los agentes de voz con IA de MEHI permiten atender consultas mediante conversaciones guiadas por las reglas y el conocimiento de una organización. La atención automatizada se combina con supervisión y derivación humana cuando el caso lo requiere.",
+      "Tu CRM ya sabe todo sobre tus clientes. MEHI le pone voz: un agente con IA que atiende llamadas, consulta la información de tu operación y responde, o pasa la llamada a tu equipo cuando hace falta. No tenés que cambiar tus sistemas.",
+    useCases: {
+      heading: "Qué puede hacer por tus clientes",
+      items: [
+        {
+          title: "Estado de un pedido o un caso",
+          description:
+            "Consulta tu CRM y le cuenta a la persona en qué está su pedido, su reclamo o su turno.",
+        },
+        {
+          title: "Preguntas frecuentes",
+          description:
+            "Precios, condiciones, horarios y procedimientos, con la información que tu empresa aprobó.",
+        },
+        {
+          title: "Registro de pedidos",
+          description:
+            "Toma los datos de un reclamo, una solicitud o un turno y los deja cargados donde tu equipo los necesita, según la integración.",
+        },
+        {
+          title: "Derivación a tu equipo",
+          description:
+            "Pasa a una persona los casos que lo necesitan, con lo que el cliente ya contó.",
+        },
+      ],
+    },
+    process: {
+      heading: "Cómo lo ponemos en marcha",
+      items: [
+        {
+          title: "Elegimos las llamadas",
+          description:
+            "Las consultas más frecuentes de tus clientes y las que hoy más le cuestan a tu equipo.",
+        },
+        {
+          title: "Conectamos tu información",
+          description:
+            "Tu CRM, tus bases de conocimiento o tus procedimientos: lo que ya usás, según las integraciones posibles.",
+        },
+        {
+          title: "Probamos con tus casos",
+          description:
+            "Escenarios preparados con tus consultas reales, para ver cómo responde antes de atender a tus clientes.",
+        },
+        {
+          title: "Lanzamos y medimos",
+          description:
+            "Conectamos tu línea y revisamos cada llamada para mejorar la información y las reglas.",
+        },
+      ],
+    },
     sections: [
       {
         heading: "Cómo funciona una llamada con IA",
         paragraphs: [
-          "La persona expresa su necesidad por teléfono. El agente identifica la intención, utiliza el contenido preparado para ese proceso y sigue el recorrido configurado. Puede informar, orientar o derivar, según las capacidades habilitadas para la operación.",
-          "El alcance debe ser explícito: una respuesta informativa no equivale a completar una transacción en un sistema externo. Cuando hace falta ejecutar una gestión, esa acción depende de una integración y de reglas acordadas previamente.",
+          "La persona dice por teléfono qué necesita. El agente identifica la intención, usa la información preparada para ese proceso y sigue el recorrido configurado. Puede informar, orientar o derivar, según las capacidades habilitadas para tu operación.",
+          "El alcance tiene que ser explícito: una respuesta informativa no equivale a completar una transacción en un sistema externo. Cuando hace falta ejecutar una gestión, esa acción depende de una integración y de reglas acordadas previamente.",
         ],
       },
       {
         heading: "Más que una voz natural",
         paragraphs: [
-          "La calidad de un agente no se evalúa solamente por cómo suena. También debe comprender distintas formas de pedir lo mismo, manejar información incompleta y evitar respuestas sin respaldo. Una conversación fluida sirve cuando conduce al siguiente paso correcto.",
-          "MEHI conecta la configuración de la conversación con el seguimiento de llamadas y la revisión de resultados. Esto permite analizar casos concretos y distinguir un problema de conocimiento de uno de conversación o integración.",
+          "La calidad de un agente no se evalúa sólo por cómo suena. También tiene que comprender distintas formas de pedir lo mismo, manejar información incompleta y evitar respuestas sin respaldo. Una conversación fluida sirve cuando conduce al siguiente paso correcto.",
+          "MEHI conecta la configuración de la conversación con el seguimiento de llamadas y la revisión de resultados. Así se pueden analizar casos concretos y distinguir un problema de información de uno de conversación o de integración.",
         ],
       },
       {
@@ -279,53 +565,7 @@ export const publicPages: PublicPage[] = [
         heading: "Telefonía, alcance y condiciones",
         paragraphs: [
           "La conexión con la telefonía se valida según la infraestructura de cada empresa. El volumen, los horarios de atención, las transferencias y las integraciones forman parte del diseño del proyecto, no de una promesa genérica del sitio.",
-          "En una demo se puede revisar el proceso que querés mejorar y definir qué debería demostrar el agente antes de avanzar.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "ia-para-contact-centers",
-    slug: "ia-para-contact-centers",
-    label: "Contact centers",
-    title: "IA para contact centers y equipos de atención al cliente",
-    description:
-      "MEHI conecta agentes de voz IA y operadores humanos para contact centers que necesitan contexto, conocimiento consistente y supervisión de la atención.",
-    introduction:
-      "MEHI ayuda a organizar la convivencia entre agentes de voz con IA y equipos humanos en un contact center. El foco está en atender con conocimiento consistente, definir cuándo derivar y conservar evidencia para supervisar la operación.",
-    sections: [
-      {
-        heading: "Diseñar el recorrido completo de atención",
-        paragraphs: [
-          "Automatizar el inicio de una llamada es solo una parte del trabajo. También hay que definir qué ocurre si la consulta requiere una excepción, si la información no alcanza o si la persona necesita hablar con un operador.",
-          "La operación debe establecer responsabilidades: qué atiende la IA, qué resuelve el equipo humano y qué contexto necesita cada uno. MEHI permite trabajar sobre ese recorrido y revisar las llamadas que muestran dónde se interrumpe.",
-        ],
-      },
-      {
-        heading: "Conocimiento compartido entre IA y personas",
-        paragraphs: [
-          "Una respuesta puede ser incorrecta aunque el agente converse bien si usa un procedimiento desactualizado. Por eso conviene gobernar el contenido que alimenta la atención: responsables, revisiones, versiones y reglas de publicación.",
-          "MEHI se complementa con KORENUS para conectar conocimiento institucional y gestión humana. Las capacidades concretas y el contexto disponible en cada transferencia se validan con los sistemas y la telefonía del proyecto.",
-        ],
-      },
-      {
-        heading: "Qué mirar al evaluar resultados",
-        paragraphs: [
-          "El resultado necesita definirse según la consulta. Una derivación correcta puede ser el resultado esperado; cerrar una llamada sin resolver no debe contarse automáticamente como éxito. La revisión debe combinar indicadores con evidencia de casos.",
-        ],
-        bullets: [
-          "Corrección de la información entregada.",
-          "Cumplimiento del recorrido previsto para cada necesidad.",
-          "Motivos de derivación y continuidad de la atención.",
-          "Casos que requieren corregir contenido o instrucciones.",
-          "Efecto de los cambios, con una medición comparable antes y después.",
-        ],
-      },
-      {
-        heading: "Una evaluación vinculada a tu operación",
-        paragraphs: [
-          "Para evaluar MEHI conviene traer un proceso concreto, sus preguntas frecuentes, las excepciones y el recorrido actual hacia un operador. Con esa base se puede acordar un alcance verificable y revisar las integraciones necesarias.",
-          "No se publican porcentajes universales de ahorro o resolución: los resultados dependen del proceso, del conocimiento disponible y de la implementación.",
+          "En una demo revisamos el proceso que querés mejorar y definimos qué debería demostrar el agente antes de avanzar.",
         ],
       },
     ],
@@ -333,12 +573,13 @@ export const publicPages: PublicPage[] = [
   {
     id: "gestion-del-conocimiento",
     slug: "gestion-del-conocimiento",
+    kind: "resource",
     label: "Gestión del conocimiento",
     title: "Conocimiento institucional para agentes de IA y atención humana",
     description:
-      "Conectá la atención con información revisada y versionada. Conocé cómo MEHI y KORENUS vinculan conocimiento institucional, IA y equipos humanos.",
+      "Conectá la atención con información revisada y versionada. Cómo MEHI vincula el conocimiento institucional con la IA y con los equipos humanos.",
     introduction:
-      "El conocimiento institucional es la información que una organización valida para responder y actuar: procedimientos, requisitos, reglas y excepciones. MEHI utiliza ese conocimiento en la conversación; KORENUS acompaña su gestión y el trabajo humano.",
+      "El conocimiento institucional es la información que una organización valida para responder y actuar: procedimientos, requisitos, reglas y excepciones. MEHI lo usa en cada conversación, y KORENUS, la herramienta de MEHI para los equipos humanos, ayuda a mantenerlo revisado y al día.",
     sections: [
       {
         heading: "Por qué cargar documentos no alcanza",
@@ -378,6 +619,7 @@ export const publicPages: PublicPage[] = [
   {
     id: "como-elegir-ia-para-atencion-al-cliente",
     slug: "como-elegir-ia-para-atencion-al-cliente",
+    kind: "resource",
     label: "Guía para evaluar IA",
     title: "Cómo elegir una plataforma de IA para atención al cliente",
     description:
@@ -430,13 +672,14 @@ export const publicPages: PublicPage[] = [
   {
     id: "como-evaluar-ia-para-atencion-ciudadana",
     slug: "como-evaluar-ia-para-atencion-ciudadana",
+    kind: "resource",
     label: "Guía para organismos públicos",
     audience: "government",
     title: "Cómo evaluar IA para atención ciudadana en un organismo público",
     description:
-      "Guía de GIV para evaluar MEHI: alcance, conocimiento institucional, intervención humana, integraciones y evidencia de una prueba de atención ciudadana.",
+      "Guía para evaluar agentes de voz con IA en un organismo: alcance, conocimiento institucional, intervención humana, integraciones y evidencia de una prueba.",
     introduction:
-      "Evaluar agentes de voz con IA para un organismo público requiere acordar responsabilidades y observar el recorrido completo de atención. Esta guía propone preguntas para una evaluación técnica y operativa de MEHI, la plataforma de GIV.",
+      "Evaluar agentes de voz con IA para un organismo público requiere acordar responsabilidades y observar el recorrido completo de atención. Esta guía propone preguntas para una evaluación técnica y operativa de MEHI.",
     sections: [
       {
         heading: "Definir qué se quiere resolver y qué queda afuera",
@@ -490,9 +733,9 @@ export const publicPages: PublicPage[] = [
         ],
       },
       {
-        heading: "Convertir la evaluación en un alcance concreto con GIV",
+        heading: "Convertir la evaluación en un alcance concreto",
         paragraphs: [
-          "La propuesta debe identificar MEHI como plataforma y GIV como empresa oferente, junto con las integraciones, responsabilidades, soporte y condiciones comerciales del proyecto. El organismo conserva sus propios procesos de evaluación y contratación.",
+          "La propuesta debe identificar la plataforma y la empresa que la ofrece, junto con las integraciones, responsabilidades, soporte y condiciones comerciales del proyecto. El organismo conserva sus propios procesos de evaluación y contratación.",
           "Esta guía orienta una evaluación técnica y operativa. No acredita certificaciones, no garantiza resultados ni reemplaza la revisión de las condiciones que correspondan a cada organismo.",
         ],
       },

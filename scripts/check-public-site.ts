@@ -96,6 +96,16 @@ export function verifyHtml(
   return css;
 }
 
+/** Texto del pie «MEHI es la plataforma de GIV.» (con GIV enlazado), sin etiquetas. */
+export function visibleRelationship(html: string): string | undefined {
+  const inner = /<p\b[^>]*data-testid="company-relationship"[^>]*>([\s\S]*?)<\/p>/.exec(html)?.[1];
+  return inner
+    ?.replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&#x27;|&#39;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
 export function verifyCompanyIdentity(html: string) {
   // Nombre y sitio de la empresa son los mismos en todos los idiomas.
   const { company } = contentFor("es");
@@ -154,9 +164,10 @@ export async function checkPublicSite(base = "http://localhost:3000") {
     const html = await (await get(path)).text();
     for (const css of verifyHtml(html, canonical, languages)) cssPaths.add(css);
     verifyCompanyIdentity(html);
-    assert.ok(
-      html.includes(company.relationship),
-      "Falta la identidad visible de la empresa",
+    assert.equal(
+      visibleRelationship(html),
+      company.relationship,
+      "Falta la identidad visible de la empresa en el pie",
     );
     const page = publicPages.find((item) => path.endsWith(`/${item.slug}`));
     if (page)

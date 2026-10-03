@@ -16,55 +16,56 @@ export const company = {
 export const site = {
   name: "MEHI",
   url: "https://www.mehi.ar",
-  title: "MEHI | AI for governments and businesses · A GIV platform",
+  title: "MEHI | AI voice agents for businesses, contact centers and governments",
   description:
-    "MEHI, GIV's platform for citizen services and customer service: AI voice agents, institutional knowledge and human oversight.",
+    "Give your CRM and your organization's information a voice. MEHI answers calls with AI voice agents, responds with validated information and hands off to your team when needed.",
   introduction:
-    "MEHI is GIV's platform for managing citizen services and customer service with AI and human teams. It brings together voice agents, institutional knowledge and oversight for governments, public agencies, businesses and contact centers.",
-  hero: "MEHI is GIV's platform for managing citizen services with AI and human teams. It also supports customer service for businesses and contact centers, with institutional knowledge and oversight.",
+    "MEHI is an AI voice agent platform that gives your organization's information a voice: your CRM, your knowledge bases and your procedures. It answers calls, responds to inquiries and hands off to your team when needed, with oversight of every conversation. It works with governments, businesses and contact centers.",
+  hero: "MEHI connects your organization's information to a voice agent that answers calls, responds to inquiries and hands off to your team when needed. And it lets you see and review every conversation.",
+  heroNote:
+    "Works with your CRM, your knowledge bases or other systems, depending on each project's integrations.",
   features: [
-    "Voice agents powered by conversational artificial intelligence",
-    "Answers based on validated institutional knowledge",
-    "Handoff to human teams according to the operation's rules",
-    "Call tracking, reports and a traceable history of changes",
-    "Knowledge management and continuity with KORENUS",
+    "AI voice agents that answer calls in natural language",
+    "Answers based on information your organization validated",
+    "Lookups in your CRM or other systems, depending on the project's integrations",
+    "Handoff to your team with the context of the call",
+    "Logging, metrics and review of every conversation",
   ],
   faqs: [
     {
       question: "What is MEHI?",
       answer:
-        "MEHI is a platform that combines AI voice agents, institutional knowledge and human service. It is built for governments and businesses that need to handle inquiries with continuity, oversight and traceability. We say AI, the term our clients use; since September 2026, the U.S. federal government calls it super intelligence (SI).",
+        "An AI voice agent platform. It gives your organization's information a voice to answer calls, respond to inquiries and hand off to your team the cases that need a person. Every conversation is logged so it can be overseen and improved. We say AI, the term our clients use; since September 2026, the U.S. federal government calls it super intelligence (SI).",
     },
     {
-      question: "How are GIV and MEHI related?",
+      question: "Do I have to change my CRM or my systems?",
       answer:
-        "GIV is the company that offers MEHI. MEHI is the name of the platform. The scope of each project, its integrations and commercial terms are agreed with GIV.",
+        "No. MEHI works with the information and systems you already use. What gets connected and how (CRM, knowledge bases, management systems, telephony) is defined for each project based on the available interfaces, and validated before implementation.",
     },
     {
       question: "Which organizations is it for?",
       answer:
-        "Governments and public agencies that serve citizens, businesses with customer service teams, and contact centers. The scope is defined by the processes, the available knowledge and the systems each operation needs.",
+        "Governments and public agencies that serve citizens, businesses with customer service teams, and contact centers. The scope is defined by the calls they receive, the available information and each operation's systems.",
     },
     {
       question: "Does the AI replace human operators?",
       answer:
-        "MEHI lets you combine automated and human service. The AI can answer or hand off according to the configured rules; people keep oversight and handle the cases that require human intervention.",
+        "No. MEHI combines automated and human service. The AI answers or hands off according to the rules your organization sets; people keep oversight and handle the cases that require human intervention.",
     },
     {
       question: "Where does it get the information to answer?",
       answer:
-        "From institutional knowledge that is prepared, reviewed and published for the operation. KORENUS supports the management of that knowledge and the work of human teams. The agent is not left to improvise commercial policies or procedures.",
+        "From the information your organization prepares, reviews and approves: procedures, requirements, frequent questions and, if the project includes it, data from your systems. The agent does not improvise. If something is not confirmed, it says so and hands off. Your team has tools to keep that information up to date.",
     },
     {
-      question:
-        "Does it integrate with my organization's phone system and software?",
+      question: "How is information protected?",
       answer:
-        "Integrations are assessed based on the existing infrastructure, the available interfaces and the service flow. Compatibility and scope are validated before agreeing on an implementation; automatic connection with any system is not promised.",
+        "Each organization's information is used only for its own service and kept separate from everyone else's. It travels encrypted and access is by user and role. Security and infrastructure documentation is presented and reviewed with your technical team during the evaluation.",
     },
     {
       question: "How do I hire it and how much does it cost?",
       answer:
-        "The first step is to request a demo and describe your operation. Scope, integrations, evaluation criteria and commercial terms are agreed for each project. MEHI does not publish a one-size-fits-all price on this site.",
+        "We start with a conversation about your operation and a test with one of your cases. Scope, integrations and commercial terms are agreed for each project. We do not publish a one-size-fits-all price.",
     },
   ],
 } as const;
@@ -73,44 +74,100 @@ export const publicPages: PublicPage[] = [
   {
     id: "plataforma",
     slug: "platform",
-    label: "The platform",
-    title: "AI platform for citizen services and customer service",
+    kind: "solution",
+    label: "Solution",
+    eyebrow: "The solution",
+    title: "AI voice agents connected to your organization's information",
     description:
-      "Meet MEHI, GIV's platform that connects AI voice agents, human teams and institutional knowledge for governments and businesses.",
+      "What MEHI is, who it is for and how to hire it: AI voice agents that use your CRM and your validated information, with handoff to your team and oversight of every call.",
     introduction: site.introduction,
+    useCases: {
+      heading: "What MEHI does on every call",
+      items: [
+        {
+          title: "Answers",
+          description:
+            "Picks up in natural language, at any hour, and understands what the person needs even in their own words.",
+        },
+        {
+          title: "Responds",
+          description:
+            "Uses the information your organization validated and, if the project includes it, looks things up in your CRM or other systems.",
+        },
+        {
+          title: "Hands off",
+          description:
+            "When the case needs a person, it passes it to your team with the context of the call.",
+        },
+        {
+          title: "Shows you everything",
+          description:
+            "Every conversation is logged. You see what was answered, what was handed off and which information should be improved.",
+        },
+      ],
+    },
+    process: {
+      heading: "How we get started",
+      items: [
+        {
+          title: "We talk about your operation",
+          description:
+            "Which calls you receive, what information you answer with today and which systems you use.",
+        },
+        {
+          title: "We test it with one of your cases",
+          description:
+            "We set up a focused test with your inquiries, on scenarios prepared for the evaluation.",
+        },
+        {
+          title: "We implement and measure",
+          description:
+            "We connect the agreed telephony and systems, and review results with the evidence from the calls.",
+        },
+      ],
+    },
     sections: [
       {
-        heading: "What MEHI solves in a service operation",
+        heading: "Who it is for",
         paragraphs: [
-          "An inquiry can go through an automated conversation, a transfer and the intervention of an operator. When those stages work in isolation, the person has to repeat what they need and the organization loses context. MEHI connects service with the knowledge behind it and with the evidence needed to review it.",
-          "The platform lets you configure voice agents, follow calls and analyze results. The goal is for the organization to understand what was answered, when a handoff was needed and which information or rule needs improvement.",
+          "MEHI serves organizations that receive many similar calls, manage their own information to answer them and need a person to be able to step in when necessary.",
+        ],
+        bullets: [
+          "Governments and public agencies: guiding citizens on procedures and services.",
+          "Businesses: serving customers with the information in their CRM and operation.",
+          "Contact centers: voice agents that work alongside their operators, for each of their clients.",
         ],
       },
       {
-        heading: "Conversation, knowledge and oversight",
+        heading: "What the platform includes",
         paragraphs: [
-          "The agent converses based on instructions and knowledge prepared for the operation. Human involvement is defined by rules: what the AI can resolve, what it must check and when the conversation should be transferred.",
-          "KORENUS complements MEHI in managing institutional knowledge and supporting operators. Together, both products connect the conversation with knowledge records and case handling, depending on the scope implemented.",
+          "The agent converses based on instructions and information prepared for your operation. Rules define what it can resolve on its own, what it has to check and when it passes the call to a person.",
         ],
         bullets: [...site.features],
       },
       {
-        heading: "When it makes sense to evaluate it",
+        heading: "What MEHI does not do",
         paragraphs: [
-          "MEHI is worth evaluating when a team receives repeated inquiries, manages its own procedures or needs to oversee how AI and people work together. The decision does not depend only on call volume: the quality of the information, the exceptions and the ability to intervene also matter.",
-          "It is not a tool for consumers to delegate personal errands. It is a solution for organizations that define and oversee their own service.",
+          "It does not improvise answers or policies: if the information is not confirmed, it says so and hands off. It does not claim an action in another system if that integration was not agreed. And it does not replace your team's judgment in the cases that need it.",
+          "It is not a tool for people to delegate their personal errands. It is a solution for organizations that define and oversee their own service.",
         ],
       },
       {
-        heading: "What to agree on before implementing",
+        heading: "What we agree on before implementing",
         paragraphs: [
-          "The scope is built together with the organization: processes to cover, information sources, telephony, systems involved, owners and acceptance criteria. Integrations, implementation timelines and commercial terms require a specific assessment.",
+          "The scope is built with your organization: calls to cover, information sources, telephony, systems involved, owners and acceptance criteria.",
         ],
         bullets: [
           "Choose a concrete service need and its exceptions.",
-          "Identify who validates the knowledge and approves changes.",
-          "Define the agent's limits and the path to an operator.",
+          "Identify who validates the information and approves changes.",
+          "Define the agent's limits and the path to a person.",
           "Agree on the evidence that will be reviewed to assess the result.",
+        ],
+      },
+      {
+        heading: "How to hire it",
+        paragraphs: [
+          "Scope, integrations, evaluation criteria and commercial terms are agreed for each project. There is no single price: it depends on the calls handled, on what gets integrated and on the support your team needs.",
         ],
       },
     ],
@@ -118,30 +175,84 @@ export const publicPages: PublicPage[] = [
   {
     id: "ia-para-gobiernos",
     slug: "ai-for-government",
-    label: "Governments and public agencies",
+    kind: "audience",
+    label: "Government",
+    eyebrow: "Governments and public agencies",
     audience: "government",
     title: "AI voice agents for governments and public agencies",
     description:
-      "MEHI, GIV's platform for citizen services with AI, institutional knowledge and human teams. Assess the scope for your agency.",
+      "Give your agency's information a voice: an AI voice agent that guides citizens through inquiries and procedures, with validated information and handoff to your team.",
+    summary:
+      "Guide citizens through inquiries and procedures, at any hour, with information your agency validated.",
     introduction:
-      "MEHI is GIV's platform for managing citizen services with AI and human teams. It lets you configure voice agents, work with validated institutional knowledge and oversee conversations. The scope is defined with each agency.",
+      "MEHI gives your agency's information and services a voice. The agent guides citizens on procedures and services with the information the agency validated, and hands off to your team the cases that need a person. Every call is logged for oversight.",
+    useCases: {
+      heading: "What the agent can resolve",
+      items: [
+        {
+          title: "Guidance on procedures",
+          description:
+            "Requirements, steps, hours and where each procedure is done, explained in plain language.",
+        },
+        {
+          title: "Questions about each citizen's case",
+          description:
+            "If the project includes it, it identifies the person and checks the agency's systems to answer about their situation.",
+        },
+        {
+          title: "Complaints and requests",
+          description:
+            "It takes the request, records the necessary details and files it for the right area, depending on the agreed integration.",
+        },
+        {
+          title: "Handoff to the right area",
+          description:
+            "When the case needs a person, it passes it to the right team or department, with the context of the call.",
+        },
+      ],
+    },
+    process: {
+      heading: "How it is implemented in an agency",
+      items: [
+        {
+          title: "We choose the inquiries",
+          description:
+            "We start with a focused set of procedures and services, with their exceptions.",
+        },
+        {
+          title: "The agency validates the information",
+          description:
+            "Its officials review and approve what the agent will say. Nothing is used without that review.",
+        },
+        {
+          title: "We test with fictional scenarios",
+          description:
+            "The test uses no citizen data. It measures whether the agent answers well and recognizes its limits.",
+        },
+        {
+          title: "We launch and oversee",
+          description:
+            "The line is connected, calls are reviewed and the information is improved with evidence.",
+        },
+      ],
+    },
     sections: [
       {
         heading: "Citizen services with clear responsibilities",
         paragraphs: [
-          "A citizen inquiry may require guidance, a clarification or the intervention of a person. Before automating, the agency needs to define what the agent can answer, which information backs the answer and what path applies when a case falls outside the scope.",
+          "A citizen inquiry may require guidance, a clarification or the intervention of a person. Before automating, the agency defines what the agent can answer, which information backs the answer and what path applies when a case falls outside the scope.",
           "MEHI lets you work on those instructions and review conversations. Automation alone does not mean approving an application, resolving a case file or completing a transaction in another system: any action of that kind requires an agreed integration and scope.",
         ],
       },
       {
-        heading: "Institutional knowledge and human continuity",
+        heading: "Institutional information and human continuity",
         paragraphs: [
           "The agency defines the sources and rules it authorizes the agent to use. It is advisable to assign review owners, update criteria and a path for questions that have no confirmed answer.",
-          "The handoff to a human team is designed around the available telephony and systems. What context travels with the conversation, where it can be checked and what happens if a department does not respond should be verified while evaluating the project.",
+          "The handoff to a human team is designed around the available telephony and systems. What context travels with the conversation, where it can be checked and what happens if a department does not respond is verified while evaluating the project.",
         ],
         bullets: [
           "Informational inquiries within a defined scope.",
-          "Instructions and knowledge reviewed by the agency's owners.",
+          "Instructions and information reviewed by the agency's owners.",
           "Human intervention for exceptions and uncovered situations.",
           "Call tracking and review of answers and handoffs.",
         ],
@@ -149,15 +260,14 @@ export const publicPages: PublicPage[] = [
       {
         heading: "What to review in a demonstration",
         paragraphs: [
-          "A useful demonstration includes clear questions, different ways of expressing a need and inquiries that should not be resolved automatically. You can start with fictional information prepared for the evaluation, without using citizen data or client material.",
-          "The test should show whether the agent recognizes its limits and whether the human path works under the agreed conditions. An illustrative example helps explain the approach, but it does not replace a test of the platform and its integrations.",
+          "A useful demonstration includes clear questions, different ways of expressing a need and inquiries that should not be resolved automatically. You can start with fictional information prepared for the evaluation, without using citizen data.",
+          "The test should show whether the agent recognizes its limits and whether the path to a person works under the agreed conditions. An illustrative example helps explain the approach, but it does not replace a test of the platform and its integrations.",
         ],
       },
       {
-        heading: "GIV and MEHI in the project evaluation",
+        heading: "What is agreed with the agency",
         paragraphs: [
-          company.description,
-          "The first conversation covers the service need, the available sources, the telephony dependencies and the people responsible for the evaluation. Timelines, support and commercial terms are defined for the project; no universal results are announced.",
+          "The first conversation covers the service need, the available sources, the telephony and the people responsible for the evaluation. Timelines, support and terms are defined for the project. We do not announce universal results.",
         ],
       },
     ],
@@ -214,19 +324,179 @@ export const publicPages: PublicPage[] = [
     },
   },
   {
+    id: "ia-para-contact-centers",
+    slug: "ai-for-contact-centers",
+    kind: "audience",
+    label: "Contact centers",
+    eyebrow: "Contact centers",
+    title: "AI voice agents for contact centers, alongside your operators",
+    description:
+      "MEHI adds AI voice agents to your contact center: they handle frequent inquiries with each client's information and pass to your operators the cases that need them.",
+    summary:
+      "Add voice agents to your service and leave your operators the cases that need them.",
+    introduction:
+      "MEHI gives the service you provide a voice. An AI voice agent handles frequent inquiries with each client's information and passes to your operators the cases that need them, with the context of the call. You oversee everything from one place.",
+    useCases: {
+      heading: "Where it adds value in your operation",
+      items: [
+        {
+          title: "Peaks and after hours",
+          description:
+            "The agent answers when demand exceeds your team or when no operators are on shift.",
+        },
+        {
+          title: "Repetitive inquiries",
+          description:
+            "The usual questions are answered instantly and your operators focus on complex cases.",
+        },
+        {
+          title: "Handoff with context",
+          description:
+            "When it hands off, what the person already said travels with the call, depending on the integration with your phone system. Nobody starts from scratch.",
+        },
+        {
+          title: "One service per client",
+          description:
+            "Each of your contact center's clients has its own agent, information and reports, kept separate from the others.",
+        },
+      ],
+    },
+    process: {
+      heading: "How it joins your service",
+      items: [
+        {
+          title: "We choose a service and its inquiries",
+          description:
+            "We start with a client's most frequent calls, with their exceptions.",
+        },
+        {
+          title: "We connect the client's information",
+          description:
+            "Their CRM, knowledge bases or procedures, as agreed in the project.",
+        },
+        {
+          title: "We define the handoff to operators",
+          description:
+            "When it hands off, to which queue and what context travels with the call, depending on your phone system.",
+        },
+        {
+          title: "We measure and adjust",
+          description:
+            "We review calls, handoff reasons and the information that needs correcting.",
+        },
+      ],
+    },
+    sections: [
+      {
+        heading: "Design the complete service journey",
+        paragraphs: [
+          "Automating the start of a call is only part of the job. You also need to define what happens if the inquiry requires an exception, if the information falls short or if the caller needs to speak with an operator.",
+          "The operation sets responsibilities: what the AI handles, what the human team resolves and what context each one needs. MEHI lets you work on that journey and review the calls that show where it breaks down.",
+        ],
+      },
+      {
+        heading: "The same information for the AI and your operators",
+        paragraphs: [
+          "An answer can be wrong even if the agent converses well, if it relies on an outdated procedure. That is why it pays to govern the content that feeds the service: owners, reviews, versions and publishing rules.",
+          "MEHI includes tools so your operators work with the same information the agent uses. The specific capabilities and the context available at each handoff are validated against the project's systems and telephony.",
+        ],
+      },
+      {
+        heading: "Your clients' data stays your clients' data",
+        paragraphs: [
+          "Each client's information is used only for its own service and kept separate from the others. Confidentiality and data handling terms are agreed in each project.",
+        ],
+      },
+      {
+        heading: "What to look at when evaluating results",
+        paragraphs: [
+          "The outcome is defined for each type of inquiry. A correct handoff can be the expected result; closing a call without resolving it does not automatically count as a success. The review combines indicators with evidence from real cases.",
+        ],
+        bullets: [
+          "Accuracy of the information provided.",
+          "Adherence to the expected path for each need.",
+          "Handoff reasons and continuity of service.",
+          "Cases that require correcting content or instructions.",
+          "Impact of changes, with a comparable before-and-after measurement.",
+        ],
+      },
+      {
+        heading: "An evaluation tied to your operation",
+        paragraphs: [
+          "To evaluate MEHI, bring a concrete service, its frequent questions, its exceptions and the current path to an operator. On that basis we agree on a verifiable scope and review the integrations required.",
+          "We do not publish universal savings or resolution percentages: results depend on the service, the available information and the implementation.",
+        ],
+      },
+    ],
+  },
+  {
     id: "agentes-de-voz-ia",
     slug: "ai-voice-agents",
-    label: "AI voice agents",
-    title: "AI voice agents for businesses",
+    kind: "audience",
+    label: "Businesses",
+    eyebrow: "Businesses",
+    title: "AI voice agents for businesses: give your CRM a voice",
     description:
-      "Phone service with AI voice agents, validated knowledge and human handoff. Learn MEHI's approach for business operations.",
+      "An AI voice agent that serves your customers with the information in your CRM and your operation, answers their questions and hands off to your team when needed.",
+    summary:
+      "Serve your customers with the information in your CRM and your operation, without changing your systems.",
     introduction:
-      "MEHI's AI voice agents handle inquiries through conversations guided by an organization's rules and knowledge. Automated service is combined with oversight and human handoff when the case requires it.",
+      "Your CRM already knows everything about your customers. MEHI gives it a voice: an AI agent that answers calls, looks up your operation's information and responds, or passes the call to your team when needed. You don't have to change your systems.",
+    useCases: {
+      heading: "What it can do for your customers",
+      items: [
+        {
+          title: "Status of an order or a case",
+          description:
+            "It checks your CRM and tells the person where their order, complaint or appointment stands.",
+        },
+        {
+          title: "Frequent questions",
+          description:
+            "Prices, terms, hours and procedures, with the information your company approved.",
+        },
+        {
+          title: "Taking requests",
+          description:
+            "It takes the details of a complaint, a request or an appointment and files them where your team needs them, depending on the integration.",
+        },
+        {
+          title: "Handoff to your team",
+          description:
+            "It passes the cases that need a person, with what the customer already said.",
+        },
+      ],
+    },
+    process: {
+      heading: "How we get it running",
+      items: [
+        {
+          title: "We choose the calls",
+          description:
+            "Your customers' most frequent inquiries and the ones that cost your team the most today.",
+        },
+        {
+          title: "We connect your information",
+          description:
+            "Your CRM, knowledge bases or procedures: what you already use, depending on the possible integrations.",
+        },
+        {
+          title: "We test with your cases",
+          description:
+            "Scenarios prepared with your real inquiries, to see how it answers before it serves your customers.",
+        },
+        {
+          title: "We launch and measure",
+          description:
+            "We connect your line and review every call to improve the information and the rules.",
+        },
+      ],
+    },
     sections: [
       {
         heading: "How an AI call works",
         paragraphs: [
-          "The caller explains what they need over the phone. The agent identifies the intent, uses the content prepared for that process and follows the configured path. It can inform, guide or hand off, depending on the capabilities enabled for the operation.",
+          "The caller explains what they need over the phone. The agent identifies the intent, uses the information prepared for that process and follows the configured path. It can inform, guide or hand off, depending on the capabilities enabled for your operation.",
           "The scope must be explicit: an informational answer is not the same as completing a transaction in an external system. When an action needs to be carried out, it depends on an integration and on rules agreed in advance.",
         ],
       },
@@ -234,7 +504,7 @@ export const publicPages: PublicPage[] = [
         heading: "More than a natural voice",
         paragraphs: [
           "An agent's quality is not judged only by how it sounds. It must also understand different ways of asking for the same thing, handle incomplete information and avoid unsupported answers. A fluent conversation is useful when it leads to the right next step.",
-          "MEHI connects the conversation setup with call tracking and the review of results. This makes it possible to analyze specific cases and tell a knowledge problem apart from a conversation or integration problem.",
+          "MEHI connects the conversation setup with call tracking and the review of results. This makes it possible to analyze specific cases and tell an information problem apart from a conversation or integration problem.",
         ],
       },
       {
@@ -254,53 +524,7 @@ export const publicPages: PublicPage[] = [
         heading: "Telephony, scope and terms",
         paragraphs: [
           "The telephony connection is validated against each company's infrastructure. Volume, service hours, transfers and integrations are part of the project design, not a generic promise on this site.",
-          "In a demo we can review the process you want to improve and define what the agent should demonstrate before moving forward.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "ia-para-contact-centers",
-    slug: "ai-for-contact-centers",
-    label: "Contact centers",
-    title: "AI for contact centers and customer service teams",
-    description:
-      "MEHI connects AI voice agents and human operators for contact centers that need context, consistent knowledge and service oversight.",
-    introduction:
-      "MEHI helps organize how AI voice agents and human teams work together in a contact center. The focus is on serving with consistent knowledge, defining when to hand off and keeping evidence to oversee the operation.",
-    sections: [
-      {
-        heading: "Design the complete service journey",
-        paragraphs: [
-          "Automating the start of a call is only part of the job. You also need to define what happens if the inquiry requires an exception, if the information falls short or if the caller needs to speak with an operator.",
-          "The operation must set responsibilities: what the AI handles, what the human team resolves and what context each one needs. MEHI lets you work on that journey and review the calls that show where it breaks down.",
-        ],
-      },
-      {
-        heading: "Knowledge shared between AI and people",
-        paragraphs: [
-          "An answer can be wrong even if the agent converses well, if it relies on an outdated procedure. That is why it pays to govern the content that feeds the service: owners, reviews, versions and publishing rules.",
-          "MEHI is complemented by KORENUS to connect institutional knowledge and human case handling. The specific capabilities and the context available at each transfer are validated against the project's systems and telephony.",
-        ],
-      },
-      {
-        heading: "What to look at when evaluating results",
-        paragraphs: [
-          "The outcome has to be defined for each type of inquiry. A correct handoff can be the expected result; closing a call without resolving it should not automatically count as a success. The review should combine indicators with evidence from real cases.",
-        ],
-        bullets: [
-          "Accuracy of the information provided.",
-          "Adherence to the expected path for each need.",
-          "Handoff reasons and continuity of service.",
-          "Cases that require correcting content or instructions.",
-          "Impact of changes, with a comparable before-and-after measurement.",
-        ],
-      },
-      {
-        heading: "An evaluation tied to your operation",
-        paragraphs: [
-          "To evaluate MEHI, bring a concrete process, its frequent questions, its exceptions and the current path to an operator. On that basis we can agree on a verifiable scope and review the integrations required.",
-          "We do not publish universal savings or resolution percentages: results depend on the process, the available knowledge and the implementation.",
+          "In a demo we review the process you want to improve and define what the agent should demonstrate before moving forward.",
         ],
       },
     ],
@@ -308,12 +532,13 @@ export const publicPages: PublicPage[] = [
   {
     id: "gestion-del-conocimiento",
     slug: "knowledge-management",
+    kind: "resource",
     label: "Knowledge management",
     title: "Institutional knowledge for AI agents and human service",
     description:
-      "Connect your service with reviewed, versioned information. Learn how MEHI and KORENUS link institutional knowledge, AI and human teams.",
+      "Connect your service with reviewed, versioned information. How MEHI links institutional knowledge with AI and with human teams.",
     introduction:
-      "Institutional knowledge is the information an organization validates in order to answer and act: procedures, requirements, rules and exceptions. MEHI uses that knowledge in the conversation; KORENUS supports its management and the work of people.",
+      "Institutional knowledge is the information an organization validates in order to answer and act: procedures, requirements, rules and exceptions. MEHI uses it in every conversation, and KORENUS, MEHI's tool for human teams, helps keep it reviewed and up to date.",
     sections: [
       {
         heading: "Why uploading documents is not enough",
@@ -353,6 +578,7 @@ export const publicPages: PublicPage[] = [
   {
     id: "como-elegir-ia-para-atencion-al-cliente",
     slug: "how-to-choose-ai-for-customer-service",
+    kind: "resource",
     label: "Guide to evaluating AI",
     title: "How to choose an AI platform for customer service",
     description:
@@ -405,13 +631,14 @@ export const publicPages: PublicPage[] = [
   {
     id: "como-evaluar-ia-para-atencion-ciudadana",
     slug: "how-to-evaluate-ai-for-citizen-services",
+    kind: "resource",
     label: "Guide for public agencies",
     audience: "government",
     title: "How to evaluate AI for citizen services in a public agency",
     description:
-      "GIV's guide to evaluating MEHI: scope, institutional knowledge, human intervention, integrations and evidence from a citizen services test.",
+      "A guide to evaluating AI voice agents in a public agency: scope, institutional knowledge, human intervention, integrations and evidence from a test.",
     introduction:
-      "Evaluating AI voice agents for a public agency requires agreeing on responsibilities and observing the complete service journey. This guide offers questions for a technical and operational evaluation of MEHI, GIV's platform.",
+      "Evaluating AI voice agents for a public agency requires agreeing on responsibilities and observing the complete service journey. This guide offers questions for a technical and operational evaluation of MEHI.",
     sections: [
       {
         heading: "Define what you want to solve and what is out of scope",
@@ -465,9 +692,9 @@ export const publicPages: PublicPage[] = [
         ],
       },
       {
-        heading: "Turn the evaluation into a concrete scope with GIV",
+        heading: "Turn the evaluation into a concrete scope",
         paragraphs: [
-          "The proposal should identify MEHI as the platform and GIV as the offering company, together with the project's integrations, responsibilities, support and commercial terms. The agency keeps its own evaluation and procurement processes.",
+          "The proposal should identify the platform and the company that offers it, together with the project's integrations, responsibilities, support and commercial terms. The agency keeps its own evaluation and procurement processes.",
           "This guide supports a technical and operational evaluation. It does not certify anything, does not guarantee results and does not replace the review of the conditions that apply to each agency.",
         ],
       },

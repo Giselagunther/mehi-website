@@ -8,6 +8,7 @@ import {
 } from "../app/content.ts";
 import * as en from "../app/content-en.ts";
 import { existsSync, readFileSync } from "node:fs";
+import { visibleRelationship } from "../scripts/check-public-site.ts";
 import {
   allPublicUrls as publicUrls,
   homeVideo,
@@ -77,6 +78,12 @@ test("la lectura de IA incluye el contenido real de cada página, sin otra versi
   for (const page of publicPages) {
     assert.ok(index.includes(`${site.url}/${page.slug}`));
     assert.ok(full.includes(page.introduction));
+    for (const block of [page.useCases, page.process]) {
+      if (!block) continue;
+      assert.ok(full.includes(block.heading));
+      for (const item of block.items)
+        assert.ok(full.includes(`- ${item.title}: ${item.description}`));
+    }
     for (const section of page.sections) {
       assert.ok(full.includes(section.heading));
       for (const text of [...section.paragraphs, ...(section.bullets ?? [])])
@@ -231,6 +238,10 @@ test("cada página tiene su versión en inglés y las dos se declaran mutuamente
       assert.equal(section.bullets?.length, spanish.bullets?.length, section.heading);
     });
     assert.equal(Boolean(english.example), Boolean(page.example), page.id);
+    assert.equal(english.kind, page.kind, page.id);
+    assert.equal(Boolean(english.summary), Boolean(page.summary), page.id);
+    assert.equal(english.useCases?.items.length, page.useCases?.items.length, page.id);
+    assert.equal(english.process?.items.length, page.process?.items.length, page.id);
     assert.equal(translatedPath(page, "en"), `/en/${english.slug}`);
     assert.equal(translatedPath(english, "es"), `/${page.slug}`);
     assert.equal(
@@ -290,4 +301,48 @@ test("el video de cada idioma existe en public/ y su ficha apunta a esos archivo
   assert.equal(homeVideo.es.poster, "/video/mehi-agente-de-voz.jpg");
   const home = readFileSync(new URL("../app/components/MarketingHome.tsx", import.meta.url), "utf8");
   assert.ok(home.includes('id="como-funciona"'), "Se perdió el ancla #como-funciona");
+});
+
+// Recomendación comercial (oct-2026): el visitante conoce MEHI. GIV va sólo en el
+// pie y en los datos estructurados; KORENUS se nombra sólo donde se lo explica.
+test("GIV no aparece fuera del pie y KORENUS sólo en la página que lo explica", () => {
+  for (const content of [{ site, publicPages }, { site: en.site, publicPages: en.publicPages }]) {
+    const visible = (value: unknown): string[] =>
+      typeof value === "string"
+        ? [value]
+        : Array.isArray(value)
+          ? value.flatMap(visible)
+          : value && typeof value === "object"
+            ? Object.values(value).flatMap(visible)
+            : [];
+    const siteText = visible(content.site);
+    assert.deepEqual(siteText.filter((text) => /\bGIV\b|KORENUS/.test(text)), []);
+    for (const page of content.publicPages) {
+      const { id: _id, slug: _slug, ...rest } = page;
+      const texts = visible(rest);
+      assert.deepEqual(texts.filter((text) => /\bGIV\b/.test(text)), [], page.id);
+      if (page.id !== "gestion-del-conocimiento")
+        assert.deepEqual(texts.filter((text) => /KORENUS/.test(text)), [], page.id);
+    }
+  }
+});
+
+test("el menú es la solución y una página por tipo de cliente, cada una con su entrada", () => {
+  for (const pages of [publicPages, en.publicPages]) {
+    assert.deepEqual(
+      pages.filter((page) => page.kind !== "resource").map((page) => page.id),
+      ["plataforma", "ia-para-gobiernos", "ia-para-contact-centers", "agentes-de-voz-ia"],
+    );
+    for (const page of pages.filter((item) => item.kind === "audience")) {
+      assert.ok(page.summary, `${page.id}: falta la frase de la portada`);
+      assert.ok(page.useCases && page.useCases.items.length >= 3, page.id);
+      assert.ok(page.process && page.process.items.length >= 3, page.id);
+    }
+  }
+});
+
+test("el pie muestra «MEHI es la plataforma de GIV» con GIV enlazado", () => {
+  const html = `<p class="x" data-testid="company-relationship">MEHI is <!-- -->GIV<a href="${company.url}">GIV</a>&#x27;s</p>`;
+  assert.equal(visibleRelationship(html), "MEHI is GIVGIV's");
+  assert.equal(visibleRelationship("<p>nada</p>"), undefined);
 });

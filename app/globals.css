@@ -28,3 +28,19 @@
     }
   }
 }
+
+/* Aparición suave al bajar (ver components/Reveal.tsx). Sólo actúa con JS listo. */
+[data-reveal-ready] [data-reveal] {
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+[data-reveal-ready] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal-ready] [data-reveal] {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
