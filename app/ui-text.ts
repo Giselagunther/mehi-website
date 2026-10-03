@@ -8,6 +8,7 @@ export type Locale = "es" | "en";
 export const ui = {
   es: {
     skipToContent: "Ir al contenido",
+    shareImageAlt: "MEHI. Dale voz a tu CRM. Agentes de voz con IA.",
     homeAria: "MEHI, ir al inicio",
     mainNav: "Navegación principal",
     mobileNav: "Navegación mobile",
@@ -25,7 +26,7 @@ export const ui = {
     requestADemo: "Solicitar una demo",
     switchLanguage: { label: "English", short: "EN", aria: "View this page in English" },
     hero: {
-      eyebrow: "Agentes de voz con IA",
+      eyebrow: "Agentes de voz con IA para gobiernos y empresas",
       titleTop: "Dale voz a tu CRM.",
       titleBottom: "Y a todo lo que tu organización sabe.",
       talkNow: "Hablá con MEHI ahora",
@@ -52,11 +53,19 @@ export const ui = {
         "Las 24 horas, en español.",
       ],
     },
+    benefits: {
+      aria: "Beneficios principales",
+      items: [
+        { title: "Atiende a toda hora", description: "De noche, el fin de semana y en los picos de llamadas." },
+        { title: "Libera a tu equipo", description: "Las consultas de siempre las resuelve el agente. Las personas, los casos que las necesitan." },
+        { title: "Respuestas consistentes", description: "La misma información en cada llamada, sin depender de quién atienda." },
+        { title: "Nadie empieza de cero", description: "Cuando deriva, tu equipo recibe lo que la persona ya contó." },
+      ],
+    },
     solutions: { learnMore: "Conocer más" },
     audiences: {
       eyebrow: "Para cada organización",
       title: "Elegí por dónde empezar.",
-      learnMore: "Ver cómo funciona para vos",
     },
     how: {
       eyebrow: "Cómo funciona",
@@ -91,6 +100,10 @@ export const ui = {
     faq: {
       eyebrow: "Antes de una demo",
       title: "Preguntas frecuentes",
+      asideTitle: "¿Te quedó otra duda?",
+      asideBodyDemo: "Preguntásela a MEHI: es la misma IA que atiende llamadas, y te responde ahora.",
+      asideBody: "Escribinos y te respondemos con tu caso concreto.",
+      asideCta: "Escribinos",
     },
     resources: {
       eyebrow: "Guías y recursos",
@@ -147,6 +160,12 @@ export const ui = {
       disclaimer:
         "Es una línea de demostración, no una línea de atención real. La conversación queda registrada para poder responderte.",
       contactMe: "Quiero que me contacten",
+      suggestionsTitle: "Probá decirle, por ejemplo:",
+      suggestions: [
+        { say: "Tengo un consultorio y quiero dar turnos por teléfono." },
+        { say: "En el municipio recibimos muchos reclamos de vecinos." },
+        { say: "¿Cómo se contrata?" },
+      ],
     },
     notFound: {
       title: "Página no encontrada",
@@ -157,6 +176,7 @@ export const ui = {
   },
   en: {
     skipToContent: "Skip to content",
+    shareImageAlt: "MEHI. Give your CRM a voice. AI voice agents.",
     homeAria: "MEHI, go to home page",
     mainNav: "Main navigation",
     mobileNav: "Mobile navigation",
@@ -174,7 +194,7 @@ export const ui = {
     requestADemo: "Request a demo",
     switchLanguage: { label: "Español", short: "ES", aria: "Ver esta página en español" },
     hero: {
-      eyebrow: "AI voice agents",
+      eyebrow: "AI voice agents for governments and businesses",
       titleTop: "Give your CRM a voice.",
       titleBottom: "And everything your organization knows.",
       talkNow: "Talk to MEHI now",
@@ -201,11 +221,19 @@ export const ui = {
         "Available 24/7. The demo line currently speaks Spanish only.",
       ],
     },
+    benefits: {
+      aria: "Key benefits",
+      items: [
+        { title: "Answers around the clock", description: "At night, on weekends and during call peaks." },
+        { title: "Frees up your team", description: "The agent handles the usual questions. People take the cases that need them." },
+        { title: "Consistent answers", description: "The same information on every call, no matter who picks up." },
+        { title: "Nobody starts from scratch", description: "When it hands off, your team gets what the person already said." },
+      ],
+    },
     solutions: { learnMore: "Learn more" },
     audiences: {
       eyebrow: "For every organization",
       title: "Choose where to start.",
-      learnMore: "See how it works for you",
     },
     how: {
       eyebrow: "How it works",
@@ -240,6 +268,10 @@ export const ui = {
     faq: {
       eyebrow: "Before a demo",
       title: "Frequently asked questions",
+      asideTitle: "Still have a question?",
+      asideBodyDemo: "Ask MEHI: it is the same AI that answers calls, and it replies right now (in Spanish).",
+      asideBody: "Write to us and we will answer with your specific case.",
+      asideCta: "Write to us",
     },
     resources: {
       eyebrow: "Guides and resources",
@@ -295,6 +327,12 @@ export const ui = {
       disclaimer:
         "This is a demonstration line, not a real service line. The conversation is recorded so we can get back to you.",
       contactMe: "Contact me",
+      suggestionsTitle: "The line speaks Spanish. Try saying, for example:",
+      suggestions: [
+        { say: "Tengo un consultorio y quiero dar turnos por teléfono.", gloss: "I run a clinic and want to book appointments by phone." },
+        { say: "En el municipio recibimos muchos reclamos de vecinos.", gloss: "Our municipality gets many complaints from residents." },
+        { say: "¿Cómo se contrata?", gloss: "How do I hire it?" },
+      ],
     },
     notFound: {
       title: "Page not found",

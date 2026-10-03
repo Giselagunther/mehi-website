@@ -1,14 +1,17 @@
 import {
   ArrowRight,
+  BarChart3,
   BookOpenCheck,
   CheckCircle2,
   ChevronRight,
+  Clock3,
+  Database,
+  ListChecks,
   PhoneCall,
   Route,
-  ScanSearch,
   ShieldCheck,
   UserRoundCheck,
-  Workflow,
+  UsersRound,
 } from "lucide-react";
 
 import { CallExample } from "./CallExample";
@@ -32,7 +35,8 @@ import {
 // información) → para quién → cómo funciona → probalo → control → cómo se
 // contrata → preguntas → recursos → contacto.
 
-const stepIcons = [Workflow, PhoneCall, ScanSearch];
+const stepIcons = [Database, PhoneCall, BarChart3];
+const benefitIcons = [Clock3, UsersRound, ListChecks, Route];
 const controlIcons = [BookOpenCheck, Route, UserRoundCheck];
 
 export function MarketingHome({ locale }: { locale: Locale }) {
@@ -60,9 +64,9 @@ export function MarketingHome({ locale }: { locale: Locale }) {
 
       <main id="contenido">
         <section id="inicio" className="scroll-mt-24 bg-mehi-neutral">
-          <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-10 lg:pb-24 lg:pt-24">
+          <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-10 lg:pb-16 lg:pt-24">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
+              <p className="text-balance text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
                 {t.hero.eyebrow}
               </p>
               <h1 className="mt-6 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-mehi-text sm:text-6xl lg:text-7xl">
@@ -99,6 +103,29 @@ export function MarketingHome({ locale }: { locale: Locale }) {
             </div>
 
             <CallExample locale={locale} />
+          </div>
+
+          <div className="mx-auto max-w-7xl px-5 pb-16 sm:px-8 sm:pb-20 lg:px-10">
+            <ul
+              aria-label={t.benefits.aria}
+              className="grid grid-cols-2 gap-px overflow-hidden rounded-md border border-mehi-border bg-mehi-border lg:grid-cols-4"
+            >
+              {t.benefits.items.map(({ title, description }, index) => {
+                const Icon = benefitIcons[index];
+                return (
+                  <li key={title} className="bg-white p-5 sm:p-6">
+                    <Icon className="h-5 w-5 text-mehi-slate" aria-hidden="true" />
+                    <p className="mt-3 font-semibold leading-snug text-mehi-text sm:mt-4">
+                      {title}
+                    </p>
+                    {/* En el celular alcanza el título: la explicación, desde pantallas medianas. */}
+                    <p className="mt-2 hidden text-sm leading-6 text-mehi-text-secondary sm:block">
+                      {description}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </section>
 
@@ -137,59 +164,60 @@ export function MarketingHome({ locale }: { locale: Locale }) {
 
             {/* El correo a los interesados de la línea de demo enlaza a #como-funciona
                 y espera el video debajo del título (ver tests/discovery.test.ts). */}
-            <figure className="mt-12 max-w-5xl" data-testid="video-agente-de-voz">
-              <div className="overflow-hidden rounded-md border border-mehi-border bg-mehi-text">
-                <video
-                  className="aspect-video h-auto w-full"
-                  controls
-                  playsInline
-                  preload="metadata"
-                  poster={homeVideo[locale].poster}
-                  aria-label={t.how.videoAria}
-                >
-                  <source src={homeVideo[locale].src} type="video/mp4" />
-                  {/* Los subtítulos ya vienen en la imagen: la pista queda disponible, apagada. */}
-                  <track
-                    kind="captions"
-                    src={homeVideo[locale].captions}
-                    srcLang={locale}
-                    label={locale === "en" ? "English" : "Español"}
-                  />
-                  {t.how.videoUnsupported}
-                </video>
-              </div>
-              <figcaption className="mt-4 flex flex-col gap-1 text-sm text-mehi-text-secondary sm:flex-row sm:items-center sm:justify-between">
-                <span>{t.how.videoCaption}</span>
-                <span className="font-medium text-mehi-slate">
-                  {t.how.videoMeta}
-                </span>
-              </figcaption>
-            </figure>
+            <div className="mt-12 grid gap-12 lg:grid-cols-[1.45fr_1fr] lg:items-start">
+              <figure data-testid="video-agente-de-voz">
+                <div className="overflow-hidden rounded-md border border-mehi-border bg-mehi-text">
+                  <video
+                    className="aspect-video h-auto w-full"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    poster={homeVideo[locale].poster}
+                    aria-label={t.how.videoAria}
+                  >
+                    <source src={homeVideo[locale].src} type="video/mp4" />
+                    {/* Los subtítulos ya vienen en la imagen: la pista queda disponible, apagada. */}
+                    <track
+                      kind="captions"
+                      src={homeVideo[locale].captions}
+                      srcLang={locale}
+                      label={locale === "en" ? "English" : "Español"}
+                    />
+                    {t.how.videoUnsupported}
+                  </video>
+                </div>
+                <figcaption className="mt-4 flex flex-col gap-1 text-sm text-mehi-text-secondary sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                  <span>{t.how.videoCaption}</span>
+                  <span className="shrink-0 font-medium text-mehi-slate">
+                    {t.how.videoMeta}
+                  </span>
+                </figcaption>
+              </figure>
 
-            <ol className="mt-16 grid gap-7 md:grid-cols-3" data-reveal>
-              {t.how.steps.map(({ number, title, description }, index) => {
-                const Icon = stepIcons[index];
-                return (
-                  <li key={number} className="border-t-2 border-mehi-slate pt-5">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-xs font-semibold tracking-[0.14em] text-mehi-slate">
-                        {t.how.stepLabel} {number}
+              <ol className="space-y-8" data-reveal>
+                {t.how.steps.map(({ number, title, description }, index) => {
+                  const Icon = stepIcons[index];
+                  return (
+                    <li key={number} className="flex gap-5">
+                      <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full border border-mehi-slate text-mehi-slate">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
                       </span>
-                      <Icon
-                        className="h-5 w-5 text-mehi-slate"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h3 className="mt-6 text-xl font-semibold text-mehi-text">
-                      {title}
-                    </h3>
-                    <p className="mt-3 text-base leading-7 text-mehi-text-secondary">
-                      {description}
-                    </p>
-                  </li>
-                );
-              })}
-            </ol>
+                      <div>
+                        <p className="text-xs font-semibold tracking-[0.14em] text-mehi-slate">
+                          {t.how.stepLabel} {number}
+                        </p>
+                        <h3 className="mt-2 text-xl font-semibold text-mehi-text">
+                          {title}
+                        </h3>
+                        <p className="mt-2 text-base leading-7 text-mehi-text-secondary">
+                          {description}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
           </div>
         </section>
 
@@ -281,7 +309,9 @@ export function MarketingHome({ locale }: { locale: Locale }) {
         {solution?.process && (
           <section
             id="empezar"
-            className="scroll-mt-24 border-t border-mehi-border bg-white py-20 sm:py-24"
+            className={`scroll-mt-24 py-20 sm:py-24 ${
+              demoEnabled ? "border-t border-mehi-border bg-mehi-neutral" : "bg-white"
+            }`}
           >
             <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10" data-reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
@@ -294,7 +324,7 @@ export function MarketingHome({ locale }: { locale: Locale }) {
                 {solution.process.items.map((step, index) => (
                   <li
                     key={step.title}
-                    className="rounded-md border border-mehi-border bg-mehi-neutral p-6"
+                    className="rounded-md border border-mehi-border bg-white p-6"
                   >
                     <span className="text-xs font-semibold tracking-[0.14em] text-mehi-slate">
                       0{index + 1}
@@ -319,7 +349,7 @@ export function MarketingHome({ locale }: { locale: Locale }) {
           </section>
         )}
 
-        <BuyerQuestions locale={locale} />
+        <BuyerQuestions locale={locale} demoEnabled={demoEnabled} />
 
         <section
           id="recursos"

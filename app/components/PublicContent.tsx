@@ -1,4 +1,13 @@
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Building2,
+  ChevronDown,
+  Headset,
+  Landmark,
+  Layers,
+  type LucideIcon,
+} from "lucide-react";
 import type { CardBlock, IllustrativeExample, PublicPage } from "../content";
 import {
   contentFor,
@@ -12,6 +21,14 @@ import { publicPageGraph, serializeJsonLd } from "../seo";
 import { Reveal } from "./Reveal";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
+
+/** Ícono de cada página en las tarjetas (por id: es igual en los dos idiomas). */
+const pageIcons: Record<string, LucideIcon> = {
+  plataforma: Layers,
+  "ia-para-gobiernos": Landmark,
+  "ia-para-contact-centers": Headset,
+  "agentes-de-voz-ia": Building2,
+};
 
 export function SolutionLinks({
   locale,
@@ -27,33 +44,44 @@ export function SolutionLinks({
   );
   return (
     <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {pages.map((page) => (
+      {pages.map((page) => {
+        const Icon = pageIcons[page.id] ?? BookOpen;
+        return (
         <a
           key={page.slug}
           href={pagePath(locale, page.slug)}
           className="group flex flex-col rounded-md border border-mehi-border bg-white p-6 transition-colors hover:border-mehi-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum"
         >
-          <h3 className="text-lg font-semibold text-mehi-text">{page.label}</h3>
+          <span className="flex h-10 w-10 items-center justify-center rounded-md bg-mehi-neutral text-mehi-slate">
+            <Icon className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <h3 className="mt-5 text-lg font-semibold text-mehi-text">{page.label}</h3>
           <p className="mt-3 flex-1 text-sm leading-7 text-mehi-text-secondary">
             {page.summary ?? page.description}
           </p>
           <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-mehi-text group-hover:text-mehi-plum">
-            {page.kind === "audience"
-              ? ui[locale].audiences.learnMore
-              : ui[locale].solutions.learnMore}
+            {page.cta ?? ui[locale].solutions.learnMore}
             <ArrowRight
               className="h-4 w-4 text-mehi-slate transition-transform group-hover:translate-x-1"
               aria-hidden="true"
             />
           </span>
         </a>
-      ))}
+        );
+      })}
     </div>
   );
 }
 
-export function BuyerQuestions({ locale }: { locale: Locale }) {
+export function BuyerQuestions({
+  locale,
+  demoEnabled = false,
+}: {
+  locale: Locale;
+  demoEnabled?: boolean;
+}) {
   const { site } = contentFor(locale);
+  const t = ui[locale].faq;
   return (
     <section
       id="preguntas-frecuentes"
@@ -62,26 +90,46 @@ export function BuyerQuestions({ locale }: { locale: Locale }) {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10" data-reveal>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mehi-slate">
-          {ui[locale].faq.eyebrow}
+          {t.eyebrow}
         </p>
         <h2
           id="preguntas-titulo"
           className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl"
         >
-          {ui[locale].faq.title}
+          {t.title}
         </h2>
-        <div className="mt-10 grid gap-x-12 gap-y-8 md:grid-cols-2">
-          {site.faqs.map((faq) => (
-            <article
-              key={faq.question}
-              className="border-t border-mehi-border pt-5"
-            >
-              <h3 className="text-lg font-semibold">{faq.question}</h3>
-              <p className="mt-3 leading-7 text-mehi-text-secondary">
+        {/* Acordeón: la respuesta está en el HTML (buscadores y lectura en texto la ven
+            igual); sólo se pliega para que la lista se recorra de un vistazo. */}
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_20rem] lg:items-start">
+        <div className="divide-y divide-mehi-border border-y border-mehi-border">
+          {site.faqs.map((faq, index) => (
+            <details key={faq.question} open={index === 0} className="group">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-lg font-semibold text-mehi-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-mehi-slate [&::-webkit-details-marker]:hidden">
+                <h3>{faq.question}</h3>
+                <ChevronDown
+                  className="h-5 w-5 flex-none text-mehi-slate transition-transform group-open:rotate-180"
+                  aria-hidden="true"
+                />
+              </summary>
+              <p className="max-w-3xl pb-6 leading-7 text-mehi-text-secondary">
                 {faq.answer}
               </p>
-            </article>
+            </details>
           ))}
+        </div>
+        <aside className="rounded-md border border-mehi-border bg-mehi-neutral p-6">
+          <p className="text-lg font-semibold text-mehi-text">{t.asideTitle}</p>
+          <p className="mt-2 text-sm leading-6 text-mehi-text-secondary">
+            {demoEnabled ? t.asideBodyDemo : t.asideBody}
+          </p>
+          <a
+            href={demoEnabled ? "#probalo" : "#contacto"}
+            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md border border-mehi-slate bg-white px-4 py-2.5 text-sm font-semibold text-mehi-text transition-colors hover:border-mehi-plum hover:text-mehi-plum"
+          >
+            {demoEnabled ? ui[locale].hero.talkNow : t.asideCta}
+            <ArrowRight className="h-4 w-4 text-mehi-slate" aria-hidden="true" />
+          </a>
+        </aside>
         </div>
       </div>
     </section>

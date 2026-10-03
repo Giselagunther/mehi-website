@@ -44,3 +44,35 @@
     transform: none;
   }
 }
+
+/* La llamada de ejemplo de la portada se arma paso a paso (components/CallExample.tsx). */
+@keyframes mehi-call-step {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+[data-call-step] {
+  animation: mehi-call-step 500ms ease-out both;
+}
+[data-call-step="1"] {
+  animation-delay: 300ms;
+}
+[data-call-step="2"] {
+  animation-delay: 1100ms;
+}
+[data-call-step="3"] {
+  animation-delay: 1900ms;
+}
+[data-call-step="4"] {
+  animation-delay: 2600ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-call-step] {
+    animation: none;
+  }
+}

@@ -103,6 +103,8 @@ export type PublicPage = {
   description: string;
   /** Frase de la tarjeta de entrada en la portada (sólo kind audience). */
   summary?: string;
+  /** Texto del enlace de esa tarjeta. */
+  cta?: string;
   introduction: string;
   useCases?: CardBlock;
   process?: CardBlock;
@@ -223,6 +225,7 @@ export const publicPages: PublicPage[] = [
     title: "Agentes de voz con IA para gobiernos y organismos públicos",
     description:
       "Dale voz a la información de tu organismo: un agente de voz con IA que orienta a los vecinos en consultas y trámites, con información validada y derivación a tu equipo.",
+    cta: "Ver la solución para gobiernos",
     summary:
       "Orientá a los vecinos en consultas y trámites, a cualquier hora, con la información que validó el organismo.",
     introduction:
@@ -373,6 +376,7 @@ export const publicPages: PublicPage[] = [
     title: "Agentes de voz con IA para contact centers, junto a tus operadores",
     description:
       "MEHI suma agentes de voz con IA al servicio de tu contact center: atienden las consultas frecuentes con la información de cada cliente y pasan a tus operadores los casos que los necesitan.",
+    cta: "Ver la solución para contact centers",
     summary:
       "Sumá agentes de voz a tu servicio y dejá a tus operadores los casos que los necesitan.",
     introduction:
@@ -479,6 +483,7 @@ export const publicPages: PublicPage[] = [
     title: "Agentes de voz con IA para empresas: dale voz a tu CRM",
     description:
       "Un agente de voz con IA que atiende a tus clientes con la información de tu CRM y de tu operación, responde sus consultas y deriva a tu equipo cuando hace falta.",
+    cta: "Ver la solución para empresas",
     summary:
       "Atendé a tus clientes con la información de tu CRM y de tu operación, sin cambiar tus sistemas.",
     introduction:

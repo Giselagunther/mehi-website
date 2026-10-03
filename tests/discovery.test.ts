@@ -18,6 +18,7 @@ import {
 import sitemap from "../app/sitemap.ts";
 import robots from "../app/robots.ts";
 import {
+  shareImage,
   pageMetadata,
   organizationGraph,
   publicPageGraph,
@@ -345,4 +346,16 @@ test("el pie muestra «MEHI es la plataforma de GIV» con GIV enlazado", () => {
   const html = `<p class="x" data-testid="company-relationship">MEHI is <!-- -->GIV<a href="${company.url}">GIV</a>&#x27;s</p>`;
   assert.equal(visibleRelationship(html), "MEHI is GIVGIV's");
   assert.equal(visibleRelationship("<p>nada</p>"), undefined);
+});
+
+test("cada página trae la imagen para compartir de su idioma, y el archivo existe", () => {
+  for (const [locale, pages] of [["es", publicPages], ["en", en.publicPages]] as const) {
+    const image = shareImage(locale);
+    assert.ok(existsSync(new URL(`../public${image.url}`, import.meta.url)), image.url);
+    for (const page of [undefined, ...pages]) {
+      const metadata = pageMetadata(page, locale);
+      assert.deepEqual(metadata.openGraph?.images, [image]);
+      assert.equal((metadata.twitter as { card?: string })?.card, "summary_large_image");
+    }
+  }
 });

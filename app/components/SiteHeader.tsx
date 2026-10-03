@@ -82,7 +82,14 @@ export function SiteHeader({
           </a>
         </div>
 
-        <details className="group relative lg:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
+        <a
+          href={contactHref}
+          className="whitespace-nowrap rounded-md bg-mehi-plum px-3 py-2.5 text-xs font-semibold text-white hover:bg-mehi-plum-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-2"
+        >
+          {t.requestDemo}
+        </a>
+        <details className="group relative">
           <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md border border-mehi-border text-mehi-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate [&::-webkit-details-marker]:hidden">
             <span className="sr-only">{t.openNav}</span>
             <Menu className="h-5 w-5" aria-hidden="true" />
@@ -126,6 +133,7 @@ export function SiteHeader({
             </div>
           </nav>
         </details>
+        </div>
       </div>
     </header>
   );

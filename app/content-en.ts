@@ -182,6 +182,7 @@ export const publicPages: PublicPage[] = [
     title: "AI voice agents for governments and public agencies",
     description:
       "Give your agency's information a voice: an AI voice agent that guides citizens through inquiries and procedures, with validated information and handoff to your team.",
+    cta: "See the solution for governments",
     summary:
       "Guide citizens through inquiries and procedures, at any hour, with information your agency validated.",
     introduction:
@@ -332,6 +333,7 @@ export const publicPages: PublicPage[] = [
     title: "AI voice agents for contact centers, alongside your operators",
     description:
       "MEHI adds AI voice agents to your contact center: they handle frequent inquiries with each client's information and pass to your operators the cases that need them.",
+    cta: "See the solution for contact centers",
     summary:
       "Add voice agents to your service and leave your operators the cases that need them.",
     introduction:
@@ -438,6 +440,7 @@ export const publicPages: PublicPage[] = [
     title: "AI voice agents for businesses: give your CRM a voice",
     description:
       "An AI voice agent that serves your customers with the information in your CRM and your operation, answers their questions and hands off to your team when needed.",
+    cta: "See the solution for businesses",
     summary:
       "Serve your customers with the information in your CRM and your operation, without changing your systems.",
     introduction:

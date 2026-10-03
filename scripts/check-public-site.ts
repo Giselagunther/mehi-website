@@ -157,6 +157,7 @@ export async function checkPublicSite(base = "http://localhost:3000") {
     return response;
   };
   const cssPaths = new Set<string>();
+  const sharedImages = new Set<string>();
   for (const { url: canonical, languages } of publicEntries()) {
     const path = new URL(canonical).pathname;
     const locale = localeOf(canonical);
@@ -164,6 +165,10 @@ export async function checkPublicSite(base = "http://localhost:3000") {
     const html = await (await get(path)).text();
     for (const css of verifyHtml(html, canonical, languages)) cssPaths.add(css);
     verifyCompanyIdentity(html);
+    // La imagen para compartir tiene que existir de verdad (no sólo estar declarada).
+    const shareImageUrl = /<meta property="og:image" content="([^"]+)"/.exec(html)?.[1];
+    assert.ok(shareImageUrl, `Falta la imagen para compartir: ${path}`);
+    sharedImages.add(new URL(shareImageUrl).pathname);
     assert.equal(
       visibleRelationship(html),
       company.relationship,
@@ -203,6 +208,10 @@ export async function checkPublicSite(base = "http://localhost:3000") {
       }
     }
     console.log(`OK ${path}: HTML, metadatos, JSON-LD, enlaces y contenido`);
+  }
+  for (const image of Array.from(sharedImages)) {
+    const response = await get(image);
+    assert.match(response.headers.get("content-type") ?? "", /image\/png/, image);
   }
   let cssBytes = 0;
   for (const path of Array.from(cssPaths))
