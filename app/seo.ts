@@ -11,8 +11,19 @@ import {
   homeVideo,
   pagePath,
   translatedPath,
+  ui,
   type Locale,
 } from "./i18n.ts";
+
+/** Imagen que se ve al compartir el sitio (WhatsApp, LinkedIn…). La genera scripts/og/generate.py. */
+export function shareImage(locale: Locale) {
+  return {
+    url: `/og/mehi-${locale}.png`,
+    width: 1200,
+    height: 630,
+    alt: ui[locale].shareImageAlt,
+  };
+}
 
 export function pageMetadata(page?: PublicPage, locale: Locale = "es"): Metadata {
   const { site } = contentFor(locale);
@@ -33,8 +44,14 @@ export function pageMetadata(page?: PublicPage, locale: Locale = "es"): Metadata
       title,
       description,
       url,
+      images: [shareImage(locale)],
     },
-    twitter: { card: "summary", title, description },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [shareImage(locale)],
+    },
   };
 }
 

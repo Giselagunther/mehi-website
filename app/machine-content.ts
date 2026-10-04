@@ -51,6 +51,16 @@ function pagesText(
     "",
     page.introduction,
     "",
+    ...[page.useCases, page.process].flatMap((block) =>
+      block
+        ? [
+            `### ${block.heading}`,
+            "",
+            ...block.items.map((item) => `- ${item.title}: ${item.description}`),
+            "",
+          ]
+        : [],
+    ),
     ...page.sections.flatMap((section) => [
       `### ${section.heading}`,
       "",

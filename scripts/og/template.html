@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=block" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #F5F6FA; font-family: Inter, sans-serif; color: #1A1A2E; display: flex; padding: 64px 72px; gap: 56px; }
+  .left { flex: 1.2; display: flex; flex-direction: column; }
+  .logo { width: 170px; height: auto; margin-left: -18px; }
+  .eyebrow { margin-top: 36px; font-size: 17px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #6B8DB5; }
+  h1 { margin-top: 18px; font-size: 64px; white-space: nowrap; line-height: 0.98; font-weight: 700; letter-spacing: -0.05em; }
+  h2 { margin-top: 20px; font-size: 34px; line-height: 1.12; font-weight: 600; letter-spacing: -0.035em; color: #6B8DB5; }
+  .url { margin-top: auto; font-size: 22px; font-weight: 600; color: #1A1A2E; }
+  .url span { color: #8B2480; }
+  .card { flex: 0.85; align-self: center; background: #fff; border: 1px solid #E8E8EC; border-radius: 8px; padding: 26px; }
+  .head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid #E8E8EC; font-size: 16px; font-weight: 600; }
+  .badge { font-size: 13px; font-weight: 500; color: #6B7280; border: 1px solid #E8E8EC; border-radius: 4px; padding: 3px 8px; }
+  .label { margin-top: 18px; font-size: 13px; font-weight: 600; color: #6B7280; }
+  .bubble { margin-top: 6px; font-size: 17px; line-height: 1.45; padding: 12px 16px; border-radius: 8px; }
+  .caller { background: #F5F6FA; max-width: 88%; }
+  .chip { margin-top: 16px; font-size: 14px; font-weight: 600; color: #6B8DB5; border: 1px dashed #6B8DB5; border-radius: 8px; padding: 10px 14px; }
+  .agent-label { text-align: right; color: #8B2480; }
+  .agent { border: 1px solid #6B8DB5; margin-left: auto; max-width: 88%; }
+</style>
+</head>
+<body>
+  <div class="left">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 120">{{logo}}</svg>
+    <p class="eyebrow">{{eyebrow}}</p>
+    <h1>{{title}}</h1>
+    <h2>{{subtitle}}</h2>
+    <p class="url">www.mehi.ar<span>{{path}}</span></p>
+  </div>
+  <div class="card">
+    <div class="head"><span>{{callTitle}}</span><span class="badge">{{badge}}</span></div>
+    <p class="label">{{callerLabel}}</p>
+    <p class="bubble caller">{{callerLine}}</p>
+    <p class="chip">{{lookup}}</p>
+    <p class="label agent-label">MEHI</p>
+    <p class="bubble agent">{{agentLine}}</p>
+  </div>
+</body>
+</html>

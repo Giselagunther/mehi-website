@@ -120,6 +120,20 @@ export function DemoCall({ phone, locale }: { phone?: string; locale: Locale }) 
       className="rounded-md border border-mehi-border bg-white p-6 sm:p-8"
     >
       <div className="flex flex-col items-center gap-5 text-center">
+        {/* Las ondas de la voz de MEHI, como en el video. Decorativas. */}
+        <div
+          aria-hidden="true"
+          className="relative flex h-28 w-28 items-center justify-center"
+        >
+          <span
+            className={`absolute inset-0 rounded-full border border-mehi-lavender ${live && agentTalking ? "animate-pulse" : ""}`}
+          />
+          <span className="absolute inset-3 rounded-full border border-mehi-slate/40" />
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-mehi-neutral text-mehi-plum">
+            <Mic className="h-6 w-6" />
+          </span>
+        </div>
+
         <button
           type="button"
           onClick={live ? stop : start}
@@ -172,6 +186,27 @@ export function DemoCall({ phone, locale }: { phone?: string; locale: Locale }) 
           <p role="alert" className="max-w-md rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
             {errorMessage}
           </p>
+        )}
+
+        {phase !== "live" && (
+          <div className="w-full max-w-md border-t border-mehi-border pt-5 text-left">
+            <p className="text-sm font-semibold text-mehi-text">{t.suggestionsTitle}</p>
+            <ul className="mt-3 space-y-2">
+              {t.suggestions.map((suggestion) => (
+                <li
+                  key={suggestion.say}
+                  className="rounded-md bg-mehi-neutral px-4 py-3 text-sm leading-6 text-mehi-text"
+                >
+                  <span lang="es">«{suggestion.say}»</span>
+                  {"gloss" in suggestion && suggestion.gloss && (
+                    <span className="block text-xs text-mehi-text-secondary">
+                      {suggestion.gloss}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
 
         {phone && (
