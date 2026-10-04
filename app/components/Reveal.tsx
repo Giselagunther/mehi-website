@@ -10,9 +10,16 @@ import { useEffect } from "react";
  */
 export function Reveal() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (!("IntersectionObserver" in window)) return;
+    // El JS llegó: no hace falta la red de seguridad de root-document.tsx.
+    clearTimeout((window as unknown as { __mehiReveal?: number }).__mehiReveal);
     const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !("IntersectionObserver" in window)
+    ) {
+      for (const element of elements) element.setAttribute("data-revealed", "");
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

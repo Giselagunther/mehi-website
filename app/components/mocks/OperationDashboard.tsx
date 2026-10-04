@@ -18,7 +18,7 @@ export function OperationDashboard({ locale }: { locale: Locale }) {
   const d = t.dashboard;
   return (
     <figure role="img" aria-label={d.aria} data-reveal="">
-      <MockWindow title={d.window} badge={t.badge} live={t.live}>
+      <MockWindow title={d.window} badge={t.badge} badgeShort={t.badgeShort} live={t.live}>
         <div className="bg-mehi-neutral p-4 sm:p-6" aria-hidden="true">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -83,7 +83,7 @@ export function OperationDashboard({ locale }: { locale: Locale }) {
                   {d.columns.map((column, index) => (
                     <th
                       key={column}
-                      className={`px-4 py-2 font-medium ${index === 3 ? "hidden text-right sm:table-cell" : ""}`}
+                      className={`px-3 py-2 font-medium sm:px-4 ${index === 3 ? "hidden text-right sm:table-cell" : ""}`}
                     >
                       {column}
                     </th>
@@ -99,11 +99,16 @@ export function OperationDashboard({ locale }: { locale: Locale }) {
                     style={staggerStyle(index)}
                     className="border-b border-mehi-border last:border-b-0"
                   >
-                    <td className="px-4 py-2.5 tabular-nums text-mehi-text-secondary">{time}</td>
-                    <td className="px-4 py-2.5 text-mehi-text">{reason}</td>
-                    <td className="px-4 py-2.5">
+                    <td className="px-3 py-2.5 tabular-nums text-mehi-text-secondary sm:px-4">{time}</td>
+                    <td className="px-3 py-2.5 text-mehi-text sm:px-4">{reason}</td>
+                    <td className="px-3 py-2.5 sm:px-4">
                       <StatusChip tone={outcome === "resolved" ? "slate" : "lavender"}>
-                        {outcome === "resolved" ? d.resolvedChip : d.derivedChip}
+                        <span className="sm:hidden">
+                          {outcome === "resolved" ? d.resolvedShort : d.derivedShort}
+                        </span>
+                        <span className="hidden sm:inline">
+                          {outcome === "resolved" ? d.resolvedChip : d.derivedChip}
+                        </span>
                       </StatusChip>
                     </td>
                     <td className="hidden px-4 py-2.5 text-right tabular-nums text-mehi-text-secondary sm:table-cell">

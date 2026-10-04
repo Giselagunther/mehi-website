@@ -9,6 +9,7 @@ import * as en from "../app/content-en.ts";
 import { existsSync, readFileSync } from "node:fs";
 import { rootMetadata } from "../app/root-metadata.ts";
 import { ui } from "../app/ui-text.ts";
+import { mockText } from "../app/mock-text.ts";
 import {
   allPublicUrls as publicUrls,
   homeVideo,
@@ -277,6 +278,8 @@ test("la versión en inglés no quedó con texto en español", () => {
     else if (value && typeof value === "object") Object.values(value).forEach(collect);
   };
   collect(en.site);
+  // Los tableros ilustrativos en inglés también (sus datos inventados incluidos).
+  collect(mockText.en);
   for (const page of en.publicPages) {
     const { id: _id, slug: _slug, ...visible } = page;
     collect(visible);
@@ -318,6 +321,7 @@ test("el sitio no nombra al dueño de MEHI en ningún texto, metadato ni dato es
     ...visible({ site, publicPages }),
     ...visible({ site: en.site, publicPages: en.publicPages }),
     ...visible(ui),
+    ...visible(mockText),
     llmsIndex(),
     llmsFull(),
     JSON.stringify(organizationGraph("es")),
@@ -361,4 +365,21 @@ test("cada página trae la imagen para compartir de su idioma, y el archivo exis
       assert.equal((metadata.twitter as { card?: string })?.card, "summary_large_image");
     }
   }
+});
+
+test("los tableros ilustrativos llevan su rótulo y dicen lo mismo en los dos idiomas", () => {
+  for (const locale of ["es", "en"] as const) {
+    const t = mockText[locale];
+    assert.match(t.badge, locale === "es" ? /Ejemplo · datos ilustrativos/ : /Example · illustrative data/);
+  }
+  const { es, en: english } = mockText;
+  assert.deepEqual(
+    english.dashboard.kpis.map((kpi) => [kpi.value, kpi.format]),
+    es.dashboard.kpis.map((kpi) => [kpi.value, kpi.format]),
+  );
+  assert.deepEqual(english.dashboard.reasons.map(([, p]) => p), es.dashboard.reasons.map(([, p]) => p));
+  assert.equal(english.dashboard.rows.length, es.dashboard.rows.length);
+  assert.deepEqual(english.government.areas.map(([, p]) => p), es.government.areas.map(([, p]) => p));
+  for (const shares of [es.dashboard.reasons, es.government.topics, es.government.areas])
+    assert.equal(shares.reduce((sum, [, p]) => sum + p, 0), 100);
 });

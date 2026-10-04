@@ -14,7 +14,7 @@ export function AnswerSource({ locale }: { locale: Locale }) {
   return (
     <figure role="img" aria-label={a.aria} data-reveal="" className="grid gap-4 lg:grid-cols-2 lg:items-stretch">
       <div aria-hidden="true" className="contents">
-        <MockWindow title={a.conversation} badge={t.badge}>
+        <MockWindow title={a.conversation} badge={t.badge} badgeShort={t.badgeShort}>
           <div className="space-y-4 p-5">
             <div className="max-w-[85%]">
               <p className="text-xs font-semibold text-mehi-text-secondary">{a.callerLabel}</p>
@@ -39,7 +39,7 @@ export function AnswerSource({ locale }: { locale: Locale }) {
           </div>
         </MockWindow>
 
-        <MockWindow title={a.recordWindow} badge={t.badge}>
+        <MockWindow title={a.recordWindow} badge={t.badge} badgeShort={t.badgeShort}>
           <div className="p-5">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-start gap-3">

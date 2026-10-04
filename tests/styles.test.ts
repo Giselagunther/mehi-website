@@ -14,7 +14,7 @@ const { generateRules } = require("tailwindcss/lib/lib/generateRules");
 test("las utilidades de las páginas públicas existen en el compilador Tailwind", () => {
   const context = createContext(resolveConfig(config));
   const classes = new Set<string>();
-  const files = ["MarketingHome", "PublicContent", "ContactForm", "DemoCall", "SiteHeader", "SiteFooter", "CallExample"].map(
+  const files = ["MarketingHome", "PublicContent", "ContactForm", "DemoCall", "SiteHeader", "SiteFooter", "CallExample", "mocks/MockKit", "mocks/OperationDashboard", "mocks/HeroVisual", "mocks/AnswerSource", "mocks/PageVisual"].map(
     (name) => `../app/components/${name}.tsx`,
   );
   files.push("../app/components/NotFoundContent.tsx", "../app/components/LanguageSwitch.tsx");

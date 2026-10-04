@@ -15,12 +15,15 @@ const delay = (index: number) => ({ "--i": index }) as CSSProperties;
 export function MockWindow({
   title,
   badge,
+  badgeShort,
   live,
   children,
   className = "",
 }: {
   title: string;
   badge: string;
+  /** Versión corta del rótulo para pantallas chicas. */
+  badgeShort?: string;
   live?: string;
   children: ReactNode;
   className?: string;
@@ -42,7 +45,14 @@ export function MockWindow({
             </span>
           )}
           <span className="rounded-sm border border-mehi-border px-2 py-0.5 text-[11px] font-medium text-mehi-text-secondary">
-            {badge}
+            {badgeShort ? (
+              <>
+                <span className="sm:hidden">{badgeShort}</span>
+                <span className="hidden sm:inline">{badge}</span>
+              </>
+            ) : (
+              badge
+            )}
           </span>
         </div>
       </div>
@@ -70,10 +80,9 @@ export function Sparkline({ values, className = "" }: { values: number[]; classN
         data-draw=""
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );
@@ -145,6 +154,7 @@ export function StackedBars({
 
 /** Lista de barras horizontales con porcentaje. */
 export function ShareBars({ items, tone = "slate" }: { items: Share[]; tone?: "slate" | "lavender" }) {
+  const isSlate = tone === "slate";
   return (
     <ul className="space-y-3" aria-hidden="true">
       {items.map(([label, percent], index) => (
@@ -157,7 +167,7 @@ export function ShareBars({ items, tone = "slate" }: { items: Share[]; tone?: "s
             <div
               data-hbar=""
               style={{ ...delay(index), width: `${percent * (100 / items[0][1])}%` }}
-              className={`h-2 rounded-sm ${tone === "slate" ? "bg-mehi-slate" : "bg-mehi-lavender"}`}
+              className={`h-2 rounded-sm ${isSlate ? "bg-mehi-slate" : "bg-mehi-lavender"}`}
             />
           </div>
         </li>
@@ -222,13 +232,14 @@ export function Donut({ items, centerLabel }: { items: Share[]; centerLabel?: st
 }
 
 export function StatusChip({ tone, children }: { tone: "slate" | "lavender"; children: ReactNode }) {
+  const isSlate = tone === "slate";
   return (
     <span
       className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm px-2 py-0.5 text-[11px] font-medium text-mehi-text ${
-        tone === "slate" ? "bg-mehi-slate/15" : "bg-mehi-lavender/50"
+        isSlate ? "bg-mehi-slate/15" : "bg-mehi-lavender/50"
       }`}
     >
-      <span className={`h-1.5 w-1.5 rounded-full ${tone === "slate" ? "bg-mehi-slate" : "bg-mehi-lila"}`} />
+      <span className={`h-1.5 w-1.5 rounded-full ${isSlate ? "bg-mehi-slate" : "bg-mehi-lila"}`} />
       {children}
     </span>
   );

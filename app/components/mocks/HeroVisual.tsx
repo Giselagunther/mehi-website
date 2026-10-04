@@ -14,9 +14,9 @@ export function HeroVisual({ locale }: { locale: Locale }) {
   const h = t.hero;
   const max = Math.max(...resolvedByHour.map((value, index) => value + derivedByHour[index]));
   return (
-    <div className="relative md:pb-24 md:pl-16 lg:pb-28 lg:pl-12">
-      <div className="hidden md:block" aria-hidden="true">
-        <MockWindow title={h.window} badge={t.badge} live={t.live}>
+    <div className="md:grid md:grid-cols-12 md:grid-rows-[auto_auto]">
+      <div className="hidden md:col-span-9 md:col-start-4 md:row-start-1 md:block" aria-hidden="true">
+        <MockWindow title={h.window} badge={t.badge} badgeShort={t.badgeShort} live={t.live}>
           <div className="grid grid-cols-3 gap-px bg-mehi-border">
             {h.kpis.map((kpi) => (
               <div key={kpi.label} className="bg-white px-4 py-3">
@@ -57,7 +57,7 @@ export function HeroVisual({ locale }: { locale: Locale }) {
         </MockWindow>
       </div>
 
-      <div className="md:absolute md:bottom-0 md:left-0 md:w-[78%] md:rounded-md md:outline md:outline-8 md:outline-mehi-neutral">
+      <div className="relative z-10 md:col-span-8 md:col-start-1 md:row-span-2 md:row-start-1 md:mt-44 md:rounded-md md:outline md:outline-8 md:outline-mehi-neutral">
         <CallExample locale={locale} />
       </div>
     </div>

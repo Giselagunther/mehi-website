@@ -30,6 +30,14 @@ export function RootDocument({
   return (
     <html lang={htmlLang[locale]} className={inter.variable}>
       <body>
+        {/* Antes de pintar: avisa que hay JS (los tableros arrancan vacíos y crecen)
+            y deja una red de seguridad que los muestra si el JS no llegara a correr. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.setAttribute('data-js','');window.__mehiReveal=setTimeout(function(){document.querySelectorAll('[data-reveal]').forEach(function(e){e.setAttribute('data-revealed','')})},5000);",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

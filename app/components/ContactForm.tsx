@@ -17,7 +17,18 @@ type SubmissionState = "idle" | "submitting" | "success" | "error";
 const FIELD_CLASS =
   "mt-2 min-h-11 w-full rounded-md border border-mehi-input-border bg-white px-3.5 py-2.5 text-base text-mehi-text outline-none transition-colors placeholder:text-gray-400 focus:border-mehi-slate focus:ring-2 focus:ring-mehi-slate/20";
 
-export function ContactForm({ locale }: { locale: Locale }) {
+export function ContactForm({
+  locale,
+  heading,
+  intro,
+  secondary = false,
+}: {
+  locale: Locale;
+  heading?: string;
+  intro?: string;
+  /** Botón de envío secundario: al lado de «Hablá con nuestra asesora virtual», que es la vía que se fomenta. */
+  secondary?: boolean;
+}) {
   const t = ui[locale].form;
   const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
   const [successMessage, setSuccessMessage] = useState("");
@@ -79,11 +90,18 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
   return (
     <form
+      id="formulario"
       data-testid="contact-form"
       data-transport="https"
       onSubmit={handleSubmit}
       className="relative rounded-md border border-mehi-border bg-white p-6 sm:p-8"
     >
+      {heading && (
+        <div className="mb-6">
+          <p className="text-2xl font-semibold tracking-tight text-mehi-text">{heading}</p>
+          {intro && <p className="mt-2 leading-7 text-mehi-text-secondary">{intro}</p>}
+        </div>
+      )}
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="text-sm font-medium text-mehi-text">
           {t.fullName}
@@ -107,7 +125,11 @@ export function ContactForm({ locale }: { locale: Locale }) {
         {t.honeypot}
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
-      <button data-testid="contact-submit" type="submit" disabled={submissionState === "submitting"} className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-mehi-plum px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-mehi-plum-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-4 disabled:cursor-wait disabled:opacity-60 sm:w-auto">
+      <button data-testid="contact-submit" type="submit" disabled={submissionState === "submitting"} className={
+          secondary
+            ? "mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-white px-6 py-3 text-sm font-semibold text-mehi-text transition-colors border border-mehi-slate hover:border-mehi-plum hover:text-mehi-plum focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-slate focus-visible:ring-offset-4 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+            : "mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-mehi-plum px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-mehi-plum-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mehi-plum focus-visible:ring-offset-4 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+        }>
         {submissionState === "submitting" ? t.submitting : t.submit}
         <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </button>

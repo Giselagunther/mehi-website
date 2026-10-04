@@ -35,7 +35,16 @@ function formatSeconds(total: number): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function DemoCall({ phone, locale }: { phone?: string; locale: Locale }) {
+export function DemoCall({
+  phone,
+  locale,
+  bare = false,
+}: {
+  phone?: string;
+  locale: Locale;
+  /** Sin marco propio: va dentro de la tarjeta «Hablá con nuestra asesora virtual». */
+  bare?: boolean;
+}) {
   const t = ui[locale].demo;
   const [phase, setPhase] = useState<Phase>("idle");
   const [agentTalking, setAgentTalking] = useState(false);
@@ -117,7 +126,7 @@ export function DemoCall({ phone, locale }: { phone?: string; locale: Locale }) 
   return (
     <div
       data-testid="demo-call"
-      className="rounded-md border border-mehi-border bg-white p-6 sm:p-8"
+      className={bare ? "" : "rounded-md border border-mehi-border bg-white p-6 sm:p-8"}
     >
       <div className="flex flex-col items-center gap-5 text-center">
         {/* Las ondas de la voz de MEHI, como en el video. Decorativas. */}
@@ -227,7 +236,7 @@ export function DemoCall({ phone, locale }: { phone?: string; locale: Locale }) 
 
         {phase === "ended" && (
           <a
-            href="#contacto"
+            href="#formulario"
             className="inline-flex items-center gap-2 text-sm font-semibold text-mehi-text"
           >
             {t.contactMe}

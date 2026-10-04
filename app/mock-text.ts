@@ -31,6 +31,7 @@ const trends = {
 
 const es = {
   badge: "Ejemplo · datos ilustrativos",
+  badgeShort: "Ejemplo",
   live: "En vivo",
   dashboard: {
     window: "MEHI · Panel de la operación",
@@ -65,6 +66,8 @@ const es = {
     ] as [string, string, "resolved" | "derived", string][],
     resolvedChip: "Resuelta por el agente",
     derivedChip: "Derivada a tu equipo",
+    resolvedShort: "Resuelta",
+    derivedShort: "Derivada",
     alerts: "2 llamadas para revisar",
   },
   hero: {
@@ -158,6 +161,7 @@ const es = {
 
 const en: typeof es = {
   badge: "Example · illustrative data",
+  badgeShort: "Example",
   live: "Live",
   dashboard: {
     window: "MEHI · Operations dashboard",
@@ -192,6 +196,8 @@ const en: typeof es = {
     ],
     resolvedChip: "Resolved by the agent",
     derivedChip: "Handed off to your team",
+    resolvedShort: "Resolved",
+    derivedShort: "Handed off",
     alerts: "2 calls to review",
   },
   hero: {

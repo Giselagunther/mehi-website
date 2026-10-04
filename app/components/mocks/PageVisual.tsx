@@ -1,4 +1,4 @@
-import { ArrowRight, Database, MessageSquareText, PhoneCall } from "lucide-react";
+import { Database, MessageSquareText, PhoneCall } from "lucide-react";
 
 import { AnswerSource } from "./AnswerSource";
 import {
@@ -20,7 +20,7 @@ function GovernmentPanel({ locale }: { locale: Locale }) {
   const g = t.government;
   return (
     <figure role="img" aria-label={g.aria} data-reveal="">
-      <MockWindow title={g.window} badge={t.badge} live={t.live}>
+      <MockWindow title={g.window} badge={t.badge} badgeShort={t.badgeShort} live={t.live}>
         <div className="grid gap-3 bg-mehi-neutral p-4 sm:p-6" aria-hidden="true">
           <div className="grid gap-3 sm:grid-cols-3">
             {g.kpis.map((kpi) => (
@@ -49,7 +49,7 @@ function ContactCenterPanel({ locale }: { locale: Locale }) {
   const number = new Intl.NumberFormat(locale === "es" ? "es-AR" : "en-US");
   return (
     <figure role="img" aria-label={c.aria} data-reveal="">
-      <MockWindow title={c.window} badge={t.badge} live={t.live}>
+      <MockWindow title={c.window} badge={t.badge} badgeShort={t.badgeShort} live={t.live}>
         <div className="grid gap-3 bg-mehi-neutral p-4 sm:p-6" aria-hidden="true">
           <div className="overflow-hidden rounded-md border border-mehi-border bg-white">
             <table className="w-full text-left text-xs">
@@ -161,7 +161,7 @@ function CrmFlow({ locale }: { locale: Locale }) {
         })}
       </ol>
       <div aria-hidden="true">
-        <MockWindow title={b.crmWindow} badge={t.badge}>
+        <MockWindow title={b.crmWindow} badge={t.badge} badgeShort={t.badgeShort}>
           <div className="grid gap-px bg-mehi-border md:grid-cols-[1fr_1.4fr]">
             <dl className="grid grid-cols-2 gap-4 bg-white p-5">
               {b.fields.map(([label, value]) => (
@@ -192,7 +192,6 @@ function CrmFlow({ locale }: { locale: Locale }) {
           </div>
         </MockWindow>
       </div>
-      <ArrowRight className="hidden" aria-hidden="true" />
     </figure>
   );
 }
