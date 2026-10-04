@@ -45,6 +45,7 @@ app/(es)/, app/(en)/en/       Español en la raíz; inglés bajo /en, con su pro
 app/not-found.tsx             Página de error única, en español con salida al inglés
 app/components/MarketingHome.tsx  Portada
 app/components/PublicContent.tsx  Páginas, preguntas y recorrido ilustrativo
+app/components/mocks/, app/mock-text.ts  Tableros ilustrativos: datos inventados, siempre con el rótulo «Ejemplo · datos ilustrativos»
 app/seo.ts                    Metadatos y datos estructurados
 app/robots.ts, app/sitemap.ts  Descubrimiento
 app/llms.txt/, app/llms-full.txt/  Lectura rápida para asistentes

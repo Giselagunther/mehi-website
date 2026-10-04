@@ -76,3 +76,92 @@
     animation: none;
   }
 }
+
+/* Tableros ilustrativos (components/mocks). Arrancan «vacíos» sólo si hay JS
+   (`data-js`, que pone un script al principio del body) y crecen cuando su bloque
+   `data-reveal` entra en pantalla. Sin JS o con «reducir movimiento» se ven
+   completos. Si el JS de la página fallara, a los 5 s se muestran igual. */
+[data-bar] {
+  transform-origin: bottom;
+  transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 45ms + 150ms);
+}
+[data-hbar] {
+  transform-origin: left;
+  transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 90ms + 250ms);
+}
+[data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1400ms ease-out 200ms;
+}
+[data-donut] {
+  stroke-dasharray: var(--dash);
+  transition: stroke-dasharray 1100ms ease-out;
+  transition-delay: calc(var(--i, 0) * 150ms + 250ms);
+}
+[data-row] {
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+  transition-delay: calc(var(--i, 0) * 120ms + 400ms);
+}
+[data-js] [data-reveal]:not([data-revealed]) [data-bar] {
+  transform: scaleY(0);
+}
+[data-js] [data-reveal]:not([data-revealed]) [data-hbar] {
+  transform: scaleX(0);
+}
+[data-js] [data-reveal]:not([data-revealed]) [data-draw] {
+  stroke-dashoffset: 1;
+}
+[data-js] [data-reveal]:not([data-revealed]) [data-donut] {
+  stroke-dasharray: 0 100;
+}
+[data-js] [data-reveal]:not([data-revealed]) [data-row] {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* Panel chico de la portada: las barras crecen al cargar. */
+@keyframes mehi-grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+[data-hero-bar] {
+  transform-origin: bottom;
+  animation: mehi-grow-y 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms + 500ms);
+}
+
+/* Conectores del recorrido «llamada → CRM → respuesta»: el trazo avanza. */
+@keyframes mehi-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+[data-flow] {
+  animation: mehi-flow 1.2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bar],
+  [data-hbar],
+  [data-draw],
+  [data-row],
+  [data-hero-bar],
+  [data-flow] {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+  }
+  [data-donut] {
+    transition: none !important;
+    stroke-dasharray: var(--dash) !important;
+  }
+}

@@ -18,6 +18,7 @@ import {
   type Locale,
 } from "../i18n";
 import { publicPageGraph, serializeJsonLd } from "../seo";
+import { PageVisual, hasPageVisual } from "./mocks/PageVisual";
 import { Reveal } from "./Reveal";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
@@ -76,16 +77,19 @@ export function SolutionLinks({
 export function BuyerQuestions({
   locale,
   demoEnabled = false,
+  className = "bg-white",
 }: {
   locale: Locale;
   demoEnabled?: boolean;
+  /** Fondo de la sección (la portada alterna blanco y gris claro). */
+  className?: string;
 }) {
   const { site } = contentFor(locale);
   const t = ui[locale].faq;
   return (
     <section
       id="preguntas-frecuentes"
-      className="scroll-mt-24 border-t border-mehi-border bg-white py-16 sm:py-20"
+      className={`scroll-mt-24 py-16 sm:py-20 ${className}`}
       aria-labelledby="preguntas-titulo"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10" data-reveal>
@@ -117,7 +121,7 @@ export function BuyerQuestions({
             </details>
           ))}
         </div>
-        <aside className="rounded-md border border-mehi-border bg-mehi-neutral p-6">
+        <aside className="rounded-md border border-mehi-border bg-white p-6">
           <p className="text-lg font-semibold text-mehi-text">{t.asideTitle}</p>
           <p className="mt-2 text-sm leading-6 text-mehi-text-secondary">
             {demoEnabled ? t.asideBodyDemo : t.asideBody}
@@ -334,6 +338,13 @@ export function PublicContent({
               </div>
             </div>
           </div>
+          {hasPageVisual(page.id) && (
+            <div className="bg-white pt-12 sm:pt-16">
+              <div className="mx-auto max-w-6xl px-5 sm:px-8">
+                <PageVisual pageId={page.id} locale={locale} />
+              </div>
+            </div>
+          )}
           <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 sm:px-8 sm:py-16">
             {page.useCases && <UseCaseGrid block={page.useCases} />}
             {page.process && (
