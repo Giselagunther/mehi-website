@@ -5,14 +5,6 @@
  */
 import type { PublicPage } from "./content.ts";
 
-export const company = {
-  name: "GIV",
-  url: "https://givsrl.com.ar/",
-  relationship: "MEHI is GIV's platform.",
-  description:
-    "GIV is the company behind MEHI, a platform for AI voice agents, institutional knowledge and service oversight.",
-} as const;
-
 export const site = {
   name: "MEHI",
   url: "https://www.mehi.ar",
@@ -24,6 +16,7 @@ export const site = {
   hero: "MEHI connects your organization's information to a voice agent that answers calls, responds to inquiries and hands off to your team when needed. And it lets you see and review every conversation.",
   heroNote:
     "Works with your CRM, your knowledge bases or other systems, depending on each project's integrations.",
+  tagline: "AI voice agents for governments, businesses and contact centers.",
   features: [
     "AI voice agents that answer calls in natural language",
     "Answers based on information your organization validated",

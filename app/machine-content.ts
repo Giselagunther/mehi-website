@@ -1,4 +1,4 @@
-import { company, publicPages, site } from "./content.ts";
+import { publicPages, site } from "./content.ts";
 import * as en from "./content-en.ts";
 import { homePath, pagePath } from "./i18n.ts";
 import type { PublicPage } from "./content.ts";
@@ -8,8 +8,6 @@ export function llmsIndex(): string {
     "# MEHI",
     "",
     `> ${site.introduction}`,
-    "",
-    `Empresa: [${company.name}](${company.url}). ${company.relationship}`,
     "",
     "## Información oficial",
     "",
@@ -96,9 +94,6 @@ export function llmsFull(): string {
     "",
     site.introduction,
     "",
-    company.description,
-    `Sitio de la empresa: ${company.url}`,
-    "",
     ...pagesText(publicPages, (page) => `${site.url}/${page.slug}`, "Fuente"),
     "## Preguntas frecuentes",
     `Fuente: ${site.url}/#preguntas-frecuentes`,
@@ -110,9 +105,6 @@ export function llmsFull(): string {
     `Source: ${site.url}${homePath("en")}`,
     "",
     en.site.introduction,
-    "",
-    en.company.description,
-    `Company website: ${en.company.url}`,
     "",
     ...pagesText(
       en.publicPages,

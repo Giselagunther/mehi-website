@@ -1,13 +1,7 @@
 /** Contenido público aprobado. No incorporar antecedentes de clientes sin autorización. */
-// GIV va sólo en el pie y en los datos estructurados: el visitante conoce MEHI,
-// no tiene por qué saber qué es GIV (recomendación comercial de oct-2026).
-export const company = {
-  name: "GIV",
-  url: "https://givsrl.com.ar/",
-  relationship: "MEHI es la plataforma de GIV.",
-  description:
-    "GIV es la empresa que ofrece MEHI, una plataforma de agentes de voz con IA, conocimiento institucional y supervisión de la atención.",
-} as const;
+// La marca se presenta sola: el sitio no dice quién es el dueño ni quién
+// desarrolló MEHI, ni en el texto visible ni en los datos para buscadores o
+// asistentes (decisión de la CEO, 3-oct-2026). Lo vigilan los tests.
 
 export const site = {
   name: "MEHI",
@@ -20,6 +14,7 @@ export const site = {
   hero: "MEHI conecta la información de tu organización con un agente de voz que atiende llamadas, responde consultas y deriva a tu equipo cuando hace falta. Y te deja ver y revisar cada conversación.",
   heroNote:
     "Trabaja con tu CRM, tus bases de conocimiento u otros sistemas, según las integraciones de cada proyecto.",
+  tagline: "Agentes de voz con IA para gobiernos, empresas y contact centers.",
   features: [
     "Agentes de voz con IA que atienden llamadas en lenguaje natural",
     "Respuestas basadas en información que tu organización validó",
