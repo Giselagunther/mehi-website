@@ -4,11 +4,11 @@ import {
   publicPages,
   findPublicPage,
   site,
-  company,
 } from "../app/content.ts";
 import * as en from "../app/content-en.ts";
 import { existsSync, readFileSync } from "node:fs";
-import { visibleRelationship } from "../scripts/check-public-site.ts";
+import { rootMetadata } from "../app/root-metadata.ts";
+import { ui } from "../app/ui-text.ts";
 import {
   allPublicUrls as publicUrls,
   homeVideo,
@@ -26,8 +26,9 @@ import {
 } from "../app/seo.ts";
 import { llmsFull, llmsIndex, textResponse } from "../app/machine-content.ts";
 import {
+  OWNER_PATTERN,
   verifyHtml,
-  verifyCompanyIdentity,
+  verifyBrandIdentity,
 } from "../scripts/check-public-site.ts";
 import { createNotification } from "../scripts/notify-search.ts";
 
@@ -118,22 +119,17 @@ test("el marcado enlaza identidades estables y no inventa precios ni reseñas", 
   const organization = organizationGraph();
   const ids = organization["@graph"].map((entity) => entity["@id"]);
   assert.equal(new Set(ids).size, ids.length);
-  const provider = organization["@graph"].find(
+  const brand = organization["@graph"].find(
     (entity) => entity["@type"] === "Organization",
   );
-  const platform = organization["@graph"].find(
+  const service = organization["@graph"].find(
     (entity) => entity["@type"] === "Service",
   );
-  assert.equal(provider?.name, "GIV");
-  assert.equal(provider?.url, company.url);
-  assert.equal(platform?.name, "MEHI");
-  assert.deepEqual(platform?.provider, { "@id": provider?.["@id"] });
-  assert.equal(
-    provider?.logo,
-    undefined,
-    "No atribuir a la empresa el logo de la plataforma",
-  );
-  assert.equal(platform?.logo, `${site.url}/logo-mehi.svg`);
+  assert.equal(brand?.name, "MEHI");
+  assert.equal(brand?.url, `${site.url}/`);
+  assert.equal(brand?.logo, `${site.url}/logo-mehi.svg`);
+  assert.equal(service?.name, "MEHI");
+  assert.deepEqual(service?.provider, { "@id": brand?.["@id"] });
   assert.ok(
     !JSON.stringify(organization).match(
       /aggregateRating|reviewCount|priceCurrency/,
@@ -175,18 +171,21 @@ test("gobiernos agrega una evaluación propia sin retirar las páginas empresari
   );
 });
 
-test("el smoke detecta confundir la plataforma con la empresa proveedora", () => {
+test("el smoke rechaza que el sitio nombre al dueño de MEHI", () => {
   const json = JSON.stringify(organizationGraph());
   const html = `<script type="application/ld+json">${json}</script>`;
-  assert.doesNotThrow(() => verifyCompanyIdentity(html));
+  assert.doesNotThrow(() => verifyBrandIdentity(html));
   assert.throws(
-    () => verifyCompanyIdentity(html.replace('"name":"GIV"', '"name":"MEHI"')),
-    /Empresa proveedora/,
+    () => verifyBrandIdentity(`${html}<footer>MEHI es la plataforma de GIV.</footer>`),
+    /dueño de MEHI/,
   );
   assert.throws(
-    () =>
-      verifyCompanyIdentity('<script type="application/ld+json">{}</script>'),
-    /empresa proveedora/,
+    () => verifyBrandIdentity(html.replace('"name":"MEHI"', '"name":"Otra"')),
+    /organización debe ser MEHI/,
+  );
+  assert.throws(
+    () => verifyBrandIdentity('<script type="application/ld+json">{}</script>'),
+    /una sola organización/,
   );
 });
 
@@ -259,8 +258,8 @@ test("cada página tiene su versión en inglés y las dos se declaran mutuamente
   }
   assert.equal(pageMetadata(undefined, "en").alternates?.canonical, `${site.url}/en`);
   assert.equal(en.site.faqs.length, site.faqs.length);
-  assert.equal(en.company.name, company.name);
-  assert.equal(en.company.url, company.url);
+  assert.equal(en.site.name, site.name);
+  assert.ok(en.site.tagline && site.tagline);
 });
 
 test("el ejemplo ficticio conserva su aviso también en inglés", () => {
@@ -271,7 +270,7 @@ test("el ejemplo ficticio conserva su aviso también en inglés", () => {
 });
 
 test("la versión en inglés no quedó con texto en español", () => {
-  const strings: string[] = [en.company.relationship, en.company.description];
+  const strings: string[] = [en.site.tagline];
   const collect = (value: unknown) => {
     if (typeof value === "string") strings.push(value);
     else if (Array.isArray(value)) value.forEach(collect);
@@ -304,28 +303,37 @@ test("el video de cada idioma existe en public/ y su ficha apunta a esos archivo
   assert.ok(home.includes('id="como-funciona"'), "Se perdió el ancla #como-funciona");
 });
 
-// Recomendación comercial (oct-2026): el visitante conoce MEHI. GIV va sólo en el
-// pie y en los datos estructurados; KORENUS se nombra sólo donde se lo explica.
-test("GIV no aparece fuera del pie y KORENUS sólo en la página que lo explica", () => {
-  for (const content of [{ site, publicPages }, { site: en.site, publicPages: en.publicPages }]) {
-    const visible = (value: unknown): string[] =>
-      typeof value === "string"
-        ? [value]
-        : Array.isArray(value)
-          ? value.flatMap(visible)
-          : value && typeof value === "object"
-            ? Object.values(value).flatMap(visible)
-            : [];
-    const siteText = visible(content.site);
-    assert.deepEqual(siteText.filter((text) => /\bGIV\b|KORENUS/.test(text)), []);
-    for (const page of content.publicPages) {
+// Decisión de la CEO (3-oct-2026): el sitio no dice quién es el dueño ni quién
+// desarrolló MEHI. KORENUS se nombra sólo donde se lo explica.
+test("el sitio no nombra al dueño de MEHI en ningún texto, metadato ni dato estructurado", () => {
+  const visible = (value: unknown): string[] =>
+    typeof value === "string"
+      ? [value]
+      : Array.isArray(value)
+        ? value.flatMap(visible)
+        : value && typeof value === "object"
+          ? Object.values(value).flatMap(visible)
+          : [];
+  const everything = [
+    ...visible({ site, publicPages }),
+    ...visible({ site: en.site, publicPages: en.publicPages }),
+    ...visible(ui),
+    llmsIndex(),
+    llmsFull(),
+    JSON.stringify(organizationGraph("es")),
+    JSON.stringify(organizationGraph("en")),
+    JSON.stringify(rootMetadata("es")),
+    JSON.stringify(rootMetadata("en")),
+  ];
+  assert.deepEqual(everything.filter((text) => OWNER_PATTERN.test(text)), []);
+  for (const pages of [publicPages, en.publicPages]) {
+    for (const page of pages.filter((item) => item.id !== "gestion-del-conocimiento")) {
       const { id: _id, slug: _slug, ...rest } = page;
-      const texts = visible(rest);
-      assert.deepEqual(texts.filter((text) => /\bGIV\b/.test(text)), [], page.id);
-      if (page.id !== "gestion-del-conocimiento")
-        assert.deepEqual(texts.filter((text) => /KORENUS/.test(text)), [], page.id);
+      assert.deepEqual(visible(rest).filter((text) => /KORENUS/.test(text)), [], page.id);
     }
   }
+  assert.deepEqual(visible(site).filter((text) => /KORENUS/.test(text)), []);
+  assert.deepEqual(visible(en.site).filter((text) => /KORENUS/.test(text)), []);
 });
 
 test("el menú es la solución y una página por tipo de cliente, cada una con su entrada", () => {
@@ -342,11 +350,6 @@ test("el menú es la solución y una página por tipo de cliente, cada una con s
   }
 });
 
-test("el pie muestra «MEHI es la plataforma de GIV» con GIV enlazado", () => {
-  const html = `<p class="x" data-testid="company-relationship">MEHI is <!-- -->GIV<a href="${company.url}">GIV</a>&#x27;s</p>`;
-  assert.equal(visibleRelationship(html), "MEHI is GIVGIV's");
-  assert.equal(visibleRelationship("<p>nada</p>"), undefined);
-});
 
 test("cada página trae la imagen para compartir de su idioma, y el archivo existe", () => {
   for (const [locale, pages] of [["es", publicPages], ["en", en.publicPages]] as const) {

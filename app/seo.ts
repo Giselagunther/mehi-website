@@ -56,16 +56,18 @@ export function pageMetadata(page?: PublicPage, locale: Locale = "es"): Metadata
 }
 
 export function organizationGraph(locale: Locale = "es") {
-  const { company, site } = contentFor(locale);
+  const { site } = contentFor(locale);
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
+        // La marca se presenta sola: no se declara una empresa dueña (CEO, 3-oct-2026).
         "@type": "Organization",
         "@id": `${site.url}/#organization`,
-        name: company.name,
-        url: company.url,
-        description: company.description,
+        name: site.name,
+        url: `${site.url}/`,
+        logo: `${site.url}/logo-mehi.svg`,
+        description: site.description,
       },
       {
         "@type": "WebSite",
@@ -86,7 +88,6 @@ export function organizationGraph(locale: Locale = "es") {
             ? "AI voice agent and human service platform for governments and businesses"
             : "Plataforma de agentes de voz IA y atención humana para gobiernos y empresas",
         url: `${site.url}${translatedPath(findPage("es", "plataforma"), locale)}`,
-        logo: `${site.url}/logo-mehi.svg`,
         description: site.introduction,
         provider: { "@id": `${site.url}/#organization` },
       },
