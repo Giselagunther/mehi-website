@@ -3,7 +3,6 @@ import Image from "next/image";
 import { mainNavItems } from "./SiteHeader";
 import { contentFor, homePath, pagePath, ui, type Locale } from "../i18n";
 
-// GIV aparece sólo acá (y en los datos estructurados), con enlace a su sitio.
 export function SiteFooter({
   locale,
   alternatePath,
@@ -12,8 +11,7 @@ export function SiteFooter({
   alternatePath: string;
 }) {
   const t = ui[locale];
-  const { company, publicPages } = contentFor(locale);
-  const [before, after] = company.relationship.split(company.name);
+  const { site, publicPages } = contentFor(locale);
   const resources = publicPages.filter((page) => page.kind === "resource");
   const target: Locale = locale === "es" ? "en" : "es";
   const linkClass = "text-mehi-text-secondary hover:text-mehi-plum";
@@ -29,12 +27,8 @@ export function SiteFooter({
             height={120}
             className="h-12 w-auto"
           />
-          <p className="mt-4 text-sm text-mehi-text-secondary" data-testid="company-relationship">
-            {before}
-            <a href={company.url} className="font-semibold text-mehi-text underline underline-offset-4 hover:text-mehi-plum">
-              {company.name}
-            </a>
-            {after}
+          <p className="mt-4 max-w-xs text-sm leading-6 text-mehi-text-secondary" data-testid="footer-tagline">
+            {site.tagline}
           </p>
         </div>
         <nav aria-label={t.footer.solutions} className="text-sm">

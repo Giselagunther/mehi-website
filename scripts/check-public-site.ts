@@ -96,44 +96,29 @@ export function verifyHtml(
   return css;
 }
 
-/** Texto del pie «MEHI es la plataforma de GIV.» (con GIV enlazado), sin etiquetas. */
-export function visibleRelationship(html: string): string | undefined {
-  const inner = /<p\b[^>]*data-testid="company-relationship"[^>]*>([\s\S]*?)<\/p>/.exec(html)?.[1];
-  return inner
-    ?.replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&#x27;|&#39;/g, "'")
-    .replace(/&amp;/g, "&");
-}
+/**
+ * El sitio no dice quién es el dueño ni quién desarrolló MEHI (decisión de la CEO,
+ * 3-oct-2026): ni en el texto, ni en los metadatos, ni en los datos estructurados.
+ */
+export const OWNER_PATTERN = /\bGIV\b|givsrl/i;
 
-export function verifyCompanyIdentity(html: string) {
-  // Nombre y sitio de la empresa son los mismos en todos los idiomas.
-  const { company } = contentFor("es");
+export function verifyBrandIdentity(html: string) {
+  assert.ok(!OWNER_PATTERN.test(html), "El sitio no debe nombrar al dueño de MEHI");
   const entities: Record<string, unknown>[] = Array.from(
     html.matchAll(
       /<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g,
     ),
   ).flatMap((block) => JSON.parse(block[1])["@graph"] ?? []);
-  const companies = entities.filter(
+  const organizations = entities.filter(
     (entity) => entity["@type"] === "Organization",
   );
-  assert.equal(
-    companies.length,
-    1,
-    "Debe identificarse una empresa proveedora",
-  );
-  const provider = companies[0];
-  assert.equal(provider.name, company.name, "Empresa proveedora incorrecta");
-  assert.equal(provider.url, company.url, "Sitio de la empresa incorrecto");
-  const platform = entities.find((entity) => entity["@type"] === "Service");
-  assert.ok(platform, "Falta identificar la plataforma");
-  assert.equal(platform.name, site.name, "Nombre de plataforma incorrecto");
-  assert.deepEqual(platform.provider, { "@id": provider["@id"] });
-  assert.notEqual(
-    platform["@id"],
-    provider["@id"],
-    "Empresa y plataforma son entidades distintas",
-  );
+  assert.equal(organizations.length, 1, "Debe identificarse una sola organización: MEHI");
+  const [organization] = organizations;
+  assert.equal(organization.name, site.name, "La organización debe ser MEHI");
+  const service = entities.find((entity) => entity["@type"] === "Service");
+  assert.ok(service, "Falta identificar el servicio");
+  assert.equal(service.name, site.name, "Nombre del servicio incorrecto");
+  assert.deepEqual(service.provider, { "@id": organization["@id"] });
 }
 
 export async function checkPublicSite(base = "http://localhost:3000") {
@@ -161,18 +146,17 @@ export async function checkPublicSite(base = "http://localhost:3000") {
   for (const { url: canonical, languages } of publicEntries()) {
     const path = new URL(canonical).pathname;
     const locale = localeOf(canonical);
-    const { company, publicPages } = contentFor(locale);
+    const { site: localSite, publicPages } = contentFor(locale);
     const html = await (await get(path)).text();
     for (const css of verifyHtml(html, canonical, languages)) cssPaths.add(css);
-    verifyCompanyIdentity(html);
+    verifyBrandIdentity(html);
     // La imagen para compartir tiene que existir de verdad (no sólo estar declarada).
     const shareImageUrl = /<meta property="og:image" content="([^"]+)"/.exec(html)?.[1];
     assert.ok(shareImageUrl, `Falta la imagen para compartir: ${path}`);
     sharedImages.add(new URL(shareImageUrl).pathname);
-    assert.equal(
-      visibleRelationship(html),
-      company.relationship,
-      "Falta la identidad visible de la empresa en el pie",
+    assert.ok(
+      html.includes(localSite.tagline),
+      "Falta la identidad visible de la marca en el pie",
     );
     const page = publicPages.find((item) => path.endsWith(`/${item.slug}`));
     if (page)
@@ -235,7 +219,9 @@ export async function checkPublicSite(base = "http://localhost:3000") {
   ]) {
     const response = await get(path);
     assert.match(response.headers.get("content-type") ?? "", /text\/plain/);
-    assert.equal(await response.text(), expected);
+    const text = await response.text();
+    assert.equal(text, expected);
+    assert.ok(!OWNER_PATTERN.test(text), `${path} no debe nombrar al dueño de MEHI`);
   }
   for (const path of [
     "/pagina-que-no-existe",

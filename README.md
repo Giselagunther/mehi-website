@@ -1,6 +1,6 @@
 # mehi-website
 
-Web comercial de [MEHI](https://www.mehi.ar), la plataforma de GIV para gobiernos, organismos públicos, empresas y contact centers. Este repositorio no contiene la plataforma privada de clientes.
+Web comercial de [MEHI](https://www.mehi.ar), plataforma de agentes de voz con IA para gobiernos, organismos públicos, empresas y contact centers. Este repositorio no contiene la plataforma privada de clientes.
 
 ## Stack
 
@@ -63,6 +63,6 @@ El sitio está en español (raíz, URLs de siempre) y en inglés (`/en`, con slu
 - Inter en componentes; el wordmark del logo conserva su diseño. Ciruela sólo para acciones.
 - Sin píxeles publicitarios ni mediciones comerciales inventadas.
 - La lectura en texto no tiene contenido comercial oculto o diferente del HTML.
-- GIV es la empresa proveedora; MEHI es la plataforma. El ejemplo para gobiernos es ficticio, de lectura, y no se conecta con agentes ni sistemas operativos.
+- La marca se presenta sola: el sitio no dice quién es el dueño ni quién desarrolló MEHI (ni en el texto, ni en metadatos, datos estructurados o lectura para asistentes). Lo vigilan los tests y el smoke. El ejemplo para gobiernos es ficticio, de lectura, y no se conecta con agentes ni sistemas operativos.
 - No incorporar nombres, resultados, logos ni material de clientes sin autorización específica. La política también alcanza archivos, comentarios, fixtures y documentación de este repositorio público.
 - [Operación, verificaciones, medición y límites de visibilidad](docs/VISIBILIDAD_BUSCADORES_IA.md).
